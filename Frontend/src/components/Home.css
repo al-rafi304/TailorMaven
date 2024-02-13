@@ -1,0 +1,32 @@
+/* Home.css */
+
+.home-container {
+    text-align: left;
+    padding: 20px;
+  }
+  
+  .home-container p {
+    font-size: 30px;
+    color: #0b0000;
+    transition: color 0.5s ease;
+  }
+  
+  .home-container p:hover {
+    color: #ed210b; 
+  }
+  
+  .home-container .btn-primary {
+    margin-top: 20px;
+    background-color: #3498db;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .home-container .btn-primary:hover {
+    background-color: #2c3e50;
+    color: #fff;
+  }
+  

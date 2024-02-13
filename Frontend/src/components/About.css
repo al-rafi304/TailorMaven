@@ -1,0 +1,11 @@
+/* About.css */
+
+.about-container {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    margin-top: 2rem;
+  }
+  
