@@ -1,0 +1,85 @@
+.register-container {
+    width: 300px;
+    margin: 0 auto;
+    margin-top: 1rem;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+  }
+  
+  .register-container h2 {
+    text-align: center;
+  }
+  .register-container label span {
+    color: red;
+  }
+  
+  .register-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .register-container label {
+    margin-bottom: 10px;
+  }
+  
+  .password-container {
+    position: relative;
+  }
+  
+  .register-container input[type="text"],
+  .register-container input[type="email"],
+  .register-container input[type="password"],
+  .register-container input[type="date"],
+  .register-container select {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+  }
+  
+  .toggle-password {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(0%);
+    background: none;
+    border: none;
+  }
+  
+  .register-container input[type="submit"] {
+    margin-top: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .register-container input[type="submit"]:hover {
+    background-color: #0056b3;
+  }
+  
+  .password-error {
+    color: red;
+  }
+  
+  .password-success {
+    color: green;
+  }
+  .register-container p {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .register-container p a {
+    color: #007bff;
+    text-decoration: none;
+  }
+  
+  .register-container p a:hover {
+    text-decoration: underline;
+  }
+  

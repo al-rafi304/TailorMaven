@@ -1,0 +1,38 @@
+.footer {
+    padding: 10px;
+    background-color: #f2f3f5;
+    text-align: center;
+    margin-top: 1rem;
+  }
+  
+  .nav {
+    list-style-type: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .nav-item {
+    display: inline;
+    margin: 0 10px;
+  }
+  
+  .nav-link {
+    color: #0303f5;
+    text-decoration: none;
+    align-items: center;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .copyright {
+    margin-top: 1rem;
+    font-size: 0.9em;
+    color: #030303;
+    line-height: 0.1;
+  }
+  

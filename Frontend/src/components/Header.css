@@ -1,0 +1,35 @@
+
+header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+  }
+  
+  /* CSS for Logo */
+  header img {
+    height: 50px;
+  }
+  
+  /* CSS for Buttons */
+  header button {
+    margin-right: 10px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  header button:last-child {
+    margin-right: 0;
+  }
+  
+  /* CSS for Button Hover Effect */
+  header button:hover {
+    background-color: #0056b3;
+  }
+  
