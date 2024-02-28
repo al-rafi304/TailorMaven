@@ -23,14 +23,14 @@ app.use('/auth', authRoutes);
 
 // Demo authentication success page
 app.get('/success', authMiddleware.isLoggedIn, (req, res) => {
-    res.send(`Hello ${req.user.displayName}`);
+    res.send(`Hello ${req.user.name}`);
   });
 
 
 const start = async () => {
     try {
-        // await connectDB(process.env.MONGO_URI)
-        app.listen(port, console.log('Server running on http://localhost:3000'))
+        await connectDB(process.env.MONGO_URI)
+        app.listen(port, console.log(`Server running on http://localhost:${process.env.PORT}`))
     } catch (error) {
         console.log(error)
     }
