@@ -69,4 +69,36 @@
   .login-container p a:hover {
     text-decoration: underline;
   }
+
+  .google-signin-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .google-signin {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #fcfdfdcb;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+  }
+
+  
+  .google-icon {
+    height: 25px;
+    margin-right: 0.5rem;
+  }
+  .signin-text {
+    text-decoration: none;
+  }
+  .no-underline, .no-underline:visited, .no-underline:hover, .no-underline:active {
+    text-decoration: none;
+  }
   

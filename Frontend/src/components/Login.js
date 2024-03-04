@@ -26,8 +26,18 @@ const Login = () => {
             {showPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
           </button>
         </label>
+        <Link to="/forgot-password">Forgot Password?</Link>
         <input type="submit" value="Login" />
       </form>
+      <p>- - - - - - - - - -    or    - - - - - - - - - -</p>
+      <div className="google-signin-container">
+      <Link to="/google-signin" className="no-underline">
+        <button class="google-signin">
+          <img src="/google.svg" className="google-icon"/>
+          <span className="signin-text">Sign in with Google</span>
+        </button>
+      </Link>
+      </div>
       <p>Don't have an account? <Link to="/register">Create account</Link></p>
     </div>
   );
