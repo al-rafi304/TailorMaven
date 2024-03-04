@@ -24,6 +24,10 @@ function Register() {
           <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
         </label>
         <label>
+          Full Name<span>*</span>:
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+        </label>
+        <label>
           Email:
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
         </label>
