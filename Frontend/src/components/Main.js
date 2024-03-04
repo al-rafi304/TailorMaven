@@ -7,7 +7,7 @@ import Footer from "./Footer";
 import Header from "./Header";
 import Login from "./Login";
 import Register from "./Register";
-
+import Test from "./test";
 
 function Main(){
     return(
@@ -19,6 +19,7 @@ function Main(){
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/test" element={< Test />} />
             </Switch>
             <Footer/>
             

@@ -77,8 +77,8 @@ const logout = (req, res) => {
 module.exports = {
     authenticateGoogle: passport.authenticate('google'),
     googleCallback: passport.authenticate('google', {
-        successRedirect: '/success',
-        failureRedirect: '/auth/google/failure'
+        successRedirect: 'http://localhost:3000',
+        failureRedirect: 'http://localhost:3000/login'
     }),
     failure: (req, res) => res.send('Failed to authenticate..'),
     logout,

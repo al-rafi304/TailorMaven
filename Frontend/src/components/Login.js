@@ -31,8 +31,8 @@ const Login = () => {
       </form>
       <p>- - - - - - - - - -    or    - - - - - - - - - -</p>
       <div className="google-signin-container">
-      <Link to="/google-signin" className="no-underline">
-        <button class="google-signin">
+      <Link to="http://localhost:5000/auth/google" className="no-underline">
+        <button className="google-signin">
           <img src="/google.svg" className="google-icon"/>
           <span className="signin-text">Sign in with Google</span>
         </button>
