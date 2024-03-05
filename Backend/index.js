@@ -18,7 +18,7 @@ app.use(authMiddleware.sessionMiddleware);
 app.use(authMiddleware.passportInitialize);
 app.use(authMiddleware.passportSession);
 
-app.use('/api/v1/test', routes) 
+app.use('/api/v1', routes) 
 app.use('/auth', authRoutes);
 
 // Demo authentication success page

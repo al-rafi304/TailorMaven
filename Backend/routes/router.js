@@ -8,6 +8,9 @@ const authMiddleware = require('../milddleware/authMiddleware');
 
 router.route('/').get(controller.helloWorld)
 
+router.route('/user').get(controller.getAllUsers)
+router.route('/user/:id').get(controller.getUser).patch(controller.updateUser)
+
 // passing isLoggedIn middleware ensures authorized access
 // router.route('/test').get(authMiddleware.isLoggedIn, testFunction)
 
