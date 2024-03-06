@@ -33,11 +33,12 @@ async function(request, accessToken, refreshToken, profile, done) {
 
     const gender = jsonResponse.genders?.[0].value || 'others';                     // If genders object is not found then it defaults to 'others'
     
-    dob = new Date(year ? year : 9999, month ? month-1 : 0, day ? day+1 : 1)        // If birthday object not found then it defaults to 9999-12-31
+    const dob = new Date(year ? year : 9999, month ? month-1 : 0, day ? day+1 : 1)        // If birthday object not found then it defaults to 9999-12-31
+    const username = profile.email.split('@')[0]
 
     User.findOrCreate({
         googleId: profile.id,
-        username: profile.given_name,
+        username: username,
         name: profile.displayName,
         email: profile.email,
         gender: gender,
