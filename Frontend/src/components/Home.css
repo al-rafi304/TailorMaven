@@ -1,14 +1,175 @@
-.container.home-container{
-  color: #e53939;
-  width: 150px;
-  height: 120px;
-  border: 1px solid green;
-  padding: 50px;
-  margin: 20px;
-  margin-left: 7.5rem;
+/* Hero Marketing Section */
 
-
+.marketing-banner {
+    width: 100%;
 }
-.container:hover{
-  color: #000;
+
+.marketing-banner__item {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: end;
+    -ms-flex-align: end;
+    align-items: flex-end;
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+}
+
+.marketing-banner__item__wrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    text-align: left;
+    width: 100%;
+    position: static;
+}
+
+@media (min-width: 1280px) {
+    .marketing-banner__item__wrapper {
+        padding-left: 0;
+        padding-right: 0;
+        text-align: center;
+    }
+}
+
+@media (min-width: 768px) {
+    .marketing-banner__item__wrapper {
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+    }
+}
+
+@media (min-width: 768px) {
+    .marketing-banner__item__wrapper {
+        text-align: left;
+    }
+}
+
+.marketing-banner__item-bg {
+    position: static;
+    width: 100%;
+}
+
+.marketing-banner__item-img img {
+    height: auto;
+    min-height: 0;
+    min-width: 0;
+    width: 100%;
+}
+
+.marketing-banner__item-content {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-box-pack: start;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+    max-width: 100%;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    position: absolute;
+    bottom: 3.0625rem;
+    left: 0;
+    width: 100%;
+    z-index: 1;
+}
+
+@media (min-width: 768px) {
+    .marketing-banner__item-content {
+        max-width: 24.4375rem;
+        padding-left: clamp(1rem, (100cqw - 943px) * 100, 1.5rem);
+        padding-right: clamp(1rem, (100cqw - 943px) * 100, 1.5rem);
+        bottom: 4rem;
+        width: auto;
+    }
+}
+
+@media (min-width: 1024px) {
+    .marketing-banner__item-content {
+        max-width: 45.875rem;
+        padding-left: clamp(1.5rem, (100cqw - 943px) * 100, 2.5rem);
+        padding-right: clamp(1.5rem, (100cqw - 943px) * 100, 2.5rem);
+    }
+}
+
+.marketing-banner__item-content__inner {
+    max-width: 100%;
+}
+
+.marketing-banner__item-content__inner h2 {
+    width: 100%;
+    font-size: 2.125rem;
+    font-weight: 500;
+    letter-spacing: -0.125rem;
+    line-height: 1;
+    margin-bottom: 0.6875rem;
+    -webkit-transition: font-size 0.3s;
+    transition: font-size 0.3s;
+    color: white;
+}
+
+@media (min-width: 1024px) {
+    .marketing-banner__item-content__inner h2 {
+        font-size: clamp(2.125rem, (100cqw - 943px) * 100, 2.5rem);
+    }
+}
+
+.marketing-banner__item-content__buttonWrapper {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.hero__btn {
+    display: -webkit-inline-box;
+    display: -ms-inline-flexbox;
+    display: inline-flex;
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    -webkit-box-pack: center;
+    -ms-flex-pack: center;
+    justify-content: center;
+
+    border-radius: 0;
+
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    line-height: 1.25;
+    border-radius: 0;
+}
+
+.hero__btn:hover {
+    border-color: #b7b7b7;
+    color: #b7b7b7;
+}
+
+.marketing-banner__item-content__button {
+    text-decoration: none;
+    text-transform: uppercase;
+    min-height: 2.75rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #fff;
+    border-color: #fff;
+    cursor: pointer;
 }
