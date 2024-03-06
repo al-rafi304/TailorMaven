@@ -1,13 +1,7 @@
 const User = require('../models/User')
 
-
-const googleCallback = (request, response) => {
-    console.log(response)
-    console.log(request.user.username)
-    response.header('Authorization', `Bearer ${request.authInfo}`).status(200).json({ userID: request.user._id})
-}
-
 const test = (request, response) => {
+    console.log(request.userID)
     response.status(200).json({msg: "You have been authorized!"})
 }
 
@@ -51,7 +45,6 @@ const getAllUsers = async (req,res) => {
 }
 
 module.exports = {
-    googleCallback,
     getUser,
     updateUser,
     getAllUsers,

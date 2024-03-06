@@ -1,5 +1,6 @@
 require('dotenv').config();
 const session = require('express-session');
+const jwt = require('jsonwebtoken')
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth2').Strategy;
 
@@ -49,7 +50,11 @@ async function(request, accessToken, refreshToken, profile, done) {
         dob:dob
     }, function (err, user) {
         console.log(user)
-        return done(err, user, accessToken);
+
+        // Creating Json Web Token
+        const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: '30d'})
+
+        return done(err, user, token);
     })
     // return done(null, profile);
 }));
@@ -78,10 +83,28 @@ const isAuthenticated = (req, res, next) => {
       return res.status(401).json({ error: 'Unauthorized - Invalid token format' });
     }
   
-    // req.authToken = authToken;
+    // Decoding Json Web Token to extract userID and accessToken then passing those through request
+    try{
+        const decoded = jwt.verify(authToken, process.env.JWT_SECRET)
+        req.userID = decoded.userID
+        req.accessToken = decoded.accessToken
+    } catch (err){
+        return res.status(401).json({ msg: "Couldn't verify JWT Token!", error: err });
+    }
   
     next();
   };
+
+// Used to check if logged in user is accessing own info or not
+const authorizeUser =  (req, res, next) => {
+    const {id:userID} = req.params
+
+    if (userID != req.userID){
+        return res.status(401).json({ msg: "Not Authorized" })
+    }
+
+    next()
+}
 
 module.exports = {
   sessionMiddleware: session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: true }),
@@ -89,4 +112,5 @@ module.exports = {
   passportSession: passport.session(),
 //   isLoggedIn,
   isAuthenticated,
+  authorizeUser
 };
