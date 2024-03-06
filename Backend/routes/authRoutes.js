@@ -1,8 +1,7 @@
 // authRoutes.js
 const express = require('express');
-const session = require('express-session');
+const passport = require('passport')
 const authController = require('../controllers/authController');
-const authMiddleware = require('../milddleware/authMiddleware');
 
 const router = express.Router();
 
@@ -10,13 +9,10 @@ router.get('/', (req, res) => {
   res.send('<a href="/auth/google">Authenticate with Google</a>');
 });
 
-// Authentication URI: /auth/google
+// Authentication URI: /auth
 
-router.get('/google', authController.authenticateGoogle);
-router.get('/google/callback', authController.googleCallback);
-router.get('/protected', authMiddleware.isLoggedIn, (req, res) => {
-  res.send(`Hello ${req.user.displayName} ${authMiddleware.isLoggedIn()}`);
-});
+router.get('/google', passport.authenticate('google'));
+router.get('/google/callback', passport.authenticate('google', {failureRedirect: '/google/failure'}), authController.googleCallback);
 
 router.get('/logout', authController.logout)
 

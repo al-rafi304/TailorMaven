@@ -1,9 +1,16 @@
 const User = require('../models/User')
 
 
-const helloWorld = (request, response) => {
-    response.status(200).json({ msg: "Hello World !" })
+const googleCallback = (request, response) => {
+    console.log(response)
+    console.log(request.user.username)
+    response.header('Authorization', `Bearer ${request.authInfo}`).status(200).json({ userID: request.user._id})
 }
+
+const test = (request, response) => {
+    response.status(200).json({msg: "You have been authorized!"})
+}
+
 
 const getUser = async (req, res) => {
 
@@ -44,8 +51,9 @@ const getAllUsers = async (req,res) => {
 }
 
 module.exports = {
-    helloWorld,
+    googleCallback,
     getUser,
     updateUser,
-    getAllUsers
+    getAllUsers,
+    test
 }

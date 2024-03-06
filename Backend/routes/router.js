@@ -6,12 +6,12 @@ const authMiddleware = require('../milddleware/authMiddleware');
 
 // Base router: /api/v1/test
 
-router.route('/').get(controller.helloWorld)
+router.route('/user').get(controller.getAllUsers)       // Needs a middleware to check if it's an Admin request
+router.route('/user/:id').all(authMiddleware.isAuthenticated).get(controller.getUser).patch(controller.updateUser)
 
-router.route('/user').get(controller.getAllUsers)
-router.route('/user/:id').get(controller.getUser).patch(controller.updateUser)
+router.route('/test').all(authMiddleware.isAuthenticated).get(controller.test)
 
-// passing isLoggedIn middleware ensures authorized access
-// router.route('/test').get(authMiddleware.isLoggedIn, testFunction)
+// passing isAuthenticated middleware ensures authorized access
+// router.route('/test').get(authMiddleware.isAuthenticated, testFunction)
 
 module.exports = router

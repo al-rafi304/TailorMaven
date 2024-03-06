@@ -22,9 +22,9 @@ app.use('/api/v1', routes)
 app.use('/auth', authRoutes);
 
 // Demo authentication success page
-app.get('/success', authMiddleware.isLoggedIn, (req, res) => {
-    res.send(`Hello ${req.user.name}`);
-  });
+// app.get('/success', authMiddleware.isAuthenticated, (req, res) => {
+//     res.send(`Hello ${req.user.name}`);
+//   });
 
 
 const start = async () => {
