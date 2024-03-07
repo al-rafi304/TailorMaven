@@ -21,7 +21,7 @@ passport.use(new GoogleStrategy({
   scope: ['openid', 'profile', 'email', 'https://www.googleapis.com/auth/user.gender.read', 'https://www.googleapis.com/auth/user.birthday.read'],
 },
 // Login / Register
-async function(request, accessToken, refreshToken, profile, done) {
+async function(request, accessToken, refreshToken, params, profile, done) {
     
     // After successful authentication
 
@@ -52,7 +52,7 @@ async function(request, accessToken, refreshToken, profile, done) {
         console.log(user)
 
         // Creating Json Web Token
-        const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: '30d'})
+        const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: params.expires_in})
 
         return done(err, user, token);
     })
@@ -68,9 +68,9 @@ passport.deserializeUser(function(user, done) {
 });
 
 const isAuthenticated = (req, res, next) => {
-    // Check if the Authorization header is present
     const authTokenHeader = req.headers.authorization;
-  
+    
+    // Check if the Authorization header is present
     if (!authTokenHeader) {
       return res.status(401).json({ error: 'Unauthorized - No token provided' });
     }
@@ -78,14 +78,14 @@ const isAuthenticated = (req, res, next) => {
     // Formate of authTokenHeader: Bearer <token>
     const [bearer, authToken] = authTokenHeader.split(' ');
   
+    // Check if the token format is incorrect
     if (bearer !== 'Bearer' || !authToken) {
-      // If the token format is incorrect, return an error response
       return res.status(401).json({ error: 'Unauthorized - Invalid token format' });
     }
   
     // Decoding Json Web Token to extract userID and accessToken then passing those through request
     try{
-        const decoded = jwt.verify(authToken, process.env.JWT_SECRET)
+        const decoded = jwt.verify(authToken, process.env.JWT_SECRET)       // It verifies token with secret and also checks if token is expired or not
         req.userID = decoded.userID
         req.accessToken = decoded.accessToken
     } catch (err){
