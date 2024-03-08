@@ -6,6 +6,12 @@ const googleCallback = (request, response) => {
 }
 
 const register = async (req, res) => {
+    const {username, password} = req.body
+
+    if (!username || !password){
+        return res.status(400).json({ msg: "Username or Password not provided!" })
+    }
+    
     const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
     const token = user.createJWT()
 
