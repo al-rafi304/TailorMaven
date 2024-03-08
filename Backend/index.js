@@ -8,15 +8,17 @@ const app = express();
 const routes = require('./routes/router')
 const authRoutes = require('./routes/authRoutes');
 const authMiddleware = require('./milddleware/authMiddleware');
+const passportMiddleware = require('./milddleware/passport-config')
+
 const connectDB = require('./db/connect')             // Database Connection
 
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
 
-app.use(authMiddleware.sessionMiddleware);
-app.use(authMiddleware.passportInitialize);
-app.use(authMiddleware.passportSession);
+app.use(passportMiddleware.sessionMiddleware);
+app.use(passportMiddleware.passportInitialize);
+app.use(passportMiddleware.passportSession);
 
 app.use('/api/v1', routes) 
 app.use('/auth', authRoutes);
