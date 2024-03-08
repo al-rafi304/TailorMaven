@@ -31,24 +31,32 @@ async function(request, accessToken, refreshToken, params, profile, done) {
     const dob = new Date(year ? year : 9999, month ? month-1 : 0, day ? day+1 : 1)        // If birthday object not found then it defaults to 9999-12-31
     const username = profile.email.split('@')[0]
 
-    // Finding existing user to log in or createing new user
-    User.findOrCreate({
-        username: username,
-    },{
-        googleId: profile.id,
-        name: profile.displayName,
-        email: profile.email,
-        gender: gender,
-        dob:dob
-    }, function (err, user) {
-        console.log(user)
 
-        // Creating Json Web Token
-        const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: params.expires_in})
+    const user = await User.findOne({username: username})
 
-        return done(err, user, token);
-    })
-    // return done(null, profile);
+    // Register user if user doesn't exists
+    if (!user){
+        const user = await User.create({
+            username: username,
+            googleId: profile.id,
+            name: profile.displayName,
+            email: profile.email,
+            gender: gender,
+            dob:dob
+        })
+    }
+
+    // Checks if user created through username/password already exists
+    if(user.password){
+        return res.status(401).json({ msg: "Account created through Username/password already exists" })
+    }
+
+    // Log in user by passing token
+    // Creating Json Web Token
+    const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: params.expires_in})
+    console.log(user)
+
+    return done(null, user, token);
 }));
 
 passport.serializeUser(function(user, done) {

@@ -12,6 +12,10 @@ const register = async (req, res) => {
         return res.status(400).json({ msg: "Username or Password not provided!" })
     }
     
+    if(User.findOne({username: username})){
+        return res.status(401).json({ msg: "User already exists!" })
+    }
+
     const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
     const token = user.createJWT()
 
@@ -31,6 +35,11 @@ const login = async (req, res) => {
     // Check if user exist with provied username
     if (!user){
         return res.status(401).json({ msg: "No user found with provided username!" })
+    }
+
+    // Check if user created through google exists
+    if (user.googleId){
+        return res.status(401).json({ msg: "Account created through Google already exists" })
     }
 
     // Check password
