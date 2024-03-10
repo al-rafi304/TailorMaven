@@ -12,13 +12,14 @@ const register = async (req, res) => {
         return res.status(400).json({ msg: "Username or Password not provided!" })
     }
     
-    if(User.findOne({username: username})){
+    if( await User.findOne({username: username})){
         return res.status(401).json({ msg: "User already exists!" })
     }
 
     const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
     const token = user.createJWT()
 
+    console.log(`Registered User: ${user._id}`)
     res.header('Authorization', `Bearer ${token}`).status(201).json( {userID: user._id} )
 }
 
@@ -50,6 +51,7 @@ const login = async (req, res) => {
 
     const token = user.createJWT()
 
+    console.log(`Logged in User: ${user._id}`)
     res.header('Authorization', `Bearer ${token}`).status(200).json( {userID: user._id} )
 
 
