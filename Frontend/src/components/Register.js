@@ -3,6 +3,7 @@ import "./Register.css"
 import { Link } from 'react-router-dom';
 function Register() {
   const [username, setUsername] = useState('');
+  const [fullname, setFullname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
@@ -13,6 +14,16 @@ function Register() {
   const handleRegister = (event) => {
     event.preventDefault();
     // Handle register logic here
+    const name = fullname
+    const credential = { username, name, email, password, gender}
+    fetch(
+      "/auth/register", 
+      {
+          method : "POST",
+          headers: {"Content-Type" : "application/json"},
+          body: JSON.stringify(credential)
+      }
+    )
   };
 
   return (
@@ -25,7 +36,7 @@ function Register() {
         </label>
         <label>
           Full Name<span>*</span>:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required />
+          <input type="text" value={fullname} onChange={(e) => setFullname(e.target.value)} required />
         </label>
         <label>
           Email:
@@ -45,9 +56,9 @@ function Register() {
           <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
         </label>
         {password && confirmPassword ? (password !== confirmPassword ? 
-        <p className="password-error">Passwords do not match! <i class="fa-regular fa-face-sad-tear"></i><i class="fa-regular fa-face-sad-tear"></i><i class="fa-regular fa-face-sad-tear"></i></p> 
+        <p className="password-error">Passwords do not match! <i className="fa-regular fa-face-sad-tear"></i><i className="fa-regular fa-face-sad-tear"></i><i className="fa-regular fa-face-sad-tear"></i></p> 
         : 
-        <p className="password-success">Passwords match! <i class="fa-regular fa-face-grin-beam"></i><i class="fa-regular fa-face-grin-beam"></i><i class="fa-regular fa-face-grin-beam"></i></p>) : null}
+        <p className="password-success">Passwords match! <i className="fa-regular fa-face-grin-beam"></i><i className="fa-regular fa-face-grin-beam"></i><i className="fa-regular fa-face-grin-beam"></i></p>) : null}
         <label>
           Gender:
           <select value={gender} onChange={(e) => setGender(e.target.value)}>
