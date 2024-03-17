@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./Register.css"
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 function Register() {
   const [username, setUsername] = useState('');
   const [fullname, setFullname] = useState('');
@@ -8,8 +8,9 @@ function Register() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [gender, setGender] = useState('');
+  const [gender, setGender] = useState('male');
   const [dob, setDob] = useState('');
+  const navigate = useNavigate()
 
   const handleRegister = (event) => {
     event.preventDefault();
@@ -24,6 +25,7 @@ function Register() {
           body: JSON.stringify(credential)
       }
     )
+    navigate("/")
   };
 
   return (
@@ -62,7 +64,6 @@ function Register() {
         <label>
           Gender:
           <select value={gender} onChange={(e) => setGender(e.target.value)}>
-            <option value="">Select...</option>
             <option value="male">Male</option>
             <option value="female">Female</option>
             <option value="others">Others</option>

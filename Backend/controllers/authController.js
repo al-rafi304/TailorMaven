@@ -12,14 +12,14 @@ const register = async (req, res) => {
         return res.status(400).json({ msg: "Username or Password not provided!" })
     }
     
-    if(User.findOne({username: username})){
-        // console.log(User.findOne({username: username}))
+    if( await User.findOne({username: username})){
         return res.status(401).json({ msg: "User already exists!" })
     }
 
     const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
     const token = user.createJWT()
 
+    console.log(`Registered User: ${user._id}`)
     res.header('Authorization', `Bearer ${token}`).status(201).json( {userID: user._id} )
 }
 
@@ -32,25 +32,26 @@ const login = async (req, res) => {
     }
 
     const user = await User.findOne({username: username})
+    console.log(user)
 
     // Check if user exist with provied username
     if (!user){
         return res.status(401).json({ msg: "No user found with provided username!" })
     }
-
+    
     // Check if user created through google exists
     if (user.googleId){
         return res.status(401).json({ msg: "Account created through Google already exists" })
     }
-
+    
     // Check password
     const validPassword = await user.comparePassword(password)
     if (!validPassword){
         return res.status(401).json({ msg: "Password missmatch!" })
     }
-
+    
     const token = user.createJWT()
-
+    
     res.header('Authorization', `Bearer ${token}`).status(200).json( {userID: user._id} )
 
 
