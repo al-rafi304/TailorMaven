@@ -32,11 +32,11 @@ async function(request, accessToken, refreshToken, params, profile, done) {
     const username = profile.email.split('@')[0]
 
 
-    const user = await User.findOne({username: username})
+    var user = await User.findOne({username: username})
 
     // Register user if user doesn't exists
     if (!user){
-        const user = await User.create({
+            user = await User.create({
             username: username,
             googleId: profile.id,
             name: profile.displayName,
