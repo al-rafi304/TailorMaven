@@ -1,5 +1,6 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken')
+const User = require('../models/User')
 
 const isAuthenticated = (req, res, next) => {
     const authTokenHeader = req.headers.authorization;
@@ -30,10 +31,11 @@ const isAuthenticated = (req, res, next) => {
   };
 
 // Used to check if logged in user is accessing own info or not
-const authorizeUser =  (req, res, next) => {
+const authorizeUser = async (req, res, next) => {
     const {id:userID} = req.params
+    const reqUser = await User.findOne({ _id: req.userID })
 
-    if (userID != req.userID){
+    if (userID != req.userID && reqUser.isAdmin == false){
         return res.status(401).json({ msg: "Not Authorized" })
     }
 

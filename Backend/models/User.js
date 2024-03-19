@@ -24,6 +24,10 @@ const UserSchema = new mongoose.Schema({
         type: String,
         enum: ['male', 'female', 'others']
     },
+    isAdmin: {
+        type: Boolean,
+        default: false
+    },
     dob: Date,
     googleId: String,
 })
