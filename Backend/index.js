@@ -5,8 +5,12 @@ const passport = require('passport');
 
 const express = require('express');
 const app = express();
-const routes = require('./routes/router')
+
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/UserRouter')
+const fabricRoutes = require('./routes/FabricRouter')
+const suitRoutes = require('./routes/SuitRouter')
+
 const authMiddleware = require('./milddleware/authMiddleware');
 const passportMiddleware = require('./milddleware/passport-config')
 
@@ -20,14 +24,10 @@ app.use(passportMiddleware.sessionMiddleware);
 app.use(passportMiddleware.passportInitialize);
 app.use(passportMiddleware.passportSession);
 
-app.use('/api/v1', routes) 
+app.use('/api/v1/user', userRoutes)
+app.use('/api/v1/fabric', fabricRoutes)
+app.use('/api/v1/suit', suitRoutes)
 app.use('/auth', authRoutes);
-
-// Demo authentication success page
-// app.get('/success', authMiddleware.isAuthenticated, (req, res) => {
-//     res.send(`Hello ${req.user.name}`);
-//   });
-
 
 const start = async () => {
     try {

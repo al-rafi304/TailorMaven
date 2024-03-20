@@ -1,17 +1,10 @@
 const User = require('../models/User')
 
-const test = (request, response) => {
-    console.log(request.userID)
-    response.status(200).json({msg: "You have been authorized!"})
-}
-
 
 const getUser = async (req, res) => {
 
     const {id:userID} = req.params
     const user = await User.findOne( {_id: userID} )
-
-    console.log( user )
 
     if (!user){
         return res.status(404).json( {msg: `No user found with id: ${userID}`} )
@@ -59,6 +52,5 @@ module.exports = {
     getUser,
     updateUser,
     getAllUsers,
-    deleteUser,
-    test,
+    deleteUser
 }
