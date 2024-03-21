@@ -31,7 +31,7 @@ const isAuthenticated = (req, res, next) => {
   };
 
 // Used to check if logged in user is accessing own info or not
-const authorizeUser = async (req, res, next) => {
+const userAccess = async (req, res, next) => {
     const {id:userID} = req.params
     const reqUser = await User.findOne({ _id: req.userID })
 
@@ -42,7 +42,18 @@ const authorizeUser = async (req, res, next) => {
     next()
 }
 
+const adminOnlyAccess = async (req, res, next) => {
+    const reqUser = await User.findOne({ _id: req.userID })
+
+    if (reqUser.isAdmin == false){
+        return res.status(401).json({ msg: "Not Authorized as Admin" })
+    }
+
+    next()
+}
+
 module.exports = {
   isAuthenticated,
-  authorizeUser
+  userAccess,
+  adminOnlyAccess,
 };

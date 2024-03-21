@@ -1,5 +1,6 @@
 const Fabric = require('../models/Fabric')
 const Suit = require('../models/Suit')
+const User = require('../models/User')
 
 
 const getAllSuit = async (req, res) => {
@@ -27,7 +28,13 @@ const calculatePrice = () => {
 
 const createSuit = async (req, res) => {
     const fabric_id = req.body.fabric
+
     const fabric = await Fabric.findOne({_id: fabric_id})
+    const user = await User.findOne({_id: req.userID})
+
+    if (!user){
+        return res.status(404).json({ msg: `Invalid user id: ${fabric_id}`})
+    }
 
     if (!fabric){
         return res.status(404).json({ msg: `No fabric found with id: ${fabric_id}`})
@@ -36,6 +43,7 @@ const createSuit = async (req, res) => {
     const suit = await Suit.create({
         type: req.body.type,
         fabric: fabric,
+        user: user,
         price: calculatePrice(),
         length: req.body.length,
         waist: req.body.waist,
@@ -48,6 +56,13 @@ const createSuit = async (req, res) => {
 }
 const updateSuit = async (req, res) => {
     const {id:suit_id} = req.params
+
+    // Checking user permission
+    const user = await User.findOne({_id: req.userID})
+    const check_suit = await Suit.findOne({_id: suit_id})
+    if(check_suit.user != user && !user.isAdmin){
+        return res.status(401).json({ msg: "Not Authorized" })
+    }
 
     var newInfo = {
         type: req.body.type,
@@ -81,6 +96,14 @@ const updateSuit = async (req, res) => {
 }
 const deleteSuit = async (req, res) => {
     const {id:suit_id} = req.params
+
+    // Checking user permission
+    const user = await User.findOne({_id: req.userID})
+    const check_suit = await Suit.findOne({_id: suit_id})
+    if(check_suit.user != user && !user.isAdmin){
+        return res.status(401).json({ msg: "Not Authorized" })
+    }
+
     const suit = await Suit.findOneAndDelete({_id: suit_id})
 
     if(!suit){

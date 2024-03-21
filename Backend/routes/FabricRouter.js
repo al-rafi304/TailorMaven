@@ -7,10 +7,10 @@ const authMid = require('../milddleware/authMiddleware')
 
 router.route('/')
     .get(fabricController.getAllFabric)
-    .post(fabricController.createFabric)
+    .post([authMid.isAuthenticated, authMid.adminOnlyAccess], fabricController.createFabric)
 router.route('/:id')
     .get(fabricController.getFabric)
-    .patch(fabricController.updateFabric)
-    .delete(fabricController.deleteFabric)
+    .patch([authMid.isAuthenticated, authMid.adminOnlyAccess], fabricController.updateFabric)
+    .delete([authMid.isAuthenticated, authMid.adminOnlyAccess], fabricController.deleteFabric)
 
 module.exports = router

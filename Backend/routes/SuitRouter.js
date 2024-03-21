@@ -7,10 +7,10 @@ const authMid = require('../milddleware/authMiddleware')
 
 router.route('/')
     .get(SuitController.getAllSuit)
-    .post(SuitController.createSuit)
+    .post(authMid.isAuthenticated, SuitController.createSuit)
 router.route('/:id')
     .get(SuitController.getSuit)
-    .patch(SuitController.updateSuit)
-    .delete(SuitController.deleteSuit)
+    .patch(authMid.isAuthenticated, SuitController.updateSuit)
+    .delete(authMid.isAuthenticated, SuitController.deleteSuit)
 
 module.exports = router

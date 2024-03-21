@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const findOrCreate = require('mongoose-findorcreate')
 const Fabric = require('./Fabric')
+const User = require('./User')
 
 const SuitSchema = new mongoose.Schema({
     type: {
@@ -12,6 +13,11 @@ const SuitSchema = new mongoose.Schema({
     fabric: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Fabric',
+        require: true
+    },
+    user: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
         require: true
     },
     price: {
