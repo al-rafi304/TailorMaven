@@ -11,6 +11,9 @@ function Header() {
       </div>
       <div>
         <Link to="/login">
+        <button style={{marginRight: '10px'}}>Custom Suit</button>
+        </Link>
+        <Link to="/login">
         <button style={{marginRight: '10px'}}>Login</button>
         </Link>
         <Link to="/register">

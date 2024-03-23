@@ -22,7 +22,7 @@ const Login = () => {
         <label className="password-container">
           Password:
           <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} />
-          <button type="button" onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+          <button type="button" onClick={() => setShowPassword(!showPassword)} className="toggle-password-login">
             {showPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
           </button>
         </label>

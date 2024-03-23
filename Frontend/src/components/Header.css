@@ -28,8 +28,3 @@ header {
     margin-right: 0;
   }
   
-  /* CSS for Button Hover Effect */
-  header button:hover {
-    background-color: #0056b3;
-  }
-  
