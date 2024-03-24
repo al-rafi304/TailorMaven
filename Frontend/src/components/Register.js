@@ -48,7 +48,7 @@ function Register() {
           Password<span>*</span>:
           <div className="password-container">
             <input type={showPassword ? "text" : "password"} value={password} onChange={(e) => setPassword(e.target.value)} required />
-            <button type="button" onClick={() => setShowPassword(!showPassword)} className="toggle-password">
+            <button type="button" onClick={() => setShowPassword(!showPassword)} className="toggle-password-reg">
               {showPassword ? <i className="fa-solid fa-eye"></i> : <i className="fa-solid fa-eye-slash"></i>}
             </button>
           </div>
@@ -76,6 +76,15 @@ function Register() {
         <input type="submit" value="Register" />
       </form>
       <p>Already have an account? <Link to="/login">Sign-in</Link></p>
+      <p>- - - - - - - - - -    or    - - - - - - - - - -</p>
+      <div className="google-signin-container">
+      <Link to="/google-signin" className="no-underline">
+        <button class="google-signin">
+          <img src="/google.svg" className="google-icon"/>
+          <span className="signin-text">Sign in with Google</span>
+        </button>
+      </Link>
+      </div>
     </div>
   );
 };
