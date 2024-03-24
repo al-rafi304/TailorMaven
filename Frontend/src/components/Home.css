@@ -12,3 +12,119 @@
 .container:hover{
   color: #000;
 }
+
+/* Ctom Suit CSS Home */
+
+.carousel-item {
+  position: relative;
+}
+
+.carousel-item img {
+  width: 100%;
+  height: auto;
+}
+
+.carousel-item .carousel-text {
+  position: absolute;
+  top: 50%;
+  left: 10%; 
+  transform: translateY(-50%);
+  width: 40%;
+  background-color: rgba(0, 0, 0, 0.064);
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.carousel-item .carousel-text p {
+  color: #fff;
+  margin-bottom: 10px;
+}
+
+.carousel-item .carousel-text button {
+  position: absolute;
+  top: 120%;
+  right: 40%;
+  transform: translateY(-50%);
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.carousel-item .carousel-text button:hover {
+  background-color: #0056b3;
+}
+
+@media (max-width: 768px) {
+  .carousel-item .carousel-text {
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+    width: 90%;
+  }
+
+  .carousel-item .carousel-text button {
+    right: 50%;
+    transform: translateY(-50%);
+  }
+}
+
+
+
+/* Dress and Febric CSS */
+.card-img-container {
+  position: relative;
+}
+
+.card-img-container img {
+  width: 100%; 
+  height: 600px; 
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .card-img-container img {
+    width: 100%; 
+    height: 350px; 
+  }
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.3s;
+  background-color: rgba(127, 125, 125, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  font-size: larger;
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
+.febric-button,
+.dress-button {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  text-decoration: none;
+}
+
+.febric-button:hover,
+.dress-button:hover {
+  background-color: #0056b3;
+}
