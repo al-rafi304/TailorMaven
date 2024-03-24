@@ -1,85 +1,83 @@
-// authController.js
 const User = require('../models/User')
 
-const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth2').Strategy;
+const googleCallback = (request, response) => {
+    // console.log(request.user.username)
+    response.header('Authorization', `Bearer ${request.authInfo}`).status(200).json({ userID: request.user._id})
+}
 
-require('dotenv').config();
+const register = async (req, res) => {
+    const {username, password} = req.body
 
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
-
-passport.use(new GoogleStrategy({
-  clientID: GOOGLE_CLIENT_ID,
-  clientSecret: GOOGLE_CLIENT_SECRET,
-  callbackURL: `http://localhost:${process.env.PORT}/auth/google/callback`,
-  passReqToCallback: true,
-  scope: ['openid', 'profile', 'email', 'https://www.googleapis.com/auth/user.gender.read', 'https://www.googleapis.com/auth/user.birthday.read'],
-},
-// Login / Register
-async function(request, accessToken, refreshToken, profile, done) {
-    // Create or Finding User from database
+    if (!username || !password){
+        return res.status(400).json({ msg: "Username or Password not provided!" })
+    }
     
+    if( await User.findOne({username: username})){
+        return res.status(401).json({ msg: "User already exists!" })
+    }
 
-    // Retrieving DOB and Gender from People API
-    // ** People API needs to be enabled in google developers console **
-    const profileResponse = await fetch(`https://people.googleapis.com/v1/people/${profile.id}?personFields=birthdays,genders&access_token=${accessToken}`);
-    const jsonResponse = await profileResponse.json();
+    const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
+    const token = user.createJWT()
+
+    console.log(`Registered User: ${user._id}`)
+    res.header('Authorization', `Bearer ${token}`).status(201).json( {userID: user._id} )
+}
+
+const login = async (req, res) => {
+    const {username, password} = req.body
+
+    // Check username & password is provided in the request
+    if (!username || !password){
+        return res.status(400).json({ msg: "Username or Password not provided!" })
+    }
+
+    const user = await User.findOne({username: username})
+    console.log(user)
+
+    // Check if user exist with provied username
+    if (!user){
+        return res.status(401).json({ msg: "No user found with provided username!" })
+    }
     
-    console.log(`https://people.googleapis.com/v1/people/${profile.id}?personFields=birthdays,genders&access_token=${accessToken}`)
-
-    const birthday = jsonResponse.birthdays?.[0];
-    const { year, month, day } = birthday?.date || {};
-
-    const gender = jsonResponse.genders?.[0].value || 'others';                     // If genders object is not found then it defaults to 'others'
+    // Check if user created through google exists
+    if (user.googleId){
+        return res.status(401).json({ msg: "Account created through Google already exists" })
+    }
     
-    dob = new Date(year ? year : 9999, month ? month-1 : 0, day ? day+1 : 1)        // If birthday object not found then it defaults to 9999-12-31
+    // Check password
+    const validPassword = await user.comparePassword(password)
+    if (!validPassword){
+        return res.status(401).json({ msg: "Password missmatch!" })
+    }
+    
+    const token = user.createJWT()
+    
+    res.header('Authorization', `Bearer ${token}`).status(200).json( {userID: user._id} )
 
-    User.findOrCreate({
-        googleId: profile.id,
-        username: profile.given_name,
-        name: profile.displayName,
-        email: profile.email,
-        gender: gender,
-        dob:dob
-    }, function (err, user) {
-        console.log(user)
-        return done(err, user);
-    })
-    // return done(null, profile);
-}));
 
-passport.serializeUser(function(user, done) {
-    done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-    done(null, user);
-});
+}
 
 // Logout
-const logout = (req, res) => {
-    req.logout((err) => {
-        if (err) {
-            return res.status(500).send('Error during logout');
-        }
+// const logout = (req, res) => {
+//     req.logout((err) => {
+//         if (err) {
+//             return res.status(500).send('Error during logout');
+//         }
         
-        req.session.destroy((err) => {
-        if (err) {
-            return res.status(500).send('Error destroying session');
-        }
+//         req.session.destroy((err) => {
+//         if (err) {
+//             return res.status(500).send('Error destroying session');
+//         }
         
-        res.send('Goodbye!');
-        });
-    });
-};
+//         res.send('Goodbye!');
+//         });
+//     });
+// };
 
 module.exports = {
-    authenticateGoogle: passport.authenticate('google'),
-    googleCallback: passport.authenticate('google', {
-        successRedirect: '/success',
-        failureRedirect: '/auth/google/failure'
-    }),
+    googleCallback,
+    register,
+    login,
+    // logout,
     failure: (req, res) => res.send('Failed to authenticate..'),
-    logout,
 };
