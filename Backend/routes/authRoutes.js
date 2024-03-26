@@ -16,7 +16,8 @@ router.get('/google/callback', passport.authenticate('google', {failureRedirect:
 
 router.post('/register', authController.register)
 router.post('/login', authController.login)
-// router.get('/logout', authController.logout)
+router.route('/checkLogin/:token').get(authController.checkLogin)
+
 
 router.get('/auth/google/failure', authController.failure);
 

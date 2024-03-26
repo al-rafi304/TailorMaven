@@ -11,6 +11,7 @@ const Login = () => {
 
   const handleLogin = async(event) => {
     event.preventDefault();
+    console.log("Login button")
     // Handle login logic here
     const credential = { username, password}
     let res = await fetch(
@@ -35,6 +36,7 @@ const Login = () => {
       setWarning(false)
       setWarning2(false)
       let token = res.headers.get("Authorization").split(" ")
+      localStorage.setItem('user_id', data.userID)
       localStorage.setItem('token', token[1])
       console.log(localStorage)
       navigate("/")
@@ -49,7 +51,7 @@ const Login = () => {
       <form onSubmit={handleLogin}>
         <label>
           Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} requiered/>
+          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} required/>
         </label>
         <label className="password-container">
           Password:

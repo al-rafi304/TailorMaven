@@ -1,4 +1,5 @@
 const User = require('../models/User')
+const jwt = require('jsonwebtoken')
 
 const googleCallback = (request, response) => {
     // console.log(request.user.username)
@@ -57,27 +58,21 @@ const login = async (req, res) => {
 
 }
 
-// Logout
-// const logout = (req, res) => {
-//     req.logout((err) => {
-//         if (err) {
-//             return res.status(500).send('Error during logout');
-//         }
-        
-//         req.session.destroy((err) => {
-//         if (err) {
-//             return res.status(500).send('Error destroying session');
-//         }
-        
-//         res.send('Goodbye!');
-//         });
-//     });
-// };
+const checkLogin = async (req, res) => {
+    const authToken = req.params.token
+    
+    try{
+        const decoded = jwt.verify(authToken, process.env.JWT_SECRET)       // It verifies token with secret and also checks if token is expired or not
+        return res.status(200).json({ valid: true, decoded: decoded })
+    } catch (err){
+        return res.status(401).json({ valid: false, msg: "Couldn't verify JWT Token!", error: err });
+    }
+}
 
 module.exports = {
     googleCallback,
     register,
     login,
-    // logout,
+    checkLogin,
     failure: (req, res) => res.send('Failed to authenticate..'),
 };

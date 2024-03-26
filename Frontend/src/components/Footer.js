@@ -8,7 +8,7 @@ function Footer() {
       <ul className="nav">
         <li className="nav-item"><Link className="nav-link active" to="/">Home</Link></li>
         <li className="nav-item"><a href="#" className="nav-link">Features</a></li>
-        <li className="nav-item"><a href="#" className="nav-link">FAQs</a></li>
+        <li className="nav-item"><Link reloadDocument to='/support' className="nav-link">FAQs</Link></li>
         <li className="nav-item"><Link className="nav-link" to="/about">About Us</Link></li>
       </ul>
       <div className="copyright">
