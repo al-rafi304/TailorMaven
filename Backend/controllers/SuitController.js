@@ -1,3 +1,5 @@
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
+
 const Fabric = require('../models/Fabric')
 const Suit = require('../models/Suit')
 const User = require('../models/User')
@@ -13,10 +15,10 @@ const getSuit = async (req, res) => {
     const suit = await Suit.findOne({_id: suit_id})
 
     if(!suit){
-        return res.status(404).json({ msg: `No suit found with id: ${suit_id}`})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `No suit found with id: ${suit_id}`})
     }
 
-    res.status(200).json({ suit })
+    res.status(StatusCodes.OK).json({ suit })
 }
 
 const calculatePrice = () => {
@@ -33,11 +35,11 @@ const createSuit = async (req, res) => {
     const user = await User.findOne({_id: req.userID})
 
     if (!user){
-        return res.status(404).json({ msg: `Invalid user id: ${fabric_id}`})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `Invalid user id: ${fabric_id}`})
     }
 
     if (!fabric){
-        return res.status(404).json({ msg: `No fabric found with id: ${fabric_id}`})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `No fabric found with id: ${fabric_id}`})
     }
 
     const suit = await Suit.create({
@@ -52,7 +54,7 @@ const createSuit = async (req, res) => {
         button: req.body.button
     })
 
-    res.status(200).json(suit)
+    res.status(StatusCodes.OK).json(suit)
 }
 const updateSuit = async (req, res) => {
     const {id:suit_id} = req.params
@@ -61,7 +63,7 @@ const updateSuit = async (req, res) => {
     const user = await User.findOne({_id: req.userID})
     const check_suit = await Suit.findOne({_id: suit_id})
     if(check_suit.user != user && !user.isAdmin){
-        return res.status(401).json({ msg: "Not Authorized" })
+        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Not Authorized" })
     }
 
     var newInfo = {
@@ -78,7 +80,7 @@ const updateSuit = async (req, res) => {
         const fabric = await Fabric.findOne({_id: fabric_id})
 
         if (!fabric){
-            return res.status(404).json({ msg: `No fabric found with id: ${fabric_id}`})
+            return res.status(StatusCodes.NOT_FOUND).json({ msg: `No fabric found with id: ${fabric_id}`})
         }
 
         newInfo["fabric"] = fabric
@@ -89,10 +91,10 @@ const updateSuit = async (req, res) => {
     const suit = await Suit.findOneAndUpdate({_id: suit_id}, newInfo, {new:true, runValidators:true})
 
     if(!suit){
-        return res.status(404).json({ msg: `No suit found with id: ${suit_id}`})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `No suit found with id: ${suit_id}`})
     }
 
-    res.json({ suit })
+    res.status(StatusCodes.CREATED).json({ suit })
 }
 const deleteSuit = async (req, res) => {
     const {id:suit_id} = req.params
@@ -101,16 +103,16 @@ const deleteSuit = async (req, res) => {
     const user = await User.findOne({_id: req.userID})
     const check_suit = await Suit.findOne({_id: suit_id})
     if(check_suit.user != user && !user.isAdmin){
-        return res.status(401).json({ msg: "Not Authorized" })
+        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Not Authorized" })
     }
 
     const suit = await Suit.findOneAndDelete({_id: suit_id})
 
     if(!suit){
-        return res.status(404).json({ msg: `No suit found with id: ${suit_id}`})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: `No suit found with id: ${suit_id}`})
     }
 
-    res.json({ suit })
+    res.status(StatusCodes.OK).json({ suit })
 }
 
 

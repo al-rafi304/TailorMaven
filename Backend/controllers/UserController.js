@@ -1,5 +1,5 @@
 const User = require('../models/User')
-
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
 
 const getUser = async (req, res) => {
 
@@ -7,10 +7,10 @@ const getUser = async (req, res) => {
     const user = await User.findOne( {_id: userID} )
 
     if (!user){
-        return res.status(404).json( {msg: `No user found with id: ${userID}`} )
+        return res.status(StatusCodes.NOT_FOUND).json( {msg: `No user found with id: ${userID}`} )
     }
 
-    res.status(200).json({ user })
+    res.status(StatusCodes.OK).json({ user })
 }
 
 const updateUser = async (req, res) => {
@@ -25,10 +25,10 @@ const updateUser = async (req, res) => {
     const user = await User.findOneAndUpdate({_id: userID}, newInfo, {new:true, runValidators:true})
 
     if (!user){
-        return res.status(404).json( {msg: `No user found with id: ${userID}`} )
+        return res.status(StatusCodes.NOT_FOUND).json( {msg: `No user found with id: ${userID}`} )
     }
 
-    res.status(200).json({ user })
+    res.status(StatusCodes.OK).json({ user })
 }
 
 const deleteUser = async (req, res) => {
@@ -36,16 +36,16 @@ const deleteUser = async (req, res) => {
     const user = await User.findOneAndDelete({_id:userID})
 
     if (!user){
-        return res.status(404).json({ msg: "No user found!" })
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "No user found!" })
     }
 
-    res.status(200).json({ msg: "User deleted successfully", user: user })
+    res.status(StatusCodes.OK).json({ msg: "User deleted successfully", user: user })
 }
 
 const getAllUsers = async (req,res) => {
     const users = await User.find({})
 
-    res.status(200).json({ users })
+    res.status(StatusCodes.OK).json({ users })
 }
 
 module.exports = {

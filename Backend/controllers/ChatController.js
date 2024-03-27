@@ -1,3 +1,5 @@
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
+
 const Conversation = require("../models/Conversation")
 const Message = require("../models/Message")
 const User = require("../models/User")
@@ -39,19 +41,19 @@ const getAllConversations = async (req, res) => {
     
     const convos = await Conversation.find({})
 
-    res.status(200).json({ convos })
+    res.status(StatusCodes.OK).json({ convos })
 }
 
 const getConversationByUser = async (req, res) => {
     const user = await User.findOne({_id: req.params.user_id})
 
-    if(!user) return res.status(404).json({ msg: 'No user found!' })
+    if(!user) return res.status(StatusCodes.NOT_FOUND).json({ msg: 'No user found!' })
 
     const convo = await Conversation.findOne({user: user})
     
-    if(!convo) return res.status(404).json({ msg: `No conversation found for this user: ${user._id}` })
+    if(!convo) return res.status(StatusCodes.NOT_FOUND).json({ msg: `No conversation found for this user: ${user._id}` })
 
-    res.status(200).json({ convo })
+    res.status(StatusCodes.OK).json({ convo })
 }
 
 const createConversation = async (req, res) => {
@@ -65,25 +67,25 @@ const createConversation = async (req, res) => {
     }
 
 
-    res.status(201).json({ convo })
+    res.status(StatusCodes.CREATED).json({ convo })
 }
 
 const getMessages = async (req, res) => {
     const convo = await Conversation.findOne({_id: req.params.convo_id})
     if(!convo){
-        return res.status(404).json({ msg: "No conversation found! "})
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "No conversation found! "})
     }
 
     const messages = await Message.find({conversation: convo})
 
-    res.status(201).json({ messages })
+    res.status(StatusCodes.OK).json({ messages })
 }
 
 const createMessage = async (req, res) => {
     const convo = await Conversation.findOne({_id: req.params.convo_id})
 
     if(!convo){
-        return res.status(404).json({msg: 'No convo found to create msg!'})
+        return res.status(StatusCodes.NOT_FOUND).json({msg: 'No convo found to create msg!'})
     }
 
     const message = await Message.create({
@@ -92,7 +94,7 @@ const createMessage = async (req, res) => {
         message: req.body.message,
     })
 
-    res.status(201).json({ message })
+    res.status(StatusCodes.CREATED).json({ message })
 }
 
 module.exports = {

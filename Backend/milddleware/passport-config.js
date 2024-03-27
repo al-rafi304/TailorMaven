@@ -1,4 +1,5 @@
 require('dotenv').config();
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
 const session = require('express-session');
 const jwt = require('jsonwebtoken')
 const passport = require('passport');
@@ -48,12 +49,12 @@ async function(request, accessToken, refreshToken, params, profile, done) {
 
     // Checks if user created through username/password already exists
     if(user.password){
-        return res.status(401).json({ msg: "Account created through Username/password already exists" })
+        return res.status(StatusCodes.BAD_REQUEST).json({ msg: "Account created through Username/password already exists" })
     }
 
     // Log in user by passing token
     // Creating Json Web Token
-    const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: params.expires_in})
+    const token = jwt.sign({userID: user._id, accessToken: accessToken}, process.env.JWT_SECRET, {expiresIn: process.env.JWT_LIFETIME})
     console.log(user)
 
     return done(null, user, token);

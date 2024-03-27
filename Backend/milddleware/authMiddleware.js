@@ -1,4 +1,6 @@
 require('dotenv').config();
+const {ReasonPhrases, StatusCodes} = require('http-status-codes')
+
 const jwt = require('jsonwebtoken')
 const User = require('../models/User')
 
@@ -7,7 +9,7 @@ const isAuthenticated = (req, res, next) => {
     
     // Check if the Authorization header is present
     if (!authTokenHeader) {
-      return res.status(401).json({ error: 'Unauthorized - No token provided' });
+      return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Unauthorized - No token provided' });
     }
   
     // Formate of authTokenHeader: Bearer <token>
@@ -15,7 +17,7 @@ const isAuthenticated = (req, res, next) => {
   
     // Check if the token format is incorrect
     if (bearer !== 'Bearer' || !authToken) {
-      return res.status(401).json({ error: 'Unauthorized - Invalid token format' });
+      return res.status(StatusCodes.BAD_REQUEST).json({ error: 'Unauthorized - Invalid token format' });
     }
   
     // Decoding Json Web Token to extract userID and accessToken then passing those through request
@@ -24,7 +26,7 @@ const isAuthenticated = (req, res, next) => {
         req.userID = decoded.userID
         req.accessToken = decoded.accessToken
     } catch (err){
-        return res.status(401).json({ msg: "Couldn't verify JWT Token!", error: err });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ msg: "Couldn't verify JWT Token!", error: err });
     }
   
     next();
@@ -36,7 +38,7 @@ const userAccess = async (req, res, next) => {
     const reqUser = await User.findOne({ _id: req.userID })
 
     if (userID != req.userID && reqUser.isAdmin == false){
-        return res.status(401).json({ msg: "Not Authorized" })
+        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Not Authorized" })
     }
 
     next()
@@ -46,7 +48,7 @@ const adminOnlyAccess = async (req, res, next) => {
     const reqUser = await User.findOne({ _id: req.userID })
 
     if (reqUser.isAdmin == false){
-        return res.status(401).json({ msg: "Not Authorized as Admin" })
+        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: "Not Authorized as Admin" })
     }
 
     next()
