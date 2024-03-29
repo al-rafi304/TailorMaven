@@ -1,0 +1,44 @@
+.user-list {
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .user-list table {
+    width: 100%;
+    text-align: center; /* Align all text in the table center */
+  }
+  
+  .user-list th,
+  .user-list td {
+    padding: 10px;
+    text-align: center; /* Align all text in cells center */
+    border: 1px solid #ddd;
+  }
+  
+  .user-list button {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: #f0f0f0;
+    cursor: pointer;
+  }
+  
+  .user-list button.edit-btn {
+    background-color: green; /* Edit button color */
+  }
+  
+  .user-list button.delete-btn,
+  .user-list button.remove-admin-btn {
+    background-color: red; /* Delete and Remove Admin button color */
+  }
+  
+  .user-list button.make-admin-btn {
+    background-color: skyblue; /* Make Admin button color */
+  }
+  
+  .user-list button:hover {
+    background-color: #ddd;
+  }
+  

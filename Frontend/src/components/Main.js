@@ -9,6 +9,15 @@ import Register from "./Register";
 import Test from "./test";
 import Support from "./Support";
 
+// Adminpannel
+import AdminPage from "./AdminPage";
+import AdminDashboard from "./AdminDashboard";
+import AdminUserList from "./AdminUserList";
+import AdminFabricList from "./AdminFabricList";
+import AdminDressList from "./AdminDressList";
+import AdminAccessoriesList from "./AdminAccessoriesList";
+
+
 import AuthAPI from "../services/AuthAPI";
 import UserAPI from "../services/UserAPI";
 import AdminChat from "./AdminChat";
@@ -50,12 +59,23 @@ function Main(){
             <div className="App">
             <Header/>
             <Switch> 
+            {/* admin pannel */}
+            <Route path="/admin" element={< AdminOnly Component= {AdminPage} />} />
+            <Route path="/admin-dashboard" element={< AdminOnly Component= {AdminDashboard} />} />
+            <Route path="/admin-userlist" element={< AdminOnly Component={ AdminUserList}/>} />
+            <Route path="/admin-fabriclist" element={< AdminOnly Component= {AdminFabricList}/>} />
+            <Route path="/admin-dresslist" element={< AdminOnly Component= {AdminDressList}/>} />
+            <Route path="/admin-accessorieslist" element={< AdminOnly Component= {AdminAccessoriesList}/>} />
+            <Route path="/admin-chat" element={<AdminOnly Component={AdminChat} />} />
+
+
+
+
             <Route path="/" element={<Home/>} />
             <Route path="/about" element={<About />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/support" element={<Support />} />
-            <Route path="/admin/chat" element={<AdminOnly Component={AdminChat} />} />
             <Route path="/test" element={< Test />} />
             </Switch>
             <Footer/>

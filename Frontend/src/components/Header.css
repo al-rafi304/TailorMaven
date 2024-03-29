@@ -1,30 +1,92 @@
 
 header {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
-  }
-  
-  /* CSS for Logo */
-  header img {
-    height: 50px;
-  }
-  
-  /* CSS for Buttons */
-  header button {
-    margin-right: 10px;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-  }
-  
-  header button:last-child {
-    margin-right: 0;
-  }
-  
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #d1e1ef;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.2);
+}
+
+.logo-img img {
+  height: 50px;
+}
+
+.dropdown-customsuit {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+.dropdown-content a:hover {background-color: #ddd;}
+
+.dropdown-customsuit:hover .dropdown-content {display: block;}
+
+.dropdown-customsuit button, .cart, .dropdown i {
+  margin-right: 10px;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 50%;
+  background-color: #007bff22;
+  color: rgb(26, 24, 24);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-customsuit button:last-child {
+  margin-right: 0;
+}
+
+.user-actions {
+  display: flex;
+  align-items: center;
+}
+
+.btn {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.user-dropdown {
+  border-radius: 50%;
+}
+
+.dropdown-menu {
+  text-align: center;
+}
+
+.dropdown-menu li {
+  text-align: center;
+}
+
+.dropdown-menu .btn-login:hover {
+  background-color: rgba(19, 218, 155, 0.685);
+}
+
+.dropdown-menu .btn-reg:hover {
+  background-color: rgba(3, 220, 155, 0.744);
+}
+
+.dropdown-menu .btn-signout:hover {
+  background-color: rgba(255, 255, 0, 0.703);
+}
