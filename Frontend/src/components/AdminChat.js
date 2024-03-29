@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AdminSidebar from "./AdminSidebar";
 import ChatAPIs from "../services/ChatAPIs";
 import AuthAPI from "../services/AuthAPI";
 import io from 'socket.io-client';
@@ -10,22 +11,22 @@ const user_id = localStorage.getItem('user_id')
 const token = localStorage.getItem('token')
 
 
+const scrollDown = () => {
+    var box = document.getElementById("chatBox");
+    if (!box){
+        return
+    }
+    requestAnimationFrame(() => {
+        box.scrollTop = box.scrollHeight;
+    });
+}
+
 function AdminChat() {
     const [msg, setMsg] = useState("")
     const [allMsg, setAllMsg] = useState([])
     const [hasConv, setHasConv] = useState(false)
     const [loggedIn, setLoggedIn] = useState(false)
     const [convoUserId, setConvoUserId] = useState(user_id)
-
-    const scrollDown = () => {
-        var box = document.getElementById("chatBox");
-        if (!box){
-            return
-        }
-        requestAnimationFrame(() => {
-            box.scrollTop = box.scrollHeight;
-        });
-    }
 
     // Message Send button
     const sendButton = async() => {
@@ -86,34 +87,26 @@ function AdminChat() {
     useEffect(() => {
         async function get(){
             const data = await ChatAPIs.getMessages(convoUserId, token);
-            console.log('Getting messages')
             setAllMsg(data);
+            scrollDown()
         };
 
         if(loggedIn && hasConv) get();
     }, [loggedIn, hasConv, convoUserId]);
 
     return (
-        <div className="container row justify-content-between m-4">
-            <div className="col-lg-6">
-                {Conversations(convoUserId, setConvoUserId)}
-            </div>
-            {loggedIn ?
-                (hasConv ?
-                    ChatContainer(allMsg, setMsg, sendButton)
-                    :
-                    <div className="container col-4 align-self-center">
-                        <button className="btn btn-primary" onClick={() => {
-                            ChatAPIs.createConversation(token)
-                            window.location.reload()
-                        }}>Start Chatting</button>
-                    </div>
-                )
-                :
-                <div className="container col-4 align-self-center">
-                    <h5 className="text-end">Log in to chat</h5>
+        <div className="container mt-4">
+            <div className="row">
+                <aside className="col-md-3">
+                    <AdminSidebar />
+                </aside>
+                <div className="col-md-3">
+                    {Conversations(convoUserId, setConvoUserId)}
                 </div>
-            }
+                <div className="col-md-3"  style={{width: 400}}>
+                    {ChatContainer(allMsg, setMsg, sendButton)}
+                </div>
+            </div>
         </div>
     );
 }
@@ -121,31 +114,30 @@ function AdminChat() {
 function ChatContainer(allMsg, setMsg, sendButton){
     return(
         <>
-            <div className="col-4 " style={{width: 400}}>
-                <h1 className="text-center">Chat</h1>
+            <h2 className="text-center">Chat</h2>
 
-                <div id="chatBox" className="container col border rounded overflow-y-auto" style={{height: 500}}>
-                    {allMsg.map(msg => (
-                        !msg.fromUser ?
-                        // Self message
-                        <div className="container border rounded-4 text-break text-bg-primary my-3 w-75 me-1 p-1 px-3">
-                            <p className=" m-0 text-end">{msg.message}</p>
+            <div id="chatBox" className="container border rounded overflow-y-auto" style={{height: 500}}>
+                {allMsg.map(msg => (
+                    !msg.fromUser ?
+                    // Self message
+                    <div>
+                        <div className="container border rounded-4 text-break text-bg-primary my-3 me-1 p-1 px-3 w-50">
+                            {msg.message}
                         </div>
-                        :
-                        // Incoming message
-                        <div className="container row border rounded-4 text-break text-bg-light my-3 ms-0 p-1 w-50">
-                            <p className="text-start m-0">{msg.message}</p>  
-                        </div>
-                    ))}
+                    </div>
+                    :
+                    // Incoming message
+                    <div className="container border rounded-4 text-break text-bg-light my-3 ms-0 p-1 px-3 w-50">
+                        <p className="text-start m-0">{msg.message}</p>  
+                    </div>
+                ))}
+            </div>
 
-                </div>
-
-                <div className="input-group mb-3 mt-3">
-                    <input type="text" className="form-control" placeholder="Enter message"onChange={(e) => {
-                        setMsg(e.target.value)
-                    }}/>
-                    <button className="btn btn-success" onClick={sendButton}>Send</button>
-                </div>
+            <div className="input-group mb-3 mt-3">
+                <input type="text" className="form-control" placeholder="Enter message"onChange={(e) => {
+                    setMsg(e.target.value)
+                }}/>
+                <button className="btn btn-success" onClick={sendButton}>Send</button>
             </div>
         </>
     )
@@ -162,7 +154,6 @@ function Conversations(convoUserId, setConvoUserId) {
                 let user = await UserAPI.getUser(convo.user, token)
                 convo['username'] = user.username
             });
-            console.log(allConvos)
             setConvos(allConvos)
         }
         callAPI()
@@ -174,7 +165,7 @@ function Conversations(convoUserId, setConvoUserId) {
 
     return(
         <>
-            <h1 className="text-center">All Conversations</h1>
+            <h2 className="text-center">Conversations</h2>
             <div className="list-group">
                 {convos.map(convo => (
                     <button onClick={() => convoButton(convo.user)} className={`list-group-item list-group-item-action ${convoUserId === convo.user ? 'active' : ''}`}>
