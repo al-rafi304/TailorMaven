@@ -1,0 +1,45 @@
+.fabric-list {
+    margin: 20px;
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  .fabric-list table {
+    width: 100%;
+    text-align: center;
+  }
+  
+  .fabric-list th,
+  .fabric-list td {
+    padding: 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+  }
+  
+  .fabric-list .stock-out {
+    color: white;
+    background-color: rgba(255, 0, 0, 0.712);
+    padding: 5px;
+  }
+  
+  .fabric-list button.edit-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: skyblue;
+    cursor: pointer;
+  }
+  
+  .fabric-list button.delete-btn {
+    padding: 5px 10px;
+    border: none;
+    border-radius: 4px;
+    background-color: red;
+    cursor: pointer;
+  }
+  
+  .fabric-list button:hover {
+    background-color: #ddd;
+  }
+  
