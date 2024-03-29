@@ -1,0 +1,127 @@
+.FabricsContainer {
+    display: flex;
+    padding: 2rem 0;
+    position: relative;
+}
+
+.filterContainer {
+    width: 20%;
+    position: relative;
+    border-bottom: 1px solid #d2d2d2;
+    transition: all 0.5s ease-in-out;
+}
+
+.filterContainer .heading {
+    font-size: 13px;
+    padding: 12px;
+    background: #f7f6f5;
+    border-top: 1px solid #d2d2d2;
+    overflow: auto;
+}
+.filterContainer .filter_headline {
+    color: #231f20;
+}
+
+.filterContainer .filter_color_list {
+    padding: 12px 0 0 0;
+}
+
+ul {
+    list-style: none;
+}
+
+.filterContainer .filter_color_list li {
+    display: inline-block;
+    width: 30px;
+    position: relative;
+    margin-right: 10px;
+    transition: all 0.2s linear;
+}
+
+.filterContainer .filter_color_list li input.filter_color {
+    display: none;
+}
+
+.filterContainer .filter_color_list li label {
+    font-size: 0;
+    position: absolute;
+    height: 30px;
+    width: 30px;
+    cursor: pointer;
+}
+
+.tileContainer {
+    width: 80%;
+    margin: 0px 5px;
+    font-size: 0;
+    transition: all 0.5s ease-in-out;
+    overflow: auto;
+    min-height: 50px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.tileContainer .tile {
+    width: 16.666%;
+    box-sizing: border-box;
+    padding: 0px 5px 30px 5px;
+    transition: 0.2s ease-in-out;
+}
+
+a {
+    text-decoration: none;
+}
+
+.tileContainer .tile .productImage {
+    overflow: hidden;
+}
+
+.tileContainer .tile .tileDescription p {
+    text-align: center;
+}
+
+.tileContainer .tile .tileDescription p {
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    font-size: 13px;
+    line-height: 16px;
+    font-weight: bold;
+    color: #6e7c7c;
+    margin: 12px 0 5px 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 16px;
+    transition: all 0.3s ease-in-out;
+}
+
+.info__fabrics {
+    position: absolute;
+    right: 0;
+    background-color: aqua;
+    padding: 4rem;
+    display: none;
+}
+
+.info__fabrics.active {
+    display: block;
+}
+
+.fabrics__infoButton {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.fabrics__infoButton__btn {
+    padding: 1rem;
+    background-color: #231f20;
+    color: white;
+    cursor: pointer;
+}
+
+.fabrics__infoButton .quatity {
+    padding: 1rem;
+    background-color: #231f20;
+    color: white;
+    cursor: pointer;
+}
