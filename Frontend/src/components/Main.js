@@ -8,6 +8,7 @@ import Login from "./Login";
 import Register from "./Register";
 import Test from "./test";
 import Support from "./Support";
+import Fabrics from "./Fabrics";
 
 // Adminpannel
 import AdminPage from "./AdminPage";
@@ -77,6 +78,7 @@ function Main(){
             <Route path="/register" element={<Register />} />
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={< Test />} />
+            <Route path="/fabrics" element={<Fabrics />} />
             </Switch>
             <Footer/>
             
