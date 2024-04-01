@@ -9,6 +9,7 @@ import Register from "./Register";
 import Test from "./test";
 import Support from "./Support";
 import Fabrics from "./Fabrics";
+import Visualize from "./Visualize";
 
 // Adminpannel
 import AdminPage from "./AdminPage";
@@ -79,6 +80,7 @@ function Main(){
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={< Test />} />
             <Route path="/fabrics" element={<Fabrics />} />
+            <Route path="/visualize" element={<Visualize />} />
             </Switch>
             <Footer/>
             
