@@ -1,11 +1,23 @@
+import { useEffect, useState } from "react";
 import AdminSidebar from "./AdminSidebar";
 import "./AdminUserList.css"
 function AdminUserList() {
-    const users = [
-        { id: 1, name: 'Al Rafi', isAdmin: false },
-        { id: 2, name: 'Farhan Sadik', isAdmin: true },
-        { id: 3, name: 'Naveed Imteaz', isAdmin: false },
-      ];
+
+    const [allUsers, setAllUsers] = useState([])
+
+    let getAllUsers = async() => {
+        let res = await fetch("/api/v1/user/", {
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        let data = await res.json()
+        setAllUsers(data)
+    }
+
+    useEffect(
+        () => {getAllUsers()}
+        ,[]
+    )
+
     return ( 
         <div className="container mt-4">
             <div className="row">
@@ -27,9 +39,9 @@ function AdminUserList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map((user) => (
-                        <tr key={user.id}>
-                        <td>{user.id}</td>
+                        {allUsers.users?.map((user, index) => (
+                        <tr key={index}>
+                        <td>{index+1}</td>
                         <td>{user.name}</td>
                         <td>
                             <button className="edit-btn">Edit</button>

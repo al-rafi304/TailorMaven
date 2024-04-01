@@ -1,11 +1,21 @@
 import AdminSidebar from "./AdminSidebar";
 import "./AdminDressList.css"
+import { useEffect, useState } from "react";
 function AdminDressList() {
-    const dresses = [
-        { serialNo: 1, id: 201, name: 'Summer Dress', stock: 5 },
-        { serialNo: 2, id: 202, name: 'Evening Gown', stock: 0 },
-        { serialNo: 3, id: 203, name: 'Casual Dress', stock: 10 },
-       ];
+
+    const [allDresses, setAllDresses] = useState("")
+
+    let getAllDresses = async() => {
+        let res = await fetch("/api/v1/dress/")   //backend dress link here
+        let data = await res.json()
+        setAllDresses(data)
+    }
+
+    useEffect(
+        () => {getAllDresses()}
+        ,[]
+    )
+
     return ( 
         <div className="container mt-4">
         <   div className="row">
@@ -28,9 +38,9 @@ function AdminDressList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {dresses.map((dress, index) => (
-                            <tr key={index}>
-                            <td>{dress.serialNo}</td>
+                            {allDresses.dresses?.map((dress, index) => (
+                            <tr key={index+1}>
+                            <td>{index}</td>
                             <td>{dress.id}</td>
                             <td>{dress.name}</td>
                             <td className={dress.stock === 0 ? 'stock-out' : ''}>

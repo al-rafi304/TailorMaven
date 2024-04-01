@@ -1,6 +1,37 @@
+import { useEffect, useState } from "react";
 import AdminSidebar from "./AdminSidebar";
 
 function AdminDashboard() {
+    
+    const [allData, setAllData] = useState("")
+
+    let getAllData = async() => {
+        let allData = {totalUser : 0, totalDresses: 0, totalFabrics: 0}
+
+        let res = await fetch("/api/v1/user/",{
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        let data = await res.json()
+        allData.totalUser = data.users?.length
+
+        res = await fetch("/api/v1/fabric/")
+        data = await res.json()
+        allData.totalFabrics = data.fabrics?.length
+
+        // res = await fetch("/api/v1/user/",{
+        //     headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        // })
+        // data = await res.json()
+        // allData.totalUser = data.user?.length
+
+        setAllData(allData)
+    }
+
+    useEffect(
+        () => {getAllData()}
+        ,[]
+    )
+
     return ( 
         <div className="container mt-4">
             <div className="row">
@@ -13,6 +44,7 @@ function AdminDashboard() {
                     <div className="card border border-primary">
                         <center><div className="card-header bg-info fw-bolder">Total Users</div></center>
                         <div className="card-body">
+                            {allData.totalUser}
                         </div>
                     </div>
                     </div>
@@ -20,6 +52,7 @@ function AdminDashboard() {
                     <div className="card border border-primary">
                         <center><div className="card-header bg-primary text-white fw-bolder">Total Dresses</div></center>
                         <div className="card-body">
+                            {allData.totalDresses}
                         </div>
                     </div>
                     </div>
@@ -27,6 +60,7 @@ function AdminDashboard() {
                     <div className="card border border-primary">
                         <center><div className="card-header bg-primary text-white fw-bolder">Total Fabrics</div></center>
                         <div className="card-body">
+                            {allData.totalFabrics}
                         </div>
                     </div>
                     </div>
