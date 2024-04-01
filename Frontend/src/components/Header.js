@@ -13,7 +13,7 @@ function Header() {
    </div>
    <div className='logo-img'>
     <Link to="/">
-     <img src="logo-no-background.svg" alt="Website Logo"/>
+     <img src="logo_v2_transparent.png" alt="Website Logo"/>
     </Link>
    </div>
    <div className='user-actions'>
