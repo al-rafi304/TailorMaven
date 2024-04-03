@@ -2,95 +2,100 @@ import React, {useEffect, useRef, useState} from "react";
 import { Canvas, useFrame, useLoader } from "@react-three/fiber";
 import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Environment, useTexture, useGLTF } from '@react-three/drei'
 import { TextureLoader } from "three";
+import * as THREE from "three";
 
-function Suit(nodes, materials, selected_mat){
-    /*
-    Currently the mesh is taking all available materials from the gltf object itself which means
-    adding new materials would require manually adding the material to the gltf file with blender first
-    then export it again.
-    To dynamically add materials with texture maps(images) so that the mesh doesn't depend on the gltf file itself, 
-    the below commented out code can be used.
-    However I'm seeing degrading results, so I'll stick to the first approach for now.
+function Suit({colorMap_src, normalMap_src}){
+    const { nodes, materials } = useGLTF('/demo4.glb')
+    const [colorMap, normalMap] = useTexture([colorMap_src, normalMap_src])
     
-    // const [colorMap, normalMap] = useLoader(TextureLoader, ['fabrics/linen/3.jpg', 'fabrics/linen/3_normal.png'])
-    // const customMat = {colorMap, normalMap}
-    // return(
-    //    <mesh>
-    //        <meshStandardMaterial map={colorMap} normalMap={normalMap}
-    //    </mesh>
-    // )
-
-    */
+    // Tiling Texture
+    let scale = 5
+    colorMap.repeat.set(scale, scale)
+    normalMap.repeat.set(scale, scale)
+    colorMap.wrapS = colorMap.wrapT = THREE.RepeatWrapping;
+    normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
+    
 
     return (
         <group dispose={null}>
 
             {/* Suit Body */}
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Suit_Base.geometry}
-                material={selected_mat} 
-            />
+            <mesh 
+                castShadow 
+                receiveShadow 
+                geometry={nodes.Suit_Base.geometry}>
+                    <meshPhysicalMaterial 
+                        map={colorMap} 
+                        normalMap={normalMap} 
+                        specularIntensity={0.1} 
+                        sheen={0.5}/>
+            </mesh>
             
-
             {/* Suit Collar */}
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Collar.geometry}
-                material={selected_mat}
-                position={[0, 1.1, 0.701]}
-                rotation={[Math.PI / 2, 0, 0]}
-            />
+            <mesh 
+                castShadow 
+                receiveShadow 
+                geometry={nodes.Collar.geometry} 
+                position={[0, 1.1, 0.701]} 
+                rotation={[Math.PI / 2, 0, 0]}>
+                    <meshPhysicalMaterial 
+                        map={colorMap} 
+                        normalMap={normalMap} 
+                        specularIntensity={0.1} 
+                        sheen={0.5}/>
+            </mesh>
 
             {/* Buttons */}
+            <mesh 
+                castShadow 
+                receiveShadow 
+                geometry={nodes.Button01.geometry} 
+                position={[0.009, 0.062, 0.84]} 
+                rotation={[1.572, 0.006, -0.1]} 
+                scale={[0.045, 0.007, 0.045]}>
+                    <meshPhysicalMaterial 
+                        color={ new THREE.Color(0x000000)}/>
+            </mesh>
+            <mesh 
+                castShadow 
+                receiveShadow 
+                geometry={nodes.Button01.geometry} 
+                position={[0.024, -0.545, 0.807]} 
+                rotation={[1.572, 0.006, -0.1]} 
+                scale={[0.045, 0.007, 0.045]}>
+                    <meshPhysicalMaterial 
+                        color={ new THREE.Color(0x000000)}/>
+            </mesh>
+
+            {/* Shirt */}
             <mesh
                 castShadow
                 receiveShadow
-                geometry={nodes.Button01.geometry}
-                material={materials.black_red_strip}
-                position={[0.009, 0.062, 0.84]}
-                rotation={[1.572, 0.006, -0.1]}
-                scale={[0.045, 0.007, 0.045]}
-            />
-            <mesh
-                castShadow
-                receiveShadow
-                geometry={nodes.Button02.geometry}
-                material={materials.black_red_strip}
-                position={[0.024, -0.545, 0.807]}
-                rotation={[1.572, 0.006, -0.1]}
-                scale={[0.045, 0.007, 0.045]}
-            />
+                geometry={nodes.Shirt.geometry}
+                material={materials.Material}
+                position={[0.004, 0.718, 0.513]}
+                rotation={[1.203, -0.033, -0.012]}
+                scale={1.258} />
         </group>
       )
 }
 
 function Visualize(){
-    const [mat, setMat] = useState('cotton_strips')
-    const [allMats, setAllMats] = useState([])
+    const [mat, setMat] = useState(1)
 
-    const { nodes, materials } = useGLTF('/demo4.glb')
-
-    useEffect(() => {
-        setAllMats(Object.keys(materials))
-        console.log(allMats)
-    }, [])
+    var colorMap_src = `fabrics/linen/${mat}.jpg`
+    var normalMap_src = `fabrics/linen/${mat}_normal.png`
 
     return (
         <div className="mt-3 row justify-content-center align-items-center" style={{height: 500}}>
 
             {/* Material Selection */}
             <div className="col-3">
-                <div className="list-group">
-                    {allMats.map(m => (
-                        <button className="list-group-item list-group-item-action" onClick={(e) => {
-                            e.preventDefault()
-                            setMat(m)
-                        }}> {m} </button>
-                    ))}
-                </div>
+                <label htmlFor="points">Select material from 1-8</label>
+                <input type="number" id="points" name="points" min="1" max="8" onChange={(e) => {
+                    e.preventDefault()
+                    if(e.target.value < 9) setMat(e.target.value)
+                }}/>
             </div>
 
             {/* Showing 3D model */}
@@ -98,16 +103,16 @@ function Visualize(){
                 <Canvas camera={{ position: [5, 5, 5], fov: 35 }} castShadow style={{height: 500}}>
 
                     {/* Lighting */}
-                    <ambientLight intensity={Math.PI / 4} />
-                    <directionalLight castShadow  position={[0, 15, 0]} intensity={Math.PI * 2}/>
-                    <directionalLight castShadow  position={[0, 0, 40]} intensity={Math.PI / 3}/>
-                    <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI / 3}/>
+                    <ambientLight intensity={Math.PI / 2} />
+                    <directionalLight castShadow  position={[0, 15, 40]} intensity={Math.PI * 2}/>
+                    <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI * 2}/>
                     
                     {/* Displaying Suit */}
-                    {Suit(nodes, materials, materials[mat])}
-
+                    <Suit colorMap_src={colorMap_src} normalMap_src={normalMap_src} />
+                    
                     {/* Camera Controls */}
                     <OrbitControls autoRotate autoRotateSpeed={4} enablePan={false} minPolarAngle={Math.PI / 2.1} maxPolarAngle={Math.PI / 2.1} /> 
+                    
                 </Canvas>
             </div>
 
