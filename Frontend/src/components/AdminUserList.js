@@ -18,6 +18,36 @@ function AdminUserList() {
         ,[]
     )
 
+    // const Swal = require('sweetalert2');    
+    // const handleDelete =(index)=>{
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'error',
+    //         confirmButtonText: 'Yes, delete it!',
+    //         confirmButtonColor: "#3085d6",
+    //         cancelButtonColor: "#d33",
+    //         showCancelButton: true
+    //       }).then(result =>{
+    //         if (result.isConfirmed) {
+    //             doDelete(index)
+    //             Swal.fire({
+    //               title: "Deleted!",
+    //               text: "Your file has been deleted.",
+    //               icon: "success"
+    //             });
+    //           }
+    //       })
+    // } 
+
+    const handleDelete = (index) => {
+        fetch(`api/v1/user/${allUsers.users[index]._id}`, {
+            method: "delete",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        window.location.reload()
+    }
+
     return ( 
         <div className="container mt-4">
             <div className="row">
@@ -47,7 +77,7 @@ function AdminUserList() {
                             <button className="edit-btn">Edit</button>
                         </td>
                         <td>
-                            <button className="delete-btn">Delete</button>
+                            <button className="delete-btn" onClick = {() => handleDelete(index)}>Delete</button>
                         </td>
                         <td>
                             <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"}>

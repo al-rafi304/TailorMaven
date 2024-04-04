@@ -1,4 +1,7 @@
 async function getUser(user_id, token) {
+
+    if(!user_id || !token) return false
+
     let userRes = await fetch(
         `/api/v1/user/${user_id}`,
         {
