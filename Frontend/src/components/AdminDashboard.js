@@ -18,12 +18,6 @@ function AdminDashboard() {
         data = await res.json()
         allData.totalFabrics = data.fabrics?.length
 
-        // res = await fetch("/api/v1/user/",{
-        //     headers: {"authorization": "Bearer " + localStorage.getItem("token")}
-        // })
-        // data = await res.json()
-        // allData.totalUser = data.user?.length
-
         setAllData(allData)
     }
 

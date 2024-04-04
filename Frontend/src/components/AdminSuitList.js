@@ -1,18 +1,18 @@
 import AdminSidebar from "./AdminSidebar";
-import "./AdminDressList.css"
+import "./AdminsuitList.css"
 import { useEffect, useState } from "react";
-function AdminDressList() {
+function AdminsuitList() {
 
-    const [allDresses, setAllDresses] = useState("")
+    const [allsuits, setAllsuits] = useState("")
 
-    let getAllDresses = async() => {
-        let res = await fetch("/api/v1/dress/")   //backend dress link here
+    let getAllsuits = async() => {
+        let res = await fetch("/api/v1/suit")
         let data = await res.json()
-        setAllDresses(data)
+        setAllsuits(data)
     }
 
     useEffect(
-        () => {getAllDresses()}
+        () => {getAllsuits()}
         ,[]
     )
 
@@ -24,27 +24,27 @@ function AdminDressList() {
                 </aside>
             <   section className="col-md-9 mt-2">
                     <div className="row">
-                    <div className="dress-list">
-                        <h2>Dresses List</h2>
+                    <div className="suit-list">
+                        <h2>suits List</h2>
                         <table>
                             <thead>
                             <tr>
                             <th>Serial No</th>
-                            <th>Dress ID</th>
-                            <th>Dress Name</th>
-                            <th>Dress Stock</th>
+                            <th>suit ID</th>
+                            <th>suit Name</th>
+                            <th>suit Stock</th>
                             <th>Edit</th>
                             <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {allDresses.dresses?.map((dress, index) => (
+                            {allsuits.suits?.map((suit, index) => (
                             <tr key={index+1}>
                             <td>{index}</td>
-                            <td>{dress.id}</td>
-                            <td>{dress.name}</td>
-                            <td className={dress.stock === 0 ? 'stock-out' : ''}>
-                                {dress.stock > 0 ? dress.stock : 'Stock Out'}
+                            <td>{suit.id}</td>
+                            <td>{suit.name}</td>
+                            <td className={suit.stock === 0 ? 'stock-out' : ''}>
+                                {suit.stock > 0 ? suit.stock : 'Stock Out'}
                             </td>
                             <td>
                                 <button className="edit-btn">Edit</button>
@@ -64,4 +64,4 @@ function AdminDressList() {
      );
 }
 
-export default AdminDressList;
+export default AdminsuitList;
