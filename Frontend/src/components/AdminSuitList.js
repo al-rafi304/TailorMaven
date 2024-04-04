@@ -3,16 +3,16 @@ import "./AdminSuitList.css"
 import { useEffect, useState } from "react";
 function AdminSuitList() {
 
-    const [allSuit, setAllSuit] = useState("")
+    const [allSuits, setAllSuits] = useState("")
 
-    let getAllSuit = async() => {
+    let getAllSuits = async() => {
         let res = await fetch("/api/v1/suit")
         let data = await res.json()
-        setAllSuit(data)
+        setAllSuits(data)
     }
 
     useEffect(
-        () => {getAllSuit()}
+        () => {getAllSuits()}
         ,[]
     )
 
@@ -38,7 +38,7 @@ function AdminSuitList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {allSuit.suits?.map((suit, index) => (
+                            {allSuits.suits?.map((suit, index) => (
                             <tr key={index+1}>
                             <td>{index}</td>
                             <td>{suit.id}</td>
