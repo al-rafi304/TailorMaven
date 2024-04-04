@@ -1,11 +1,53 @@
+import { useEffect, useState } from "react";
 import AdminSidebar from "./AdminSidebar";
 import "./AdminUserList.css"
 function AdminUserList() {
-    const users = [
-        { id: 1, name: 'Al Rafi', isAdmin: false },
-        { id: 2, name: 'Farhan Sadik', isAdmin: true },
-        { id: 3, name: 'Naveed Imteaz', isAdmin: false },
-      ];
+
+    const [allUsers, setAllUsers] = useState([])
+
+    let getAllUsers = async() => {
+        let res = await fetch("/api/v1/user/", {
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        let data = await res.json()
+        setAllUsers(data)
+    }
+
+    useEffect(
+        () => {getAllUsers()}
+        ,[]
+    )
+
+    // const Swal = require('sweetalert2');    
+    // const handleDelete =(index)=>{
+    //     Swal.fire({
+    //         title: 'Are you sure?',
+    //         text: "You won't be able to revert this!",
+    //         icon: 'error',
+    //         confirmButtonText: 'Yes, delete it!',
+    //         confirmButtonColor: "#3085d6",
+    //         cancelButtonColor: "#d33",
+    //         showCancelButton: true
+    //       }).then(result =>{
+    //         if (result.isConfirmed) {
+    //             doDelete(index)
+    //             Swal.fire({
+    //               title: "Deleted!",
+    //               text: "Your file has been deleted.",
+    //               icon: "success"
+    //             });
+    //           }
+    //       })
+    // } 
+
+    const handleDelete = (index) => {
+        fetch(`api/v1/user/${allUsers.users[index]._id}`, {
+            method: "delete",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        window.location.reload()
+    }
+
     return ( 
         <div className="container mt-4">
             <div className="row">
@@ -27,15 +69,15 @@ function AdminUserList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {users.map((user) => (
-                        <tr key={user.id}>
-                        <td>{user.id}</td>
+                        {allUsers.users?.map((user, index) => (
+                        <tr key={index}>
+                        <td>{index+1}</td>
                         <td>{user.name}</td>
                         <td>
                             <button className="edit-btn">Edit</button>
                         </td>
                         <td>
-                            <button className="delete-btn">Delete</button>
+                            <button className="delete-btn" onClick = {() => handleDelete(index)}>Delete</button>
                         </td>
                         <td>
                             <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"}>

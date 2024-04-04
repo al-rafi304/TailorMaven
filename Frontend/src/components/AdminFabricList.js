@@ -1,11 +1,23 @@
 import AdminSidebar from "./AdminSidebar";
 import "./AdminFabricList.css"
+import { useEffect, useState } from "react";
+
+
 function AdminFabricList() {
-    const fabrics = [
-        { serialNo: 1, id: 101, name: 'Cotton Fabric', stock: 20 },
-        { serialNo: 2, id: 102, name: 'Silk Fabric', stock: 10 },
-        { serialNo: 3, id: 103, name: 'Polyester Fabric', stock: 0 },
-       ];   
+
+    const [allFabrics, setAllFabrics] = useState("")
+
+    let getAllFabrics = async() => {
+        let res = await fetch("/api/v1/fabric/")
+        let data = await res.json()
+        setAllFabrics(data)
+    }
+
+    useEffect(
+        () => {getAllFabrics()}
+        ,[]
+    )
+       
     return (   
         <div className="container mt-4">
         <div className="row">
@@ -28,9 +40,9 @@ function AdminFabricList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {fabrics.map((fabric, index) => (
+                            {allFabrics.fabrics?.map((fabric, index) => (
                             <tr key={index}>
-                            <td>{fabric.serialNo}</td>
+                            <td>{index+1}</td>
                             <td>{fabric.id}</td>
                             <td>{fabric.name}</td>
                             <td className={fabric.stock === 0 ? 'stock-out' : ''}>
