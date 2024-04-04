@@ -1,8 +1,7 @@
 import AdminSidebar from "./AdminSidebar";
-<<<<<<< HEAD
 import "./AdminSuitList.css"
 import { useEffect, useState } from "react";
-function AdminDressList() {
+function AdminSuitList() {
 
     const [allSuit, setAllSuit] = useState("")
 
@@ -14,22 +13,6 @@ function AdminDressList() {
 
     useEffect(
         () => {getAllSuit()}
-=======
-import "./AdminsuitList.css"
-import { useEffect, useState } from "react";
-function AdminsuitList() {
-
-    const [allsuits, setAllsuits] = useState("")
-
-    let getAllsuits = async() => {
-        let res = await fetch("/api/v1/suit")
-        let data = await res.json()
-        setAllsuits(data)
-    }
-
-    useEffect(
-        () => {getAllsuits()}
->>>>>>> 7286d49a6aae829476f58d9cfed0c67c656db282
         ,[]
     )
 
@@ -42,34 +25,20 @@ function AdminsuitList() {
             <   section className="col-md-9 mt-2">
                     <div className="row">
                     <div className="suit-list">
-<<<<<<< HEAD
                         <h2>Suits List</h2>
-=======
-                        <h2>suits List</h2>
->>>>>>> 7286d49a6aae829476f58d9cfed0c67c656db282
                         <table>
                             <thead>
                             <tr>
                             <th>Serial No</th>
-<<<<<<< HEAD
                             <th>Suit ID</th>
                             <th>Suit Name</th>
                             <th>Suit Stock</th>
-=======
-                            <th>suit ID</th>
-                            <th>suit Name</th>
-                            <th>suit Stock</th>
->>>>>>> 7286d49a6aae829476f58d9cfed0c67c656db282
                             <th>Edit</th>
                             <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
-<<<<<<< HEAD
                             {allSuit.suits?.map((suit, index) => (
-=======
-                            {allsuits.suits?.map((suit, index) => (
->>>>>>> 7286d49a6aae829476f58d9cfed0c67c656db282
                             <tr key={index+1}>
                             <td>{index}</td>
                             <td>{suit.id}</td>
@@ -95,4 +64,4 @@ function AdminsuitList() {
      );
 }
 
-export default AdminsuitList;
+export default AdminSuitList;
