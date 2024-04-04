@@ -64,7 +64,7 @@ function Fabrics() {
 
             {/* Main Fabrics */}
 
-            {fabrics.fabrics.map((fabric, index) => (
+            {fabrics.fabrics?.map((fabric, index) => (
                 <div key = {index} className="tileContainer hide">
                     <div className="tile">
                         <a href="#" onClick={toggleInfoActive}>

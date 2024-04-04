@@ -1,18 +1,18 @@
 import AdminSidebar from "./AdminSidebar";
-import "./AdminsuitList.css"
+import "./AdminSuitList.css"
 import { useEffect, useState } from "react";
-function AdminsuitList() {
+function AdminSuitList() {
 
-    const [allsuits, setAllsuits] = useState("")
+    const [allSuits, setAllSuits] = useState("")
 
-    let getAllsuits = async() => {
+    let getAllSuits = async() => {
         let res = await fetch("/api/v1/suit")
         let data = await res.json()
-        setAllsuits(data)
+        setAllSuits(data)
     }
 
     useEffect(
-        () => {getAllsuits()}
+        () => {getAllSuits()}
         ,[]
     )
 
@@ -25,20 +25,20 @@ function AdminsuitList() {
             <   section className="col-md-9 mt-2">
                     <div className="row">
                     <div className="suit-list">
-                        <h2>suits List</h2>
+                        <h2>Suits List</h2>
                         <table>
                             <thead>
                             <tr>
                             <th>Serial No</th>
-                            <th>suit ID</th>
-                            <th>suit Name</th>
-                            <th>suit Stock</th>
+                            <th>Suit ID</th>
+                            <th>Suit Name</th>
+                            <th>Suit Stock</th>
                             <th>Edit</th>
                             <th>Delete</th>
                             </tr>
                             </thead>
                             <tbody>
-                            {allsuits.suits?.map((suit, index) => (
+                            {allSuits.suits?.map((suit, index) => (
                             <tr key={index+1}>
                             <td>{index}</td>
                             <td>{suit.id}</td>
@@ -64,4 +64,4 @@ function AdminsuitList() {
      );
 }
 
-export default AdminsuitList;
+export default AdminSuitList;
