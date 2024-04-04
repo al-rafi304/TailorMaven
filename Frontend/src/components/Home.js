@@ -95,9 +95,9 @@ function Home() {
             <div className="card-img-container">
               <img src={pic2} className="card-img-top" alt="..." />
               <div className="overlay">
-                <p className="dress-paragraph">Explore all the Dresses</p>
+                <p className="suit-paragraph">Explore all the Suits</p>
                 <Link to="#">
-                  <button className="dress-button">Explore Dresses</button>
+                  <button className="suit-button">Explore Suits</button>
                 </Link>
               </div>
             </div>
