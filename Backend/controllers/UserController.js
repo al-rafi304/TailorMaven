@@ -33,9 +33,9 @@ const updateUser = async (req, res) => {
 
 const deleteUser = async (req, res) => {
     const {id:userID} = req.params
-    const user = await User.findOneAndDelete({_id:userID})
+    const user = await User.deleteOne({ _id: userID })
 
-    if (!user){
+    if (user.deletedCount <= 0){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No user found!" })
     }
 
