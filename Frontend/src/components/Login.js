@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "./Login.css"
 import { Link, useNavigate } from 'react-router-dom';
+import AuthAPI from '../services/AuthAPI';
+
 const Login = () => {
 	const [username, setUsername] = useState('');
 	const [password, setPassword] = useState('');
@@ -8,6 +10,11 @@ const Login = () => {
 	const [warning, setWarning] = useState(false);
 	const [warning2, setWarning2] = useState(false);
 	const navigate = useNavigate()
+
+	const getUser = async () => {
+		let res = await AuthAPI.isLoggedIn()
+		if (res) window.location.reload()
+	}
 
 	const handleLogin = async(event) => {
 		event.preventDefault();
@@ -36,7 +43,7 @@ const Login = () => {
 			let token = res.headers.get("Authorization").split(" ")
 			localStorage.setItem('user_id', data.userID)
 			localStorage.setItem('token', token[1])
-			console.log(localStorage)
+			getUser()
 			navigate("/")
 		}
 	};

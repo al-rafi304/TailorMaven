@@ -19,7 +19,6 @@ import AdminDressList from "./AdminDressList";
 import AdminAccessoriesList from "./AdminAccessoriesList";
 
 
-import AuthAPI from "../services/AuthAPI";
 import UserAPI from "../services/UserAPI";
 import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";

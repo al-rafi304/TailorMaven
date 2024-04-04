@@ -1,20 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { Link, NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import "./Header.css"
+import AuthAPI from '../services/AuthAPI';
 
 function Header() {
 
 	const [userId, setUserID] = useState(false)
-	const user_id = localStorage.getItem('user_id')
-	console.log(user_id, userId)
 
-	const getUser = () => {
-		user_id === "false" ? setUserID(false):setUserID(true)
+	const getUser = async () => {
+		setUserID(await AuthAPI.isLoggedIn())
 	}
 
 	const handleLogOut = () => {
-		localStorage.setItem('user_id', false)
-      	localStorage.setItem('token', false)
+		localStorage.removeItem("user_id")
+      	localStorage.removeItem('token')
 		window.location.reload()
 	}
 
