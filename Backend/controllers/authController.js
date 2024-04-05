@@ -19,7 +19,16 @@ const register = async (req, res) => {
         return res.status(StatusCodes.BAD_REQUEST).json({ msg: "User already exists!" })
     }
 
-    const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
+    // const user = await User.create({ ...req.body })       // Stores the hashed password in DB (code in User model)
+    const user = await User.create({
+        username: req.body.username,
+        name: req.body.name,
+        email: req.body.email,
+        password: req.body.password,
+        gender: req.body.gender,
+        image: req.file?.path,
+        dob: req.dob
+    })
     const token = user.createJWT()
 
     console.log(`Registered User: ${user._id}`)

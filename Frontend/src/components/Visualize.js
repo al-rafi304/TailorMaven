@@ -1,20 +1,17 @@
 import React, {useEffect, useRef, useState} from "react";
-import { Canvas, useFrame, useLoader } from "@react-three/fiber";
+import FabricAPI from '../services/FabricAPI'
+import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Environment, useTexture, useGLTF } from '@react-three/drei'
-import { TextureLoader } from "three";
 import * as THREE from "three";
 
-function Suit({colorMap_src, normalMap_src}){
+function Suit({colorMap_src}){
     const { nodes, materials } = useGLTF('/demo4.glb')
-    const [colorMap, normalMap] = useTexture([colorMap_src, normalMap_src])
+    const colorMap = useTexture(colorMap_src)
     
     // Tiling Texture
     let scale = 5
     colorMap.repeat.set(scale, scale)
-    normalMap.repeat.set(scale, scale)
     colorMap.wrapS = colorMap.wrapT = THREE.RepeatWrapping;
-    normalMap.wrapS = normalMap.wrapT = THREE.RepeatWrapping;
-    
 
     return (
         <group dispose={null}>
@@ -25,8 +22,7 @@ function Suit({colorMap_src, normalMap_src}){
                 receiveShadow 
                 geometry={nodes.Suit_Base.geometry}>
                     <meshPhysicalMaterial 
-                        map={colorMap} 
-                        normalMap={normalMap} 
+                        map={colorMap}
                         specularIntensity={0.1} 
                         sheen={0.5}/>
             </mesh>
@@ -39,8 +35,7 @@ function Suit({colorMap_src, normalMap_src}){
                 position={[0, 1.1, 0.701]} 
                 rotation={[Math.PI / 2, 0, 0]}>
                     <meshPhysicalMaterial 
-                        map={colorMap} 
-                        normalMap={normalMap} 
+                        map={colorMap}
                         specularIntensity={0.1} 
                         sheen={0.5}/>
             </mesh>
@@ -81,21 +76,34 @@ function Suit({colorMap_src, normalMap_src}){
 }
 
 function Visualize(){
-    const [mat, setMat] = useState(1)
+    const [allFabrics, setAllFabrics] = useState([])
+    const [fabricImage, setFabricImage] = useState(null)
 
-    var colorMap_src = `fabrics/linen/${mat}.jpg`
-    var normalMap_src = `fabrics/linen/${mat}_normal.png`
+    // Fetching all fabrics
+    useEffect(() => {
+        async function get(){
+            var fabricData = await FabricAPI.getAllFabrics()
+            setAllFabrics(fabricData)
+        }
+        get()
+    }, [])
 
     return (
-        <div className="mt-3 row justify-content-center align-items-center" style={{height: 500}}>
+        <div className="mt-3 row justify-content-center align-items-center" style={{height: 700}}>
 
             {/* Material Selection */}
             <div className="col-3">
-                <label htmlFor="points">Select material from 1-8</label>
-                <input type="number" id="points" name="points" min="1" max="8" onChange={(e) => {
-                    e.preventDefault()
-                    if(e.target.value < 9) setMat(e.target.value)
-                }}/>
+                <h2>Select materials</h2>
+                <div className="row row-cols-3 align-items-start">
+                    {allFabrics.map(fab => ( 
+                        <>
+                            <button className="btn col" onClick={() => setFabricImage(fab.image)}>
+                                <img src={fab.image} className="" height={100} width={100}/>
+                                <p className="text-body-secondary">{fab.name} {fab.color}</p>
+                            </button>
+                        </>
+                    ))}
+                </div>
             </div>
 
             {/* Showing 3D model */}
@@ -108,7 +116,7 @@ function Visualize(){
                     <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI * 2}/>
                     
                     {/* Displaying Suit */}
-                    <Suit colorMap_src={colorMap_src} normalMap_src={normalMap_src} />
+                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} />
                     
                     {/* Camera Controls */}
                     <OrbitControls autoRotate autoRotateSpeed={4} enablePan={false} minPolarAngle={Math.PI / 2.1} maxPolarAngle={Math.PI / 2.1} /> 
