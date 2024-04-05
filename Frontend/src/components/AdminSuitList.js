@@ -1,11 +1,12 @@
 import AdminSidebar from "./AdminSidebar";
-import "./AdminsuitList.css"
+import "./AdminSuitList.css"
 import { useEffect, useState } from "react";
-function AdminsuitList() {
+
+function AdminSuitList() {
 
     const [allSuits, setAllSuits] = useState("")
 
-    let getAllsuits = async() => {
+    let getAllSuits = async() => {
         let res = await fetch("/api/v1/suit")
         let data = await res.json()
         setAllSuits(data)
