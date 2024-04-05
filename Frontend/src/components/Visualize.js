@@ -1,4 +1,5 @@
 import React, {useEffect, useRef, useState} from "react";
+import FabricAPI from '../services/FabricAPI'
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Environment, useTexture, useGLTF } from '@react-three/drei'
 import * as THREE from "three";
@@ -75,20 +76,34 @@ function Suit({colorMap_src}){
 }
 
 function Visualize(){
-    const [mat, setMat] = useState(1)
+    const [allFabrics, setAllFabrics] = useState([])
+    const [fabricImage, setFabricImage] = useState(null)
 
-    var colorMap_src = `fabrics/linen/${mat}.jpg`
+    // Fetching all fabrics
+    useEffect(() => {
+        async function get(){
+            var fabricData = await FabricAPI.getAllFabrics()
+            setAllFabrics(fabricData)
+        }
+        get()
+    }, [])
 
     return (
-        <div className="mt-3 row justify-content-center align-items-center" style={{height: 500}}>
+        <div className="mt-3 row justify-content-center align-items-center" style={{height: 700}}>
 
             {/* Material Selection */}
             <div className="col-3">
-                <label htmlFor="points">Select material from 1-8</label>
-                <input type="number" id="points" name="points" min="1" max="8" onChange={(e) => {
-                    e.preventDefault()
-                    if(e.target.value < 9) setMat(e.target.value)
-                }}/>
+                <h2>Select materials</h2>
+                <div className="row row-cols-3 align-items-start">
+                    {allFabrics.map(fab => ( 
+                        <>
+                            <button className="btn col" onClick={() => setFabricImage(fab.image)}>
+                                <img src={fab.image} className="" height={100} width={100}/>
+                                <p className="text-body-secondary">{fab.name} {fab.color}</p>
+                            </button>
+                        </>
+                    ))}
+                </div>
             </div>
 
             {/* Showing 3D model */}
@@ -101,7 +116,7 @@ function Visualize(){
                     <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI * 2}/>
                     
                     {/* Displaying Suit */}
-                    <Suit colorMap_src={colorMap_src} />
+                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} />
                     
                     {/* Camera Controls */}
                     <OrbitControls autoRotate autoRotateSpeed={4} enablePan={false} minPolarAngle={Math.PI / 2.1} maxPolarAngle={Math.PI / 2.1} /> 
