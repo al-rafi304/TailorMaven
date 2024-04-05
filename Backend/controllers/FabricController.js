@@ -25,7 +25,8 @@ const createFabric = async (req, res) => {
         name: req.body.name,
         color: req.body.color,
         price: req.body.price,
-        stock: req.body.stock
+        stock: req.body.stock,
+        image: req.file?.path
     })
 
     res.json({ fabric })
