@@ -16,11 +16,10 @@ import AdminPage from "./AdminPage";
 import AdminDashboard from "./AdminDashboard";
 import AdminUserList from "./AdminUserList";
 import AdminFabricList from "./AdminFabricList";
-import AdminDressList from "./AdminDressList";
+import AdminSuitList from "./AdminSuitList";
 import AdminAccessoriesList from "./AdminAccessoriesList";
 
 
-import AuthAPI from "../services/AuthAPI";
 import UserAPI from "../services/UserAPI";
 import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";
@@ -66,7 +65,7 @@ function Main(){
             <Route path="/admin-dashboard" element={< AdminOnly Component= {AdminDashboard} />} />
             <Route path="/admin-userlist" element={< AdminOnly Component={ AdminUserList}/>} />
             <Route path="/admin-fabriclist" element={< AdminOnly Component= {AdminFabricList}/>} />
-            <Route path="/admin-dresslist" element={< AdminOnly Component= {AdminDressList}/>} />
+            <Route path="/admin-suitlist" element={< AdminOnly Component= {AdminSuitList}/>} />
             <Route path="/admin-accessorieslist" element={< AdminOnly Component= {AdminAccessoriesList}/>} />
             <Route path="/admin-chat" element={<AdminOnly Component={AdminChat} />} />
 

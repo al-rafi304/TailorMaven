@@ -4,6 +4,10 @@ const findOrCreate = require('mongoose-findorcreate')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 
+const Conversation = require('./Conversation')
+const Suit = require('./Suit')
+const Message = require('./Message')
+
 const UserSchema = new mongoose.Schema({
     username: {
         type: String,
@@ -31,6 +35,19 @@ const UserSchema = new mongoose.Schema({
     dob: Date,
     googleId: String,
 })
+
+// Manually Cascade deleting necessary documents
+UserSchema.pre('deleteOne', async function(next) {
+    try {
+        convo = await Conversation.find({ user: this._conditions._id })
+        await Message.deleteMany({ conversation: convo })
+        await Conversation.deleteOne({ user: this._conditions._id });
+        await Suit.deleteMany({ user: this._conditions._id })
+        next();
+    } catch (error) {
+        next(error);
+    }
+});
 
 // Executes before saving
 UserSchema.pre('save', async function () {

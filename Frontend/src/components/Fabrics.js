@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import "../assets/css/bootstrap.min.css";
 import "./Fabrics.css";
 
 function Fabrics() {
+
+    const [fabrics, setFabrics] = useState("")
     // State to manage the activation of the info__fabrics class
     const [isActive, setIsActive] = useState(false);
     const [quantity, setQuantity] = useState(0);
@@ -24,6 +26,17 @@ function Fabrics() {
             setQuantity((prevQuantity) => prevQuantity - 1);
         }
     };
+
+    let getFabrics = async() => {
+        let res = await fetch("/api/v1/fabric/")
+        let data = await res.json()
+        setFabrics(data)
+        console.log(fabrics)
+    }
+
+    useEffect(() => {
+        getFabrics()
+    }, [])
 
     return (
         <div className="FabricsContainer">
@@ -51,19 +64,20 @@ function Fabrics() {
 
             {/* Main Fabrics */}
 
-            <div class="tileContainer hide">
-                <div class="tile">
-                    <a href="#" onClick={toggleInfoActive}>
-                        <div class="productImage">
-                            <img src="https://cdn.iagapparel.com/resource//455181dd-23db-4cb4-9d79-4517a94bc3b6.jpg" class="lazy-loaded" />
-                        </div>
-                        <div class="tileDescription">
-                            <p class="productTitle">RIVIERA</p>
-                            <p class="productCode">1121000</p>
-                        </div>
-                    </a>
-                </div>
-            </div>
+            {fabrics.fabrics.map((fabric, index) => (
+                <div key = {index} className="tileContainer hide">
+                    <div className="tile">
+                        <a href="#" onClick={toggleInfoActive}>
+                            <div className="productImage">
+                                <img src="https://cdn.iagapparel.com/resource//455181dd-23db-4cb4-9d79-4517a94bc3b6.jpg" className="lazy-loaded" />
+                            </div>
+                            <div className="tileDescription">
+                                <p className="productTitle">{fabric.name}</p>
+                                <p className="productCode">{fabric.id}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>))}
 
             {/* Info Fabrics */}
             <div className={`info__fabrics ${isActive ? "active" : ""}`}>
