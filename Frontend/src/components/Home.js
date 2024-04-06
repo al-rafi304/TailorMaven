@@ -26,7 +26,7 @@ function Home() {
                   Choose from more than 150 fabrics and various details to design your own look.
                   We guarantee the perfect fit of your tailored Hockerty suit.
                 </p>
-                <Link to="/login">
+                <Link to="/visualize">
                   <button className="customsuit-button">Design your Suit</button>
                 </Link>
               </div>

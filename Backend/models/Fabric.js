@@ -14,7 +14,8 @@ const FabricSchema = new mongoose.Schema({
     stock: {
         type: Number,
         default: 0
-    }
+    },
+    image: String
 })
 
 module.exports = mongoose.model("Fabric", FabricSchema)
