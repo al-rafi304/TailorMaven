@@ -1,7 +1,6 @@
 import AdminSidebar from "./AdminSidebar";
 import "./AdminSuitList.css"
 import { useEffect, useState } from "react";
-
 function AdminSuitList() {
 
     const [allSuits, setAllSuits] = useState("")
@@ -17,6 +16,14 @@ function AdminSuitList() {
         ,[]
     )
 
+    const handleDelete = (index) => {
+        fetch(`api/v1/user/${allSuits.suits[index]._id}`, {
+            method: "delete",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        window.location.reload()
+    }
+
     return ( 
         <div className="container mt-4">
         <   div className="row">
@@ -26,7 +33,7 @@ function AdminSuitList() {
             <   section className="col-md-9 mt-2">
                     <div className="row">
                     <div className="suit-list">
-                        <h2>suits List</h2>
+                        <h2>Suits List</h2>
                         <table>
                             <thead>
                             <tr>
@@ -51,7 +58,7 @@ function AdminSuitList() {
                                 <button className="edit-btn">Edit</button>
                             </td>
                             <td>
-                                <button className="delete-btn">Delete</button>
+                                <button className="delete-btn" onClick = {() => {handleDelete(index)}}>Delete</button>
                             </td>
                             </tr>
                             ))}

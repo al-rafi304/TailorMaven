@@ -1,22 +1,28 @@
 import AdminSidebar from "./AdminSidebar";
 import "./AdminFabricList.css"
 import { useEffect, useState } from "react";
+import FabricAPI from "../services/FabricAPI";
 
 
 function AdminFabricList() {
 
-    const [allFabrics, setAllFabrics] = useState("")
+    const [allFabrics, setAllFabrics] = useState([])
 
-    let getAllFabrics = async() => {
-        let res = await fetch("/api/v1/fabric/")
-        let data = await res.json()
-        setAllFabrics(data)
+    useEffect(() => {
+        async function getAllFabrics(){
+            var fabricData = await FabricAPI.getAllFabrics()
+            setAllFabrics(fabricData)
+        }
+        getAllFabrics()
+    }, [])
+
+    const handleDelete = (index) => {
+        fetch(`api/v1/fabric/${allFabrics[index]?._id}`, {
+            method: "delete",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        window.location.reload()
     }
-
-    useEffect(
-        () => {getAllFabrics()}
-        ,[]
-    )
        
     return (   
         <div className="container mt-4">
@@ -40,7 +46,7 @@ function AdminFabricList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {allFabrics.fabrics?.map((fabric, index) => (
+                            {allFabrics?.map((fabric, index) => (
                             <tr key={index}>
                             <td>{index+1}</td>
                             <td>{fabric.id}</td>
@@ -52,7 +58,7 @@ function AdminFabricList() {
                                 <button className="edit-btn">Edit</button>
                             </td>
                             <td>
-                                <button className="delete-btn">Delete</button>
+                                <button className="delete-btn" onClick={() => {handleDelete(index)}}>Delete</button>
                             </td>
                             </tr>
                             ))}

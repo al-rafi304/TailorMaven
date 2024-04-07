@@ -25,7 +25,7 @@ function Header() {
  return (
 	<header>
 	 <div className='dropdown-customsuit'>
-		<button>Custom Suit</button>
+		<Link to = "/visualize"><button>Custom Suit</button></Link>
 		<div className='dropdown-content'>
 		 
 		</div>
