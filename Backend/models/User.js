@@ -7,6 +7,7 @@ const jwt = require('jsonwebtoken')
 const Conversation = require('./Conversation')
 const Suit = require('./Suit')
 const Message = require('./Message')
+const GenderTypes = require('../constants/GenderTypes')
 
 const UserSchema = new mongoose.Schema({
     username: {
@@ -26,7 +27,7 @@ const UserSchema = new mongoose.Schema({
     },
     gender: {
         type: String,
-        enum: ['male', 'female', 'others']
+        enum: [GenderTypes.MALE, GenderTypes.FEMALE, GenderTypes.OTHERS]
     },
     isAdmin: {
         type: Boolean,
