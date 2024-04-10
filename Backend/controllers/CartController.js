@@ -22,14 +22,16 @@ const getUserCart = async (req, res) => {
 
 const addToCart = async (req, res) => {
     const user = await User.findById(req.userID)
-    if(!user){
+    if (!user){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No User found for adding to cart!" })
     }
 
     const productType = req.body.product_type
     if(productType == ProductTypes.SUIT){
         const suit = await Suit.findById(req.body.product_id)
-        if(!suit) return res.status(StatusCodes.NOT_FOUND).json({ msg: "Suit not found, adding to cart failed" })
+        if (!suit) {
+            return res.status(StatusCodes.NOT_FOUND).json({ msg: "Suit not found, adding to cart failed" })  
+        } 
 
         var cartItem = await CartItem.create({
             user: user,
@@ -38,7 +40,9 @@ const addToCart = async (req, res) => {
         })
     } else {
         const fabric = await Fabric.findById(req.body.product_id)
-        if(!fabric) return res.status(StatusCodes.NOT_FOUND).json({ msg: "Fabric not found, adding to cart failed" })
+        if (!fabric){
+            return res.status(StatusCodes.NOT_FOUND).json({ msg: "Fabric not found, adding to cart failed" })
+        } 
 
         var cartItem = await CartItem.create({
             user: user,
@@ -55,8 +59,19 @@ const addToCart = async (req, res) => {
     res.status(StatusCodes.OK).json({cartItem})
 }
 
+const deleteCartItem = async (req, res) => {
+    const cartItem = await CartItem.findByIdAndDelete(req.params.item_id)
+    if (!cartItem) {
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "Cart Item not found!" })
+    }
+
+    res.status(StatusCodes.OK).json({ cartItem })
+
+}
+
 module.exports = {
     getAllCartItem,
     getUserCart,
     addToCart,
+    deleteCartItem
 }
