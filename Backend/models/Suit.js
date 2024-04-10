@@ -2,12 +2,13 @@ const mongoose = require('mongoose')
 const findOrCreate = require('mongoose-findorcreate')
 const Fabric = require('./Fabric')
 const User = require('./User')
+const SuitTypes = require('../constants/SuitTypes')
 
 const SuitSchema = new mongoose.Schema({
     type: {
         type: String,
-        enum: ['double_breast', 'single_breast', 'tuxedo'],
-        default: 'single_breast',
+        enum: [SuitTypes.SINGLE, SuitTypes.DOUBLE, SuitTypes.TUXEDO],
+        default: SuitTypes.SINGLE,
         require: true
     },
     fabric: {
