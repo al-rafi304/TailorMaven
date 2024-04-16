@@ -23,7 +23,7 @@ const SuitSchema = new mongoose.Schema({
     },
     price: {
         type: Number,
-        default: 999999
+        default: 999
     },
     length: {
         type: Number,
