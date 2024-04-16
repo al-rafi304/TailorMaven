@@ -13,6 +13,7 @@ const userRoutes = require('./routes/UserRouter')
 const fabricRoutes = require('./routes/FabricRouter')
 const suitRoutes = require('./routes/SuitRouter')
 const chatRoutes = require('./routes/ChatRouter')
+const cartRoutes = require('./routes/CartRoutes')
 
 const authMiddleware = require('./milddleware/authMiddleware');
 const passportMiddleware = require('./milddleware/passport-config')
@@ -33,6 +34,7 @@ app.use(passportMiddleware.passportSession);
 app.use('/api/v1/user', userRoutes)
 app.use('/api/v1/fabric', fabricRoutes)
 app.use('/api/v1/suit', suitRoutes)
+app.use('/api/v1/cart', cartRoutes)
 app.use('/api/v1/conversation', chatRoutes)
 app.use('/auth', authRoutes);
 

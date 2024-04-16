@@ -23,6 +23,8 @@ import AdminAccessoriesList from "./AdminAccessoriesList";
 import UserAPI from "../services/UserAPI";
 import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";
+import MenuBar from "./MenuBar";
+import ShoppingCart from "./ShoppingCart";
 
 
 const user_id = localStorage.getItem('user_id')
@@ -80,6 +82,8 @@ function Main(){
             <Route path="/test" element={< Test />} />
             <Route path="/fabrics" element={<Fabrics />} />
             <Route path="/visualize" element={<Visualize />} />
+            <Route path="/menu" element={<MenuBar />} />
+            <Route path="/add-to-cart" element={<ShoppingCart />} />
             </Switch>
             <Footer/>
             

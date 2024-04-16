@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500&display=swap');
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.menu-bar {
+    font-family: 'Roboto', sans-serif;
+    background-color: #13131100;
+    height: auto;
+    color: rgb(250, 250, 250);
+    display: flex;
+    overflow: hidden;
+    /* border-radius: 50%; */
+  }
+
+.menu-bar .sidebar {
+  width: 80px;
+  height: 100%;
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.menu-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  cursor: pointer;
+  border-radius: 50%;
+}
+/* .menu-btn:hover {
+  background-color: #000000;
+} */
+
+.menu-bar .sidebar-items {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.menu-bar .item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 2px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.menu-bar .item:hover {
+  background-color: #cfbdbd;
+}
+.menu-bar .item img {
+  width: 24px;
+  height: 24px;
+  margin-bottom: 6px;
+}
+.menu-bar .item span {
+  font-size: 11px;
+}
+
+#menu {
+  width: 240px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0e7be7;
+  padding: 16px 12px;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 0.5s ease;
+  z-index: 10;
+}
+#menu.visible {
+  transform: translateX(0);
+}
+
+.menu-header {
+  display: flex;
+  align-items: center;
+  padding-left: 6px;
+  gap: 24px;
+  margin-bottom: 20px;
+}
+
+.menu-group {
+  padding: 16px 0;
+  border-block: 1px solid #3f3f3f;
+}
+
+.menu-item {
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  padding: 10px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.menu-item:hover {
+  background-color: #f2ebeb;
+  color: black;
+}
+.menu-item img {
+  margin-right: 24px;
+}
+
+.menu-bar section {
+  width: 100%;
+  height: 100%;
+}
+
+.menu-bar nav {
+  width: 100%;
+  height: 72px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 16px;
+}
+
+.menu-bar main {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.menu-bar main h1 {
+  font-size: 42px;
+}

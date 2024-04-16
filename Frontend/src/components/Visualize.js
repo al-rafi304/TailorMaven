@@ -5,7 +5,7 @@ import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Enviro
 import * as THREE from "three";
 
 function Suit({colorMap_src}){
-    const { nodes, materials } = useGLTF('/demo4.glb')
+    const { nodes, materials } = useGLTF('/Suit.glb')
     const colorMap = useTexture(colorMap_src)
     
     // Tiling Texture

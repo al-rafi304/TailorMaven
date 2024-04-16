@@ -63,9 +63,9 @@ function Fabrics() {
 
             {/* Main Fabrics */}
 
-            {fabrics.map((fabric, index) => (
-                <div key = {index} className="tileContainer hide">
-                    <div className="tile">
+            <div  className="tileContainer hide">
+            {fabrics.fabrics?.map((fabric, index) => (
+                    <div key = {index} className="tile">
                         <a href="#" onClick={toggleInfoActive}>
                             <div className="productImage">
                                 <img src="https://cdn.iagapparel.com/resource//455181dd-23db-4cb4-9d79-4517a94bc3b6.jpg" className="lazy-loaded" />
@@ -75,8 +75,8 @@ function Fabrics() {
                                 <p className="productCode">{fabric.id}</p>
                             </div>
                         </a>
-                    </div>
                 </div>))}
+                    </div>
 
             {/* Info Fabrics */}
             <div className={`info__fabrics ${isActive ? "active" : ""}`}>
