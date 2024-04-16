@@ -3,7 +3,7 @@ const express = require('express');
 const passport = require('passport')
 const authController = require('../controllers/authController');
 
-const { storage } = require('../milddleware/upload-config') 
+const { storage } = require('../configs/upload-config') 
 const multer = require('multer');
 const upload = multer({ storage });
 

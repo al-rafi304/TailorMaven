@@ -16,7 +16,7 @@ const chatRoutes = require('./routes/ChatRouter')
 const cartRoutes = require('./routes/CartRoutes')
 
 const authMiddleware = require('./milddleware/authMiddleware');
-const passportMiddleware = require('./milddleware/passport-config')
+const passportMiddleware = require('./configs/passport-config')
 
 const chatController = require('./controllers/ChatController')
 
