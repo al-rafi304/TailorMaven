@@ -117,8 +117,6 @@ function AdminAddProduct() {
                                 <br />
                                 <input type="text" name="fabricPrice" placeholder="Fabric Price" onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="text" name="fabricLength" placeholder="Fabric Size(in feet)" onChange={handleFabricInputChange} />
-                                <br />
                                 <input type="text" name="fabricQuantity" placeholder="Fabric Quantity" onChange={handleFabricInputChange} />
                                 <br />
                                 <input type="file" onChange={handleImageUpload} />
@@ -142,7 +140,7 @@ function AdminAddProduct() {
                                     <h4>Measurements</h4>
                                     <br/>
                                     <input type="text" id="length" placeholder="Length" onChange={handleSuitInputChange} />
-                                    <input type="text" id="wrist" placeholder="Wrist" onChange={handleSuitInputChange} />
+                                    <input type="text" id="waist" placeholder="Waist" onChange={handleSuitInputChange} />
                                     <input type="text" id="chest" placeholder="Chest" />
                                     <input type="text" id="armLength" placeholder="Arm Length" onChange={handleSuitInputChange} />
                                     <input type="text" id="buttonColor" placeholder="Button Color"  onChange={handleSuitInputChange} />
