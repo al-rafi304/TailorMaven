@@ -89,7 +89,6 @@ function AdminAddProduct() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // Handle form submission based on product type
         console.log("Form submitted!");
     };
 
@@ -114,7 +113,11 @@ function AdminAddProduct() {
                                 <h3>Add Fabric</h3>
                                 <input type="text" name="fabricName" placeholder="Fabric Name" value={fabricFormData.fabricName} onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="text" name="fabricQuantity" placeholder="Fabric Quantity" value={fabricFormData.fabricQuantity} onChange={handleFabricInputChange} />
+                                <input type="text" name="fabricColor" placeholder="Fabric Color" onChange={handleFabricInputChange} />
+                                <br />
+                                <input type="text" name="fabricPrice" placeholder="Fabric Price" onChange={handleFabricInputChange} />
+                                <br />
+                                <input type="text" name="fabricQuantity" placeholder="Fabric Quantity" onChange={handleFabricInputChange} />
                                 <br />
                                 <input type="file" onChange={handleImageUpload} />
                                 <br />
@@ -139,6 +142,10 @@ function AdminAddProduct() {
                                     <input type="text" id="sleeveLength" placeholder="Sleeve Length" onChange={handleSuitInputChange} />
                                     <input type="text" id="length" placeholder="Length" onChange={handleSuitInputChange} />
                                 </div>
+                                <br />
+                                <input type="text" name="suitColor" placeholder="Suit Color" onChange={handleSuitInputChange} />
+                                <br />
+                                <input type="text" name="suitPrice" placeholder="Suit Price" onChange={handleSuitInputChange} />
                                 <br />
                                 <input type="text" name="suitQuantity" placeholder="Suit Quantity" value={suitFormData.suitQuantity} onChange={handleSuitInputChange} />
                                 <br />
