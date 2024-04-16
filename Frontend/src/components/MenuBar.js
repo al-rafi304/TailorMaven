@@ -27,8 +27,9 @@ const MenuBar = () => {
     <div className="menu-bar">
       <aside className="sidebar">
         <div className="menu-btn" onClick={toggleMenu}>
-          <img src="/menu1.svg" alt="menu" />
+          <img src="/menu1.svg" alt="menu" className='menu-outside'/>
         </div>
+        
       </aside>
 
       <div id="menu" className={menuVisible ? 'visible' : ''}>

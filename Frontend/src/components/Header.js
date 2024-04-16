@@ -61,7 +61,7 @@ function Header() {
 				<div className="user-details">
 				<p className="user-name">Farhan Sadik</p>
 				<p className="user-email">md.farhan.sadik@g.bracu.ac.bd</p>
-				<div className="btn-signout" onClick={handleLogOut}>Sign Out</div>
+				<div className="btn-signout-header" onClick={handleLogOut}>Sign Out</div>
 				</div>
 			</div>
 			</li>

@@ -25,6 +25,7 @@ import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";
 import MenuBar from "./MenuBar";
 import ShoppingCart from "./ShoppingCart";
+import AdminAddProduct from "./AdminAddProduct";
 
 
 const user_id = localStorage.getItem('user_id')
@@ -63,13 +64,14 @@ function Main(){
             <Header/>
             <Switch> 
             {/* admin pannel */}
-            <Route path="/admin" element={< AdminOnly Component= {AdminPage} />} />
+            <Route path="/admin" element={< AdminOnly Component= {AdminDashboard} />} />
             <Route path="/admin-dashboard" element={< AdminOnly Component= {AdminDashboard} />} />
             <Route path="/admin-userlist" element={< AdminOnly Component={ AdminUserList}/>} />
             <Route path="/admin-fabriclist" element={< AdminOnly Component= {AdminFabricList}/>} />
             <Route path="/admin-suitlist" element={< AdminOnly Component= {AdminSuitList}/>} />
             <Route path="/admin-accessorieslist" element={< AdminOnly Component= {AdminAccessoriesList}/>} />
             <Route path="/admin-chat" element={<AdminOnly Component={AdminChat} />} />
+            <Route path="/admin-add-product" element={<AdminOnly Component={AdminAddProduct} />} />
 
 
 
