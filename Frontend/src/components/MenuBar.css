@@ -10,7 +10,7 @@
 
 .menu-bar {
     font-family: 'Roboto', sans-serif;
-    background-color: #13131100;
+    background-color: #13111100;
     height: auto;
     color: rgb(250, 250, 250);
     display: flex;
@@ -72,7 +72,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #0e7be7;
+  background-color: #222324;
   padding: 16px 12px;
   display: flex;
   flex-direction: column;

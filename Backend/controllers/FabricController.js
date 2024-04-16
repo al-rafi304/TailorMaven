@@ -21,6 +21,9 @@ const getFabric = async (req, res) => {
 }
 
 const createFabric = async (req, res) => {
+
+    console.log(req.body)
+
     const fabric = await Fabric.create({
         name: req.body.name,
         color: req.body.color,

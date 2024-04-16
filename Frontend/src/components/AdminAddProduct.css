@@ -1,0 +1,37 @@
+.add-product input[type="text"],
+.add-product select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(8, 237, 233, 0.516);
+    transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+
+.add-product .measurements input[type="text"] {
+    width: calc(50% - 5px); 
+    margin-right: 5px;
+    margin-bottom: 5px;
+}
+.add-product input[type="text"]:hover,
+.add-product select:hover {
+    border-color: #1e00ff;
+    box-shadow: 0 0 10px #00b7ff;
+}
+
+.add-product button {
+    background-color: #0026ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: background-color 0.2s ease-in-out;
+}
+.add-product button:hover {
+    background-color: #037571;
+    box-shadow: 0 0 10px #037571;
+}

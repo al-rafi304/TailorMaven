@@ -64,11 +64,11 @@ function Fabrics() {
             {/* Main Fabrics */}
 
             <div  className="tileContainer hide">
-            {fabrics.fabrics?.map((fabric, index) => (
+            {fabrics?.map((fabric, index) => (
                     <div key = {index} className="tile">
                         <a href="#" onClick={toggleInfoActive}>
                             <div className="productImage">
-                                <img src="https://cdn.iagapparel.com/resource//455181dd-23db-4cb4-9d79-4517a94bc3b6.jpg" className="lazy-loaded" />
+                                <img src={fabric.image} className="lazy-loaded" />
                             </div>
                             <div className="tileDescription">
                                 <p className="productTitle">{fabric.name}</p>

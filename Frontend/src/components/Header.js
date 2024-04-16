@@ -68,7 +68,7 @@ const Header = (props) => {
 				<div className="user-details">
 				<p className="user-name">{userInfo.username}</p>
 				<p className="user-email">{userInfo.email}</p>
-				<div className="btn-signout" onClick={handleLogOut}>Sign Out</div>
+				<div className="btn-signout-header" onClick={handleLogOut}>Sign Out</div>
 				</div>
 			</div>
 			</li>
