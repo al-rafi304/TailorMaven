@@ -137,3 +137,7 @@
 .menu-bar main h1 {
   font-size: 42px;
 }
+.menu-outside{
+  height: 15px;
+  width: auto;
+}
