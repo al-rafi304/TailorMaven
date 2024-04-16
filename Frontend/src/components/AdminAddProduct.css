@@ -11,7 +11,7 @@
 
 
 .add-product .measurements input[type="text"] {
-    width: calc(25% - 10px); 
+    width: calc(50% - 5px); 
     margin-right: 5px;
     margin-bottom: 5px;
 }
