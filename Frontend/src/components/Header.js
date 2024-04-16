@@ -2,13 +2,18 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./Header.css"
 import AuthAPI from '../services/AuthAPI';
+import UserAPI from '../services/UserAPI';
 
-function Header() {
+const Header = (props) => {
 
+	
 	const [userId, setUserID] = useState(false)
-
+	const [userName, setUserName] = useState("")
+	
 	const getUser = async () => {
 		setUserID(await AuthAPI.isLoggedIn())
+		let res = await UserAPI.getUser(props.user_id, props.token)
+		setUserName(res.username)
 	}
 
 	const handleLogOut = () => {
@@ -49,6 +54,9 @@ function Header() {
 						<li><Link className='btn btn-reg' to="/register">Register</Link></li></>}
 					{userId && <li><Link className='btn btn-signout' onClick = {handleLogOut}>Sign Out</Link></li>}
 				</ul>
+			</div>
+			<div>
+				{userName}
 			</div>
 	 </div>
 	</header>

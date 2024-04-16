@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "../assets/css/bootstrap.min.css";
 import "./Fabrics.css";
+import FabricAPI from "../services/FabricAPI";
 
 function Fabrics() {
-
-    const [fabrics, setFabrics] = useState("")
+    
+    const [fabrics, setFabrics] = useState([])
     // State to manage the activation of the info__fabrics class
     const [isActive, setIsActive] = useState(false);
     const [quantity, setQuantity] = useState(0);
@@ -27,14 +28,12 @@ function Fabrics() {
         }
     };
 
-    let getFabrics = async() => {
-        let res = await fetch("/api/v1/fabric/")
-        let data = await res.json()
-        setFabrics(data)
-        console.log(fabrics)
-    }
-
     useEffect(() => {
+        async function getFabrics(){
+            let result = await FabricAPI.getAllFabrics()
+            setFabrics(result)
+        }
+
         getFabrics()
     }, [])
 
@@ -64,7 +63,7 @@ function Fabrics() {
 
             {/* Main Fabrics */}
 
-            {fabrics.fabrics?.map((fabric, index) => (
+            {fabrics.map((fabric, index) => (
                 <div key = {index} className="tileContainer hide">
                     <div className="tile">
                         <a href="#" onClick={toggleInfoActive}>

@@ -51,8 +51,6 @@ const Login = () => {
 	return (
 		<div className="login-container">
 			<h2>Login</h2>
-			{warning && <h2>Bhua id pass</h2>}
-			{warning2 && <h2>Bhua pass</h2>}
 			<form onSubmit={handleLogin}>
 				<label>
 					Username:
@@ -69,6 +67,8 @@ const Login = () => {
 				</label>
 				<Link to="/forgot-password">Forgot Password?</Link>
 				<input type="submit" value="Login" />
+				{warning && <div>Wrong id pass</div>}
+				{warning2 && <div>Wrong pass</div>}
 			</form>
 			<p>- - - - - - - - - -    or    - - - - - - - - - -</p>
 			<div className="google-signin-container">
