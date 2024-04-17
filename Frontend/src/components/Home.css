@@ -113,7 +113,7 @@
 }
 
 .febric-button,
-.dress-button {
+.suit-button {
   background-color: #007bff;
   color: #fff;
   border: none;
@@ -125,6 +125,6 @@
 }
 
 .febric-button:hover,
-.dress-button:hover {
+.suit-button:hover {
   background-color: #0056b3;
 }

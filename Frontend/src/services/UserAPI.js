@@ -22,8 +22,8 @@ async function isAdmin(user_id, token){
     if(!user_id || !token) return false
     
     let user = await getUser(user_id, token)
-    console.log(`Admin: ${user.isAdmin}`)
-    return user.isAdmin
+    // console.log(`Admin: ${user.isAdmin}`)
+    return user?.isAdmin
 }
 
 export default{

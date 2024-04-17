@@ -16,6 +16,14 @@ function AdminSuitList() {
         ,[]
     )
 
+    const handleDelete = (index) => {
+        fetch(`api/v1/user/${allSuits.suits[index]._id}`, {
+            method: "delete",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token")}
+        })
+        window.location.reload()
+    }
+
     return ( 
         <div className="container mt-4">
         <   div className="row">
@@ -50,7 +58,7 @@ function AdminSuitList() {
                                 <button className="edit-btn">Edit</button>
                             </td>
                             <td>
-                                <button className="delete-btn">Delete</button>
+                                <button className="delete-btn" onClick = {() => {handleDelete(index)}}>Delete</button>
                             </td>
                             </tr>
                             ))}

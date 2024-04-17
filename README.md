@@ -4,12 +4,30 @@ The website was made with the primary purpose of serving a wide range of custome
 
 # Technical Specifications
 
-**Tech Stack:** MERN \
+**Tech Stack:** MERN 
+
 **Backend:** Node.js with Express.js \
-**Frontend:** React Framework \
+**Frontend:** React \
 **Database:** MongoDB \
+**Database Hosting:** MongoDB Atlas \
+**Media File Hosting:** Cloudinary \
+**Web Socket:** Socket.io \
+**3D Framework:** React Three Fiber \
 **Payment Gateway:** Stripe \
-**Authentication:** OAuth2.0
+**Authentication:** OAuth2.0 + Passport.js
+
+# How to Run
+Make sure to add the follwing environment variables in the backend folder: \
+**GOOGLE_CLIENT_ID** and **GOOGLE_CLIENT_SECRET** for using Google authentication with OAuth2.0. **JWT_SECRET** & **JWT_LIFETIME** are needed to create JWT token. **MONGO_URI** is required for providing database access. **COUDINARY_CLOUD_NAME**, **CLOUDINARY_API_KEY**, **CLOUDINARY_API_SECRET** are needed for media file hosting on Cloudinary. **PORT** has to be set to something other than 3000 to stop clasing with frontend server.
+
+Install <a href="https://nodejs.org/en/download">Node</a> then go to both backend & frontend directories and run:
+```
+npm install
+```
+Then to start backend & frontend server, run the this command on both directories:
+```
+npm start
+```
 
 # Requirement Analysis
 
@@ -95,18 +113,44 @@ The website was made with the primary purpose of serving a wide range of custome
 
 *Work Done:* \
 The first week of developing was totally focused on learning the MERN stack. None of our team memebers are familiar with MERN stack except React.js. So we couldn't really build that many features. The frontend team worked on building a basic landing page and the user sign in and register page, while the backend team worked on Authentication. We will provide two types of authentication, sign in with username/password and sign in with google. The backend team implemented Google sing in using OAuth2.0 in sprint 1. However, as none of us were familiar with the technologies used, we couldn't connect the database with the server. The user can sign in but no information is stored anywhere, we just made sure that google can authenticate our user and send back the necessary informations. So far in sprint 1, the frontend and the backend is not connected yet. The first week was totally spent figuring out how things work and we aim to properly dive deep in development from the next sprint.
+ - ✅ Authentication: Google
+ - ✅ Landing Page
+ - ❌ Authentication: Username/Password
+ - ❌ Connecting Authentication with Frontend
+ - ❌ Database
 
 *Plans for next Sprint:* \
 The backend team aims to complete the authentication system using both methods while also properly connecting the database so that user information is stored securely. We will also start working on our product database and handle requests and response to fetch/store data. \
 The frontend team aims to complete the suit matarial selection pages and connect the frontend with the backend through necessary API calls to the server.
-
-### Sprint 1:
+### Sprint 2:
 
 *Work Done:* \
 For sprint 2, we mainly focused on the backend. The backend team finished working on authentication. The server API can now successfully authenticate users using both Google and Username/Password method. We used token based authentication. The frontend team connected the authentication API to the frontend. Then we implemented the database and necessary controllers for CRUD operations on our products: Suit and Fabric. The suit designing process is yet to made on the frontend. As this sprint overlapped with our midterm exam, no further work could've been done.
+ - ✅ Authentication using Username/Password
+ - ✅ Connected Authentication with Frontend
+ - ✅ Impemented and Deployed Database
+ - ✅ Created database models for User, Suit, & Fabric
+ - ✅ Implemented CRUD APIs for database models
 
 *Plans for next Sprint:* \
  So far, the frontend is lacking behind the backend so hopefully next sprint it will catch up. We aim to implement the suit desiging page properly in the next sprint while also working on the suit visualizing process. 
+
+### Sprint 3:
+
+*Work Done:* \
+In sprint 3, we finished two features and started working on the suit visualizing feature. We implemented the admin dashboard and chatting with admin feature first. Although admin dashboard is not connected fully with the backend, it just shows informations but you can't manupulated data yet. Chatting with admin feature has been implemented with the the help of **Socket.io**, it is a websocket framework that helped us with instant messaging. For suit visualization, we used **React Three Fiber (R3F)**. I created the base 3D model in blender, then changed the material with texture images using R3F. Image upload was not done within sprint 3, so the texture images were stored manually. 
+ - ✅ Admin API
+ - ✅ API access permissions
+ - ✅ Chat feature
+ - ✅ Admin Dashboard Page
+ - ✅ Suit Visualization Prototype
+ - ✅ Redesign landing page
+ - ✅ Logout functionality on Frontend
+ - ❌ Connecting Admin API with frontend
+ - ❌ Handling image uploads
+
+*Plans for next Sprint:* \
+For the 4th and final sprint, we have to finish the project so we just need to finish as much features as possible. We will focus on finishing implementing the features listed above and refine them as we go. 
 
 
 

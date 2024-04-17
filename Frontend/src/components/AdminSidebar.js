@@ -10,9 +10,9 @@ function AdminSidebar(){
             <div className="list-group list-group-flush">
                 <Link to="/admin-dashboard" className="list-group-item list-group-item-action"><center>Dashboard</center></Link>
                 <Link to="/admin-userlist" className="list-group-item list-group-item-action"><center>User List</center></Link>
-                <Link to="#" className="list-group-item list-group-item-action"><center>Add Product</center></Link>
+                <Link to="/admin-add-product" className="list-group-item list-group-item-action"><center>Add Product</center></Link>
                 <Link to="/admin-fabriclist" className="list-group-item list-group-item-action"><center>Fabric List</center></Link>
-                <Link to="/admin-dresslist" className="list-group-item list-group-item-action"><center>Dress List</center></Link>
+                <Link to="/admin-suitlist" className="list-group-item list-group-item-action"><center>Dress List</center></Link>
                 <Link to="/admin-accessorieslist" className="list-group-item list-group-item-action"><center>Accessories List</center></Link>
                 <Link to="/admin-chat" className="list-group-item list-group-item-action"><center>Messaging</center></Link>
             </div>
