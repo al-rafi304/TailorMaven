@@ -21,6 +21,7 @@ import AdminAccessoriesList from "./AdminAccessoriesList";
 
 
 import UserAPI from "../services/UserAPI";
+import AuthAPI from "../services/AuthAPI";
 import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";
 import MenuBar from "./MenuBar";
@@ -57,6 +58,32 @@ const AdminOnly = ({Component}) => {
     return isAdmin ? <Component /> : <Navigate to="/login" />
 }
 
+const LoginOnly = ({Component}) => {
+    const [isLoggedIn, setIsLoggedin] = useState(null)
+
+    useEffect(() => {
+        async function checkLog(){
+            let status = await AuthAPI.isLoggedIn()
+            setIsLoggedin(status)
+        }
+
+        checkLog()
+    }, [])
+
+    // Loading State
+    if(isLoggedIn === null){
+        return (
+            <div className="d-flex justify-content-center">
+                <div className="spinner-border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </div>
+            </div>
+        )
+    }
+
+    return isLoggedIn ? <Component /> : <Navigate to="/login" />
+}
+
 function Main(){
     return(
         <Router>
@@ -85,7 +112,7 @@ function Main(){
             <Route path="/fabrics" element={<Fabrics />} />
             <Route path="/design" element={<DesignSuit />} />
             <Route path="/menu" element={<MenuBar />} />
-            <Route path="/add-to-cart" element={<ShoppingCart />} />
+            <Route path="/add-to-cart" element={< LoginOnly Component={ShoppingCart} />} />
             </Switch>
             <Footer/>
             
