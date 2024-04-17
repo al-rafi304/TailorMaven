@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import "./ShoppingCart.css";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const userId = localStorage.getItem('user_id')
 const token = localStorage.getItem('token')
 
 function ShoppingCart () {
+
+    const navigate = useNavigate()
+
+    !userId && navigate("/")
 
 	const [items, setItems] = useState([])
 	
