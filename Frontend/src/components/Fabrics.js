@@ -2,10 +2,11 @@ import React, { useEffect, useState } from "react";
 
 import "../assets/css/bootstrap.min.css";
 import "./Fabrics.css";
+import FabricAPI from "../services/FabricAPI";
 
 function Fabrics() {
-
-    const [fabrics, setFabrics] = useState("")
+    
+    const [fabrics, setFabrics] = useState([])
     // State to manage the activation of the info__fabrics class
     const [isActive, setIsActive] = useState(false);
     const [quantity, setQuantity] = useState(0);
@@ -27,14 +28,12 @@ function Fabrics() {
         }
     };
 
-    let getFabrics = async() => {
-        let res = await fetch("/api/v1/fabric/")
-        let data = await res.json()
-        setFabrics(data)
-        console.log(fabrics)
-    }
-
     useEffect(() => {
+        async function getFabrics(){
+            let result = await FabricAPI.getAllFabrics()
+            setFabrics(result)
+        }
+
         getFabrics()
     }, [])
 
@@ -65,11 +64,11 @@ function Fabrics() {
             {/* Main Fabrics */}
 
             <div  className="tileContainer hide">
-            {fabrics.fabrics?.map((fabric, index) => (
+            {fabrics?.map((fabric, index) => (
                     <div key = {index} className="tile">
                         <a href="#" onClick={toggleInfoActive}>
                             <div className="productImage">
-                                <img src="https://cdn.iagapparel.com/resource//455181dd-23db-4cb4-9d79-4517a94bc3b6.jpg" className="lazy-loaded" />
+                                <img src={fabric.image} className="lazy-loaded" />
                             </div>
                             <div className="tileDescription">
                                 <p className="productTitle">{fabric.name}</p>

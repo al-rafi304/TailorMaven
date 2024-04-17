@@ -61,7 +61,7 @@ function Main(){
     return(
         <Router>
             <div className="App">
-            <Header/>
+            <Header user_id = {user_id} token = {token}/>
             <Switch> 
             {/* admin pannel */}
             <Route path="/admin" element={< AdminOnly Component= {AdminDashboard} />} />

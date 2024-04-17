@@ -1,7 +1,7 @@
 /* ShoppingCart.css */
 
 /* Base styles */
-.suits-page {
+.items-page {
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
@@ -9,12 +9,12 @@
   padding: 20px;
 }
 
-.suits-list {
+.items-list {
   width: 100%;
   max-width: 60%;
 }
 
-.suit-card {
+.item-card {
   margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
@@ -22,14 +22,14 @@
   position: relative;
 }
 
-.suit-details {
+.item-details {
   display: flex;
   align-items: center;
   padding: 10px;
   position: relative; /* Added */
 }
 
-.cart-suit {
+.cart-item {
   width: 150px;
   height: auto;
   margin-right: 20px;
@@ -102,7 +102,7 @@ h1 {
 
 /* Media queries for responsiveness */
 @media screen and (max-width: 768px) {
-  .suits-list {
+  .items-list {
     max-width: 100%;
   }
 

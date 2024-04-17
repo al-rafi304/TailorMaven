@@ -2,14 +2,19 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import "./Header.css"
 import AuthAPI from '../services/AuthAPI';
+import UserAPI from '../services/UserAPI';
 import MenuBar from './MenuBar';
 
-function Header() {
+const Header = (props) => {
 
+	
 	const [userId, setUserID] = useState(false)
-
-	const getUser = async () => {
+	const [userInfo, setUserInfo] = useState("")
+	
+	const getUserInfo = async () => {
 		setUserID(await AuthAPI.isLoggedIn())
+		let res = await UserAPI.getUser(props.user_id, props.token)
+		setUserInfo(res)
 	}
 
 	const handleLogOut = () => {
@@ -19,7 +24,7 @@ function Header() {
 	}
 
 	useEffect( () => {
-		getUser()
+		getUserInfo()
 	}, []
 	)
 
@@ -52,15 +57,17 @@ function Header() {
 	{userId && (
 		<div className="dropdown user-dropdown">
 		<button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-			<img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>
+			{!userId.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
+			{userId.image && <img className="user-profile-pic" src={userId.image} alt="User Profile"/>}
 		</button>
 		<ul className="dropdown-menu user-dropdownmenu">
 			<li>
 			<div className="user-info">
-				<img className="user-profile-pic-large" src="cat.jpg" alt="User Profile"/>
+				{!userId.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
+				{userId.image && <img className="user-profile-pic" src={userId.image} alt="User Profile"/>}
 				<div className="user-details">
-				<p className="user-name">Farhan Sadik</p>
-				<p className="user-email">md.farhan.sadik@g.bracu.ac.bd</p>
+				<p className="user-name">{userInfo.username}</p>
+				<p className="user-email">{userInfo.email}</p>
 				<div className="btn-signout-header" onClick={handleLogOut}>Sign Out</div>
 				</div>
 			</div>

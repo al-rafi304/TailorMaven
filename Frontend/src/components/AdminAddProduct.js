@@ -4,11 +4,7 @@ import "./AdminAddProduct.css"
 
 function AdminAddProduct() {
     const [productType, setProductType] = useState("");
-    const [fabricFormData, setFabricFormData] = useState({
-        fabricName: "",
-        fabricQuantity: "",
-        fabricImage: null
-    });
+    const [fabricFormData, setFabricFormData] = useState();
 
     const [suitFormData, setSuitFormData] = useState({
         suitStyleName: "",
@@ -89,7 +85,31 @@ function AdminAddProduct() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("Form submitted!");
+        console.log(fabricFormData)
+        if(productType === "fabric"){
+            fetch(`api/v1/fabric/`, {
+                method: "POST",
+                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
+                body: JSON.stringify(fabricFormData)
+            })
+            window.location.reload()
+        }
+        else if(productType === "suit"){
+            fetch(`api/v1/suit/`, {
+                method: "post",
+                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
+                body: JSON.stringify(suitFormData)
+            })
+            window.location.reload()
+        }
+        else{
+            fetch(`api/v1/suit/`, {
+                method: "post",
+                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
+                body: JSON.stringify(suitFormData)
+            })
+            window.location.reload()
+        }
     };
 
     return (
@@ -111,15 +131,16 @@ function AdminAddProduct() {
                             {productType === "fabric" && (
                             <form onSubmit={handleSubmit}>
                                 <h3>Add Fabric</h3>
-                                <input type="text" name="fabricName" placeholder="Fabric Name" value={fabricFormData.fabricName} onChange={handleFabricInputChange} />
+                                <input type="text" name="name" placeholder="Fabric Name" onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="text" name="fabricColor" placeholder="Fabric Color" onChange={handleFabricInputChange} />
+                                <input type="text" name="color" placeholder="Fabric Color" onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="text" name="fabricPrice" placeholder="Fabric Price" onChange={handleFabricInputChange} />
+                                <input type="text" name="price" placeholder="Fabric Price" onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="text" name="fabricQuantity" placeholder="Fabric Quantity" onChange={handleFabricInputChange} />
+                                <input type="text" name="stock" placeholder="Fabric Quantity" onChange={handleFabricInputChange} />
                                 <br />
-                                <input type="file" onChange={handleImageUpload} />
+                                <label htmlFor="formFile" className="form-label">Profile Picture</label>
+                                <input className="form-control" name="path" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
                                 <br />
                                 <button type="submit">Submit</button>
                             </form>
