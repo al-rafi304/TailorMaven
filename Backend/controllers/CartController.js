@@ -91,6 +91,7 @@ const addToCart = async (req, res) => {
 
 const deleteCartItem = async (req, res) => {
     const cartItem = await CartItem.findByIdAndDelete(req.params.item_id)
+    console.log(req.params.item_id)
     if (!cartItem) {
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "Cart Item not found!" })
     }
