@@ -38,11 +38,15 @@ const Header = (props) => {
 	 </div>
 
 	<div className='user-actions'>
-		<div className='cart'>
-			<Link to='add-to-cart'>
-			<img className="addtocart" src="bag.png" alt="Cart"/>
-			</Link>
-		</div>
+        {userId ?
+            <div className='cart'>
+                <Link to='add-to-cart'>
+                <img className="addtocart" src="bag.png" alt="Cart"/>
+                </Link>
+            </div>
+            :
+            <></>
+        }
 	{!userId && (
 		<div className="dropdown user-dropdown">
 		<button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
