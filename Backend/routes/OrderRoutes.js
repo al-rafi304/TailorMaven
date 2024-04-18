@@ -17,6 +17,6 @@ router.route('/checkout')
     .get(authMid.isAuthenticated, OrderController.checkout)
 
 router.route('/checkout-success')
-    .post(OrderController.createOrder)
+    .post(authMid.isAuthenticated, OrderController.createOrder)
 
 module.exports = router

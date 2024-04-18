@@ -114,7 +114,7 @@ function Main(){
             <Route path="/design" element={<DesignSuit />} />
             <Route path="/menu" element={<MenuBar />} />
             <Route path="/add-to-cart" element={< LoginOnly Component={ShoppingCart} />} />
-            <Route path="/checkout-success" element={<CheckoutSuccess />} />
+            <Route path="/checkout-success" element={<LoginOnly Component={CheckoutSuccess} />} />
             </Switch>
             <Footer/>
             

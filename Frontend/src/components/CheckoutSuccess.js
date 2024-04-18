@@ -3,6 +3,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 
 
 const token = localStorage.getItem('token')
+const user_id = localStorage.getItem('user_id')
 
 export default function Test() {
 
@@ -15,7 +16,7 @@ export default function Test() {
     async function createOrder(){
         let data = {
             session_id: searchParams.get("session_id"),
-            user_id: searchParams.get("user_id")
+            user_id: user_id
         }
         let res = await fetch(
             `/api/v1/order/checkout-success`,
