@@ -26,6 +26,22 @@ async function addToCart(productType, product, fabricLength = null){
     return res.json()
 }
 
+async function deleteFromCart(id){
+    const res = await fetch(
+        `/api/v1/cart/${id}`,
+        {
+            method: 'DELETE',
+            headers: {'Authorization': `Bearer ${token}`},
+        }
+    )
+
+    if(!res.ok) return console.error("Error Deleteing from cart", await res.json())
+
+    console.log('Deleted from Cart')
+    return res.json()
+}
+
 export default {
-    addToCart
+    addToCart,
+    deleteFromCart
 }

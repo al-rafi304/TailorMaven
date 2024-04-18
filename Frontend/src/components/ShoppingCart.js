@@ -2,15 +2,12 @@ import React, { useEffect, useState } from 'react';
 import "./ShoppingCart.css";
 import { Link, useNavigate } from 'react-router-dom';
 import ProductTypes from '../constants/ProductTypes';
+import CartAPI from '../services/CartAPI';
 
 const userId = localStorage.getItem('user_id')
 const token = localStorage.getItem('token')
 
 function ShoppingCart () {
-
-    const navigate = useNavigate()
-
-    !userId && navigate("/")
 
 	const [items, setItems] = useState([])
     const [checkoutLoading, setCheckoutLoading] = useState(false)
@@ -18,7 +15,7 @@ function ShoppingCart () {
 	const handleIncreaseQuantity = (id) => {
 		setItems((prevItems) =>
 			prevItems.map((item) =>
-				item.id === id ? { ...item, quantity: item.quantity + 1 } : item
+				item.id === id ? { ...item, fabricLength: item.fabricLength + 1 } : item
 			)
 		);
 	};
@@ -26,23 +23,24 @@ function ShoppingCart () {
 	const handleDecreaseQuantity = (id) => {
 		setItems((prevItems) =>
 			prevItems.map((item) =>
-				item.id === id && item.quantity > 1
-					? { ...item, quantity: item.quantity - 1 }
+				item.id === id && item.fabricLength > 1
+					? { ...item, fabricLength: item.fabricLength - 1 }
 					: item
 			)
 		);
 	};
 
-	const handleDeleteItem = (id) => {
-		setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+	const handleDeleteItem = async (id) => {
+		await CartAPI.deleteFromCart(id)
+        window.location.reload()
 	};
 
 	const getTotalPrice = () => {
-		return items.reduce((total, item) => total + item.price * item.quantity, 0);
+		return items.reduce((total, index) => total + (index.productType === ProductTypes.FABRIC && index.fabricLength*index.product.price) + (index.productType !== ProductTypes.FABRIC && index.product.price), 0);
 	};
 
 	const getTotalQuantity = () => {
-		return items.reduce((total, item) => total + item.quantity, 0);
+		return items.reduce((total, item) => total + 1, 0);
 	};
 
     async function checkoutButton() {
@@ -56,7 +54,6 @@ function ShoppingCart () {
         )
         let checkoutUrl = await res.json().then((r) => {return r.url})
         setCheckoutLoading(false)
-        console.log(checkoutUrl)
         window.location.href = checkoutUrl
     }
 
@@ -95,7 +92,7 @@ function ShoppingCart () {
                         }
                     </div>
                     <div className='col'>
-                        {item.productType == ProductTypes.SUIT ? ProductTypes.SUIT + ' ' + item.product.type : item.product.name}
+                        {item.productType == ProductTypes.SUIT ? ProductTypes.SUIT + ' (' + item.product.type +") " : item.product.name + ' (' + item.product.color +") "}
                     </div>
 					<div className='col'>
 						<p>Price: ${item.product.price}</p>
@@ -104,17 +101,17 @@ function ShoppingCart () {
 					{/* Delete and edit buttons */}
                     <div className='col'>
                         <div className="">
-                            <button onClick={() => handleDeleteItem(item.id)} className="cart-delete">
+                            <button onClick={() => handleDeleteItem(item._id)} className="cart-delete">
                                 Delete
                             </button>
-                            <button className="cart-edit">Edit</button>
+                            {/* <button className="cart-edit">Edit</button> */}
                         </div>
                         {/* Quantity controls */}
-                        {/* <div className="quantity-controls ">
+                        {/* {item.productType === ProductTypes.FABRIC && <div className="quantity-controls ">
                             <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
-                            <span>{item.quantity}</span>
+                            <span> {item.fabricLength} </span>
                             <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-                        </div> */}
+                        </div>} */}
                     </div>
 				</div>
 			</div>
