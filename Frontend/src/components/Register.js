@@ -11,19 +11,31 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [gender, setGender] = useState('male');
   const [dob, setDob] = useState('');
+  const [credential, setCredential] = useState(new FormData());
   const navigate = useNavigate()
+
+  const handleImageUpload = (e) => {
+    const file = e.target.files[0];
+    credential.append("image", file)
+    setCredential(credential)
+  }
 
   const handleRegister = (event) => {
     event.preventDefault();
     // Handle register logic here
-    const name = fullname
-    const credential = { username, name, email, password, gender}
+    credential.append("username", username)
+    credential.append("name", fullname)
+    credential.append("email", email)
+    credential.append("password", password)
+    credential.append("gender", gender)
+
+    console.log(credential.get("image"))
+
     fetch(
       "/auth/register", 
       {
           method : "POST",
-          headers: {"Content-Type" : "application/json"},
-          body: JSON.stringify(credential)
+          body: credential
       }
     )
     navigate("/")
@@ -42,8 +54,8 @@ function Register() {
           <input type="text" value={fullname} onChange={(e) => setFullname(e.target.value)} required />
         </label>
         <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
+          Email:<span>*</span>:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
         </label>
         <label>
           Password<span>*</span>:
@@ -74,6 +86,8 @@ function Register() {
           Date of Birth:
           <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
         </label>
+        <label htmlFor="formFile" className="form-label">User Image</label>
+        <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
         <input type="submit" value="Register" />
       </form>
       <p>Already have an account? <Link to="/login">Sign-in</Link></p>

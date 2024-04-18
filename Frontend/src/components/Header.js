@@ -10,6 +10,8 @@ const Header = (props) => {
 	
 	const [userId, setUserID] = useState(false)
 	const [userInfo, setUserInfo] = useState("")
+
+    console.log(userInfo)
 	
 	const getUserInfo = async () => {
 		setUserID(await AuthAPI.isLoggedIn())
@@ -61,14 +63,14 @@ const Header = (props) => {
 	{userId && (
 		<div className="dropdown user-dropdown">
 		<button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-			{!userId.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
-			{userId.image && <img className="user-profile-pic" src={userId.image} alt="User Profile"/>}
+			{!userInfo.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
+			{userInfo.image && <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>}
 		</button>
 		<ul className="dropdown-menu user-dropdownmenu">
 			<li>
 			<div className="user-info">
-				{!userId.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
-				{userId.image && <img className="user-profile-pic" src={userId.image} alt="User Profile"/>}
+				{!userInfo.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
+				{userInfo.image && <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>}
 				<div className="user-details">
 				<p className="user-name">{userInfo.username}</p>
 				<p className="user-email">{userInfo.email}</p>

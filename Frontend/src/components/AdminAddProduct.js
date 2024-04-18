@@ -32,13 +32,11 @@ function AdminAddProduct() {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (productType === "fabric") {
-            fabricFormData.append("image", file)
-            console.log(fabricFormData.get("file"))
+            fabricFormData.set("image", file)
+            setFabricFormData(fabricFormData)
         } else if (productType === "suit") {
-            setSuitFormData({
-                ...suitFormData,
-                suitImage: file
-            });
+            suitFormData.set("image", file)
+            setSuitFormData(suitFormData)
         } else if (productType === "accessory") {
             setAccessoryFormData({
                 ...accessoryFormData,
@@ -141,7 +139,8 @@ function AdminAddProduct() {
                                 <br />
                                 <input type="text" name="suitQuantity" placeholder="Suit Quantity" value={suitFormData.suitQuantity} onChange={handleSuitInputChange} />
                                 <br />
-                                <input type="file" onChange={handleImageUpload} />
+                                <label htmlFor="formFile" className="form-label">Fabric Image</label>
+                                <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
                                 <br />
                                 <button type="submit">Submit</button>
                             </form>
@@ -159,7 +158,8 @@ function AdminAddProduct() {
                                 <br />
                                 <input type="text" name="accessoryQuantity" placeholder="Accessory Quantity" value={accessoryFormData.accessoryQuantity} onChange={handleAccessoryInputChange} />
                                 <br />
-                                <input type="file" onChange={handleImageUpload} />
+                                <label htmlFor="formFile" className="form-label">Fabric Image</label>
+                                <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
                                 <br />
                                 <button type="submit">Submit</button>
                             </form>
