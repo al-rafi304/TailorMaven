@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import "./ShoppingCart.css";
 import { Link, useNavigate } from 'react-router-dom';
+import ProductTypes from '../constants/ProductTypes';
 
 const userId = localStorage.getItem('user_id')
 const token = localStorage.getItem('token')
@@ -12,6 +13,7 @@ function ShoppingCart () {
     !userId && navigate("/")
 
 	const [items, setItems] = useState([])
+    const [checkoutLoading, setCheckoutLoading] = useState(false)
 	
 	const handleIncreaseQuantity = (id) => {
 		setItems((prevItems) =>
@@ -43,6 +45,21 @@ function ShoppingCart () {
 		return items.reduce((total, item) => total + item.quantity, 0);
 	};
 
+    async function checkoutButton() {
+        setCheckoutLoading(true)
+        let res = await fetch(
+            `/api/v1/order/checkout`,
+            {
+                    method: 'GET',
+                    headers: {'Authorization': `Bearer ${token}`}
+            }
+        )
+        let checkoutUrl = await res.json().then((r) => {return r.url})
+        setCheckoutLoading(false)
+        console.log(checkoutUrl)
+        window.location.href = checkoutUrl
+    }
+
 	useEffect(() => {
 		async function getItems(){
 			console.log(userId)
@@ -69,25 +86,36 @@ function ShoppingCart () {
 			{items?.map((item) => (
 			<div key={item.id} className="item-card">
 				{/* Display item details */}
-				<div className="item-details">
-					<img className="cart-item" src={item.image} alt="User Profile" />
-					<div>
-						<p>Price: ${item.price}</p>
+				<div className="item-details row">
+                    <div className='col' >
+                        {item.productType == ProductTypes.FABRIC ?
+                        <img className="cart-item " src={item.product.image} alt="User Profile" />
+                        :
+                        <img className="cart-item " src="/suit.png" alt="suit" />
+                        }
+                    </div>
+                    <div className='col'>
+                        {item.productType == ProductTypes.SUIT ? ProductTypes.SUIT + ' ' + item.product.type : item.product.name}
+                    </div>
+					<div className='col'>
+						<p>Price: ${item.product.price}</p>
 					</div>
 					
 					{/* Delete and edit buttons */}
-					<div className="cart-buttons">
-						<button onClick={() => handleDeleteItem(item.id)} className="cart-delete">
-							Delete
-						</button>
-						<button className="cart-edit">Edit</button>
-					</div>
-									{/* Quantity controls */}
-						<div className="quantity-controls">
-						<button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
-						<span>{item.quantity}</span>
-						<button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-					</div>
+                    <div className='col'>
+                        <div className="">
+                            <button onClick={() => handleDeleteItem(item.id)} className="cart-delete">
+                                Delete
+                            </button>
+                            <button className="cart-edit">Edit</button>
+                        </div>
+                        {/* Quantity controls */}
+                        {/* <div className="quantity-controls ">
+                            <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
+                            <span>{item.quantity}</span>
+                            <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
+                        </div> */}
+                    </div>
 				</div>
 			</div>
 		))}
@@ -100,9 +128,14 @@ function ShoppingCart () {
 				<p>Total Items: {getTotalQuantity()}</p>
 				<p>Shipping: Free</p>
 				<p>Total Price: ${getTotalPrice()}</p>
-				<Link to='/'>
-				<button className='proceedtopayment'>Proceed to payment</button>
-				</Link>
+				<button className='proceedtopayment' onClick={checkoutButton}>
+                    {!checkoutLoading ? 'Proceed to payment'
+                        : 
+                        <div className="spinner-border spinner-border-sm" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    }
+                </button>
 			</div>
 	   </div>
 	);

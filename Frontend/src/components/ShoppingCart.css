@@ -60,13 +60,7 @@
   margin-right: 10px;
 }
 
-.quantity-controls {
-  display: flex;
-  align-items: baseline;
-  position: absolute; /* Added */
-  bottom: 10px; /* Adjusted */
-  right: 10px; /* Adjusted */
-}
+
 
 .quantity-controls button {
   background-color: rgb(14, 167, 223);

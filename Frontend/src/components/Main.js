@@ -18,6 +18,7 @@ import AdminUserList from "./AdminUserList";
 import AdminFabricList from "./AdminFabricList";
 import AdminSuitList from "./AdminSuitList";
 import AdminAccessoriesList from "./AdminAccessoriesList";
+import AdminAddProduct from "./AdminAddProduct";
 
 
 import UserAPI from "../services/UserAPI";
@@ -26,7 +27,7 @@ import AdminChat from "./AdminChat";
 import { useEffect, useState } from "react";
 import MenuBar from "./MenuBar";
 import ShoppingCart from "./ShoppingCart";
-import AdminAddProduct from "./AdminAddProduct";
+import CheckoutSuccess from "./CheckoutSuccess"
 
 
 const user_id = localStorage.getItem('user_id')
@@ -113,6 +114,7 @@ function Main(){
             <Route path="/design" element={<DesignSuit />} />
             <Route path="/menu" element={<MenuBar />} />
             <Route path="/add-to-cart" element={< LoginOnly Component={ShoppingCart} />} />
+            <Route path="/checkout-success" element={<CheckoutSuccess />} />
             </Switch>
             <Footer/>
             
