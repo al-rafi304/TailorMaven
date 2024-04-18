@@ -4,56 +4,22 @@ import "./AdminAddProduct.css"
 
 function AdminAddProduct() {
     const [productType, setProductType] = useState("");
-    const [fabricFormData, setFabricFormData] = useState();
-
-    const [suitFormData, setSuitFormData] = useState({
-        suitStyleName: "",
-        suitDesign: "",
-        suitMeasurements: {
-            chest: "",
-            stomach: "",
-            wrist: "",
-            hip: "",
-            shoulder: "",
-            sleeveLength: "",
-            length: ""
-        },
-        suitQuantity: "",
-        suitImage: null
-    });
-
-    const [accessoryFormData, setAccessoryFormData] = useState({
-        accessoryType: "",
-        accessoryQuantity: "",
-        accessoryImage: null
-    });
+    const [fabricFormData, setFabricFormData] = useState(new FormData());
+    const [suitFormData, setSuitFormData] = useState(new FormData());
+    const [accessoryFormData, setAccessoryFormData] = useState(new FormData());
 
     const handleProductTypeChange = (e) => {
         setProductType(e.target.value);
     };
 
     const handleFabricInputChange = (e) => {
-        setFabricFormData({
-            ...fabricFormData,
-            [e.target.name]: e.target.value
-        });
+        fabricFormData.set(e.target.name, e.target.value)
+        setFabricFormData(fabricFormData);
     };
 
     const handleSuitInputChange = (e) => {
-        if (e.target.name === "suitMeasurements") {
-            setSuitFormData({
-                ...suitFormData,
-                suitMeasurements: {
-                    ...suitFormData.suitMeasurements,
-                    [e.target.id]: e.target.value
-                }
-            });
-        } else {
-            setSuitFormData({
-                ...suitFormData,
-                [e.target.name]: e.target.value
-            });
-        }
+        fabricFormData.set(e.target.name, e.target.value)
+        setFabricFormData(fabricFormData);
     };
 
     const handleAccessoryInputChange = (e) => {
@@ -66,10 +32,8 @@ function AdminAddProduct() {
     const handleImageUpload = (e) => {
         const file = e.target.files[0];
         if (productType === "fabric") {
-            setFabricFormData({
-                ...fabricFormData,
-                fabricImage: file
-            });
+            fabricFormData.append("image", file)
+            console.log(fabricFormData.get("file"))
         } else if (productType === "suit") {
             setSuitFormData({
                 ...suitFormData,
@@ -85,31 +49,30 @@ function AdminAddProduct() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(fabricFormData)
         if(productType === "fabric"){
             fetch(`api/v1/fabric/`, {
                 method: "POST",
-                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
-                body: JSON.stringify(fabricFormData)
+                headers: {"authorization": "Bearer " + localStorage.getItem("token")},
+                body: fabricFormData
             })
             window.location.reload()
         }
         else if(productType === "suit"){
             fetch(`api/v1/suit/`, {
                 method: "post",
-                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
-                body: JSON.stringify(suitFormData)
+                headers: {"authorization": "Bearer " + localStorage.getItem("token")},
+                body: suitFormData
             })
             window.location.reload()
         }
-        else{
-            fetch(`api/v1/suit/`, {
-                method: "post",
-                headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
-                body: JSON.stringify(suitFormData)
-            })
-            window.location.reload()
-        }
+        // else{
+        //     fetch(`api/v1/suit/`, {
+        //         method: "post",
+        //         headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type": "application/json"},
+        //         body: JSON.stringify(suitFormData)
+        //     })
+        //     window.location.reload()
+        // }
     };
 
     return (
@@ -139,8 +102,8 @@ function AdminAddProduct() {
                                 <br />
                                 <input type="text" name="stock" placeholder="Fabric Quantity" onChange={handleFabricInputChange} />
                                 <br />
-                                <label htmlFor="formFile" className="form-label">Profile Picture</label>
-                                <input className="form-control" name="path" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
+                                <label htmlFor="formFile" className="form-label">Fabric Image</label>
+                                <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
                                 <br />
                                 <button type="submit">Submit</button>
                             </form>
@@ -150,7 +113,7 @@ function AdminAddProduct() {
                             <form onSubmit={handleSubmit}>
                                 <br />
                                 <h3>Add Suit</h3>
-                                <select name="suitType" onChange={handleAccessoryInputChange}>
+                                <select name="type" onChange={handleAccessoryInputChange}>
                                     <option value="">Select Suit Type</option>
                                     <option value="single_breast">Single Breast</option>
                                     <option value="double_breast">Double Breast</option>
@@ -160,14 +123,14 @@ function AdminAddProduct() {
                                     <br/>
                                     <h4>Measurements</h4>
                                     <br/>
-                                    <input type="text" id="length" placeholder="Length" onChange={handleSuitInputChange} />
-                                    <input type="text" id="waist" placeholder="Waist" onChange={handleSuitInputChange} />
-                                    <input type="text" id="chest" placeholder="Chest" />
-                                    <input type="text" id="armLength" placeholder="Arm Length" onChange={handleSuitInputChange} />
-                                    <input type="text" id="buttonColor" placeholder="Button Color"  onChange={handleSuitInputChange} />
+                                    <input type="text" name="length" placeholder="Length" onChange={handleSuitInputChange} />
+                                    <input type="text" name="waist" placeholder="Waist" onChange={handleSuitInputChange} />
+                                    <input type="text" name="chest" placeholder="Chest" />
+                                    <input type="text" arm_lenght="armLength" placeholder="Arm Length" onChange={handleSuitInputChange} />
+                                    <input type="text" button="buttonColor" placeholder="Button Color"  onChange={handleSuitInputChange} />
                                 </div>
                                 <br />
-                                <select name="suitFebric" onChange={handleAccessoryInputChange}>
+                                <select name="fabric" onChange={handleAccessoryInputChange}>
                                     <option value="">Select Suit Fabric</option>
                                     <option value="fabric1">Cotton</option>
                                     <option value="fabric2">Silk</option>
