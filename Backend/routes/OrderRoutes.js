@@ -7,7 +7,7 @@ const authMid = require('../milddleware/authMiddleware')
 router.route('/')
     .get([authMid.isAuthenticated, authMid.adminOnlyAccess], OrderController.getAllOrder)
 
-router.route('/:id')
+router.route('/user/:id')
     .get([authMid.isAuthenticated, authMid.userAccess], OrderController.getUserOrder)
 
 router.route('/:order_id/gift')
