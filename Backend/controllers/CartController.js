@@ -75,11 +75,18 @@ const addToCart = async (req, res) => {
 }
 
 const deleteCartItem = async (req, res) => {
-    const cartItem = await CartItem.findByIdAndDelete(req.params.item_id)
-    console.log(req.params.item_id)
+    const reqUser = await User.findOne({ _id: req.userID })
+    const cartItem = await CartItem.findById(req.params.item_id)
+    
+    if (cartItem.user != req.userID && !reqUser.isAdmin ){
+        return res.status(StatusCodes.UNAUTHORIZED).json({ msg: 'Not authorized!'})
+    }
+
     if (!cartItem) {
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "Cart Item not found!" })
     }
+
+    await cartItem.deleteOne()
 
     res.status(StatusCodes.OK).json({ cartItem })
 

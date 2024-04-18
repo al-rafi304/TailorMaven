@@ -8,7 +8,7 @@ router.route('/')
     .get([authMid.isAuthenticated, authMid.adminOnlyAccess], cartController.getAllCartItem)
     .post(authMid.isAuthenticated, cartController.addToCart)
 router.route('/:item_id')
-    .delete([authMid.isAuthenticated, authMid.userAccess], cartController.deleteCartItem)
+    .delete([authMid.isAuthenticated], cartController.deleteCartItem)
 router.route('/:id')
     .get([authMid.isAuthenticated, authMid.userAccess], cartController.getUserCart)
 
