@@ -64,7 +64,7 @@ function Visualize(){
             <div className="col-3 overflow-y-auto" style={{height: 680}}>
             <h2>Select materials</h2>
                 <div className="row row-cols-3 align-items-start">
-                    {allFabrics.map(fab => ( 
+                    {allFabrics?.map(fab => ( 
                         <>
                             <button className="btn col" onClick={() => {
                                 setFabricImage(fab.image)

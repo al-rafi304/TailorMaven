@@ -79,7 +79,7 @@ function Fabrics() {
                     <div key = {index} className="tile">
                         <a onClick={() => toggleInfoActive(index)}>
                             <div className="productImage">
-                                <img src={fabric.image} className="lazy-loaded" />
+                                <img src={fabric.image} className="lazy-loaded" height={100} width={100}/>
                             </div>
                             <div className="tileDescription">
                                 <p className="productTitle">{fabric.name}</p>
