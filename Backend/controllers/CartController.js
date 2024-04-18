@@ -4,20 +4,50 @@ const User = require('../models/User')
 const ProductTypes = require('../constants/ProductTypes')
 const Suit = require('../models/Suit')
 const Fabric = require('../models/Fabric')
+const ObjectId = require('mongoose').Types.ObjectId
+
+
+// Turns Referenced cart model to Embedded
+const embeddedCart = async (cartItems) => {
+    var newCartItems = []
+    for(var item of cartItems){
+        if(item.productType == ProductTypes.SUIT){
+            const suit = await Suit.findById(item.product)
+            var newItem = {...item.toObject()}
+            newItem.product = suit
+        } else if (item.productType == ProductTypes.FABRIC){
+            const fabric = await Fabric.findById(item.product)
+            var newItem = {...item.toObject()}
+            newItem.product = fabric
+        }
+        newCartItems.push(newItem)
+    }
+
+    return newCartItems
+}
 
 const getAllCartItem = async (req, res) => {
     const cartItems = await CartItem.find({})
 
-    res.status(StatusCodes.OK).json({ cartItems })
+    if(!cartItems){
+        return res.status(StatusCodes.NOT_FOUND).json({ msg: "No cart items found!" })
+    }
+    
+    var newCartItems = await embeddedCart(cartItems)
+
+    res.status(StatusCodes.OK).json({ cartItems: newCartItems })
 }
 
 const getUserCart = async (req, res) => {
     const cartItems = await CartItem.find({user: req.params.id})
+
     if(!cartItems){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No cart items found!" })
     }
+    
+    var newCartItems = await embeddedCart(cartItems)
 
-    res.status(StatusCodes.OK).json({ cartItems })
+    res.status(StatusCodes.OK).json({ cartItems: newCartItems })
 }
 
 const addToCart = async (req, res) => {

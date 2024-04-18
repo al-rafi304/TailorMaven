@@ -4,21 +4,37 @@ const Fabric = require('../models/Fabric')
 const Suit = require('../models/Suit')
 const User = require('../models/User')
 
+// Turns Referenced Suit model to Embedded
+const embeddedSuit = async (suits) => {
+    var newSuits = []
+    for(var suit of suits){
+        const fabric = await Fabric.findById(suit.fabric)
+        var newSuit = {...suit.toObject()}
+        newSuit.fabric = fabric
+        newSuits.push(newSuit)
+    }
+
+    return newSuits
+
+}
 
 const getAllSuit = async (req, res) => {
     const suits = await Suit.find({})
-    res.json({ suits })
+
+    var newSuits = await embeddedSuit(suits)
+    res.status(StatusCodes.OK).json({ suits: newSuits })
 }
 
 const getSuit = async (req, res) => {
     const {id:suit_id} = req.params
-    const suit = await Suit.findOne({_id: suit_id})
+    const suit = await Suit.find({_id: suit_id})
 
     if(!suit){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: `No suit found with id: ${suit_id}`})
     }
 
-    res.status(StatusCodes.OK).json({ suit })
+    var newSuits = await embeddedSuit(suit)
+    res.status(StatusCodes.OK).json({ suits: newSuits })
 }
 
 const calculatePrice = () => {
