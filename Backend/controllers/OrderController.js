@@ -66,7 +66,8 @@ const checkout = async (req, res) => {
         mode: 'payment',
         payment_method_types: ["card"],
         line_items: products,
-        success_url: `http://localhost:5000/api/v1/order/checkout-success?session_id={CHECKOUT_SESSION_ID}&user_id=${req.userID}`,
+        // success_url: `http://localhost:5000/api/v1/order/checkout-success?session_id={CHECKOUT_SESSION_ID}&user_id=${req.userID}`,
+        success_url: `http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}&user_id=${req.userID}`,
         cancel_url: 'http://localhost:3000/'
 
     })
@@ -76,8 +77,8 @@ const checkout = async (req, res) => {
 
 // Creates order after checkout success
 const createOrder = async (req, res) => {
-    const session_id = req.query.session_id
-    const userID = req.query.user_id
+    const session_id = req.body.session_id
+    const userID = req.body.user_id
     
     const session = await Stripe.checkout.sessions.retrieve(session_id)
     const cartItems = await CartItem.find({user: userID})

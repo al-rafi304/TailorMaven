@@ -13,6 +13,7 @@ function ShoppingCart () {
     !userId && navigate("/")
 
 	const [items, setItems] = useState([])
+    const [checkoutLoading, setCheckoutLoading] = useState(false)
 	
 	const handleIncreaseQuantity = (id) => {
 		setItems((prevItems) =>
@@ -43,6 +44,21 @@ function ShoppingCart () {
 	const getTotalQuantity = () => {
 		return items.reduce((total, item) => total + item.quantity, 0);
 	};
+
+    async function checkoutButton() {
+        setCheckoutLoading(true)
+        let res = await fetch(
+            `/api/v1/order/checkout`,
+            {
+                    method: 'GET',
+                    headers: {'Authorization': `Bearer ${token}`}
+            }
+        )
+        let checkoutUrl = await res.json().then((r) => {return r.url})
+        setCheckoutLoading(false)
+        console.log(checkoutUrl)
+        window.location.href = checkoutUrl
+    }
 
 	useEffect(() => {
 		async function getItems(){
@@ -112,9 +128,14 @@ function ShoppingCart () {
 				<p>Total Items: {getTotalQuantity()}</p>
 				<p>Shipping: Free</p>
 				<p>Total Price: ${getTotalPrice()}</p>
-				<Link to='/'>
-				<button className='proceedtopayment'>Proceed to payment</button>
-				</Link>
+				<button className='proceedtopayment' onClick={checkoutButton}>
+                    {!checkoutLoading ? 'Proceed to payment'
+                        : 
+                        <div className="spinner-border spinner-border-sm" role="status">
+                            <span className="visually-hidden">Loading...</span>
+                        </div>
+                    }
+                </button>
 			</div>
 	   </div>
 	);
