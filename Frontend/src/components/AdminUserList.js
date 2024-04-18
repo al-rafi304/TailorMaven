@@ -51,7 +51,7 @@ function AdminUserList() {
     }
 
     const handleAddAdmin = async (user) => {
-        const data = {is_admin: true,}
+        const data = {is_admin: !user.isAdmin,}
         fetch(`api/v1/user/update-admin/${user._id}`, 
         {
             method: "PATCH",
