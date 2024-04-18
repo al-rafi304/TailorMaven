@@ -31,6 +31,19 @@ const updateUser = async (req, res) => {
     res.status(StatusCodes.OK).json({ user })
 }
 
+const updateAdmin = async (req, res) => {
+    var user = await User.findById(req.params.id)
+
+    if (!user){
+        return res.status(StatusCodes.NOT_FOUND).json( {msg: `No user found with id: ${req.params.id}`} )
+    }
+    await user.updateOne({
+        isAdmin: req.body.is_admin
+    }, {new:true, runValidators:true})
+
+    res.status(StatusCodes.OK).json({ msg: "OK" })
+}
+
 const deleteUser = async (req, res) => {
     const {id:userID} = req.params
     const user = await User.deleteOne({ _id: userID })
@@ -52,5 +65,6 @@ module.exports = {
     getUser,
     updateUser,
     getAllUsers,
-    deleteUser
+    deleteUser,
+    updateAdmin
 }

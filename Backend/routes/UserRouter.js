@@ -13,6 +13,6 @@ router.route('/:id').all(authMid.isAuthenticated, authMid.userAccess)
     .get(userController.getUser)
     .patch(userController.updateUser)
     .delete(userController.deleteUser)
-
-
+router.route('/update-admin/:id')
+    .patch([authMid.isAuthenticated, authMid.adminOnlyAccess], userController.updateAdmin)
 module.exports = router
