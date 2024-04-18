@@ -8,24 +8,6 @@ const Suit = require('../models/Suit')
 const { session } = require('passport')
 const User = require('../models/User')
 
-const embeddedOrder = async (orders) => {
-    var newOrder = []
-    for(var item of orders){
-        if(item.productType == ProductTypes.SUIT){
-            const suit = await Suit.findById(item.product)
-            var newItem = {...item.toObject()}
-            newItem.product = suit
-        } else if (item.productType == ProductTypes.FABRIC){
-            const fabric = await Fabric.findById(item.product)
-            var newItem = {...item.toObject()}
-            newItem.product = fabric
-        }
-        newOrder.push(newItem)
-    }
-
-    return newOrder
-}
-
 // Sends payment gatway url
 const checkout = async (req, res) => {
 
@@ -155,25 +137,31 @@ const giftOrder = async (req, res) => {
 }
 
 const getAllOrder = async (req, res) => {
-    const orders = await OrderItem.find({})
+    const orders = await OrderItem.find({}).populate('product')
 
     if(!orders){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No orders found!" })
     }
 
-    var newOrders = await embeddedOrder(orders)
-    res.status(StatusCodes.OK).json({ orders: newOrders })
+    for(var order of orders){
+        if(order.productType == ProductTypes.SUIT) await order.product.populate('fabric')
+    }
+
+    res.status(StatusCodes.OK).json({ orders })
 }
 
 const getUserOrder = async (req, res) => {
-    const orders = await OrderItem.find({user: req.params.id})
+    const orders = await OrderItem.find({user: req.params.id}).populate('product')
     
     if(!orders){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No orders found!" })
     }
 
-    var newOrders = await embeddedOrder(orders)
-    res.status(StatusCodes.OK).json({ orders: newOrders })
+    for(var order of orders){
+        if(order.productType == ProductTypes.SUIT) await order.product.populate('fabric')
+    }
+
+    res.status(StatusCodes.OK).json({ orders })
 }
 
 

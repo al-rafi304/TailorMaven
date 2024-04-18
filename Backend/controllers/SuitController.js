@@ -3,45 +3,29 @@ const {ReasonPhrases, StatusCodes} = require('http-status-codes')
 const Fabric = require('../models/Fabric')
 const Suit = require('../models/Suit')
 const User = require('../models/User')
-
-// Turns Referenced Suit model to Embedded
-const embeddedSuit = async (suits) => {
-    var newSuits = []
-    for(var suit of suits){
-        const fabric = await Fabric.findById(suit.fabric)
-        var newSuit = {...suit.toObject()}
-        newSuit.fabric = fabric
-        newSuits.push(newSuit)
-    }
-
-    return newSuits
-
-}
+const {FabricTypePrice, SuitTypePrice} = require('../constants/PriceList')
 
 const getAllSuit = async (req, res) => {
-    const suits = await Suit.find({})
+    const suits = await Suit.find({}).populate('fabric')
 
-    var newSuits = await embeddedSuit(suits)
-    res.status(StatusCodes.OK).json({ suits: newSuits })
+    res.status(StatusCodes.OK).json({ suits })
 }
 
 const getSuit = async (req, res) => {
     const {id:suit_id} = req.params
-    const suit = await Suit.find({_id: suit_id})
+    const suit = await Suit.find({_id: suit_id}).populate('fabric')
 
     if(!suit){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: `No suit found with id: ${suit_id}`})
     }
 
-    var newSuits = await embeddedSuit(suit)
-    res.status(StatusCodes.OK).json({ suits: newSuits })
+    res.status(StatusCodes.OK).json({ suit })
 }
 
-const calculatePrice = () => {
+const calculatePrice = (suitType, fabricType) => {
 
-    // Calculate price
-
-    return 999999
+    var price = Number(SuitTypePrice[suitType]) + Number(FabricTypePrice[fabricType])
+    return price
 }
 
 const createSuit = async (req, res) => {
@@ -62,7 +46,7 @@ const createSuit = async (req, res) => {
         type: req.body.type,
         fabric: fabric,
         user: user,
-        price: calculatePrice(),
+        price: String(calculatePrice(req.body.type, fabric.name)),
         length: req.body.length,
         waist: req.body.waist,
         chest: req.body.chest,
@@ -72,6 +56,15 @@ const createSuit = async (req, res) => {
 
     res.status(StatusCodes.OK).json(suit)
 }
+
+const getPrice = async (req, res) => {
+
+    const suitType = req.body.suit_type
+    const fabricType = req.body.fabric_type
+    
+    res.status(StatusCodes.OK).json({ price: calculatePrice(suitType, fabricType) })
+}
+
 const updateSuit = async (req, res) => {
     const {id:suit_id} = req.params
 
@@ -137,5 +130,6 @@ module.exports = {
     getSuit,
     createSuit,
     updateSuit,
-    deleteSuit
+    deleteSuit,
+    getPrice
 }

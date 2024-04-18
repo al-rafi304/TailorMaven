@@ -13,4 +13,7 @@ router.route('/:id')
     .patch(authMid.isAuthenticated, SuitController.updateSuit)
     .delete(authMid.isAuthenticated, SuitController.deleteSuit)
 
+router.route('/price/get')
+    .get(SuitController.getPrice)
+
 module.exports = router
