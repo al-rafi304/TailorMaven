@@ -2,6 +2,7 @@ import React, {useEffect, useRef, useState} from "react";
 import FabricAPI from '../services/FabricAPI'
 import SuitAPI from "../services/SuitAPI";
 import CartAPI from "../services/CartAPI"
+import AuthAPI from '../services/AuthAPI'
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Environment } from '@react-three/drei'
 import { Suit } from "./Suit";
@@ -24,6 +25,7 @@ function Visualize(){
 	const navigate = useNavigate()
     const [disableSubmit, setDisableSubmit] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+    const [isLoggedIn, setIsLoggedIn] = useState(false)
 
     const ref = useRef()
 
@@ -33,13 +35,20 @@ function Visualize(){
 
     // Fetching all fabrics
     useEffect(() => {
-        async function get(){
+        async function getFab(){
             var fabricData = await FabricAPI.getAllFabrics()
             setAllFabrics(fabricData)
             setSelectedFabric(fabricData[0])
             setFabricImage(fabricData[0].image)
         }
-        get()
+
+        async function check(){
+            var res = await AuthAPI.isLoggedIn()
+            setIsLoggedIn(res)
+        }
+
+        getFab()
+        check()
     }, [])
 
     // Enabling Add to cart Button
@@ -162,7 +171,7 @@ function Visualize(){
 
                 {/* Add to cart */}
                 <div className="row p-2">
-                    {disableSubmit ? 
+                    {disableSubmit || !isLoggedIn ? 
                         <button type="button" onClick={addToCart} className="btn btn-success" disabled>
                             {!isLoading ? 'Add to Cart'
                                 :
