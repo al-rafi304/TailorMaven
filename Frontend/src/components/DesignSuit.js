@@ -26,6 +26,7 @@ function Visualize(){
     const [disableSubmit, setDisableSubmit] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [price, setPrice] = useState(0)
 
     const ref = useRef()
 
@@ -63,6 +64,10 @@ function Visualize(){
 
     }, [selectedFabric, suitType, length, waist, chest, armLength])
 
+    useEffect(() => {
+        getPrice()
+    }, [selectedFabric, suitType])
+
     // Taking screenshot when fabric/suitType selected
     useEffect(() => {
         async function takeScreeenshot(){
@@ -89,6 +94,20 @@ function Visualize(){
         navigate('/add-to-cart')
 
     }
+
+    const getPrice = async () => { 
+        let suitInfo = {suit_type: suitType, fabric_type: selectedFabric?.name}
+
+        let res = await fetch("api/v1/suit/price/get", {
+            method: 'POST',
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(suitInfo)
+        })
+        let data = await res.json()
+        console.log(data)
+        setPrice(data.price)
+    }
+
 
     return (
         <div className="mt-3 row justify-content-center align-items-start">
@@ -166,7 +185,7 @@ function Visualize(){
                 
                 {/* Price */}
                 <div className="row mb-5">
-                    <h2>Price: unknown$</h2>
+                    <h2>Price: {price}$</h2>
                 </div>
 
                 {/* Add to cart */}

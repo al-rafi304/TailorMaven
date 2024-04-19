@@ -123,7 +123,7 @@ function Fabrics() {
                     </span>
                     <span>{quantity}m</span>
                     <span className="quatity" onClick={incrementQuantity}>
-                        -
+                        +
                     </span>
                 </div>
             </div>

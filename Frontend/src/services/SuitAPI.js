@@ -28,6 +28,16 @@ async function createSuit( fabric, type, length, waist, chest, arm_length, suit_
 
 }
 
+async function getAllSuit(){
+    const res = await fetch(
+        '/api/v1/suit',
+        {method: "GET"}
+    )
+    let data = await res.json()
+    return data
+}
+
 export default {
-    createSuit
+    createSuit,
+    getAllSuit
 }

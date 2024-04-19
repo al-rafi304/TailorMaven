@@ -49,7 +49,7 @@ function AdminFabricList() {
                             {allFabrics?.map((fabric, index) => (
                             <tr key={index}>
                             <td>{index+1}</td>
-                            <td>{fabric.id}</td>
+                            <td>{fabric._id}</td>
                             <td>{fabric.name}</td>
                             <td className={fabric.stock === 0 ? 'stock-out' : ''}>
                                 {fabric.stock > 0 ? fabric.stock : 'Stock Out'}
