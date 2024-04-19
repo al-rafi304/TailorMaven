@@ -53,7 +53,6 @@ function ShoppingCart () {
             }
         )
         let checkoutUrl = await res.json().then((r) => {return r.url})
-        setCheckoutLoading(false)
         window.location.href = checkoutUrl
     }
 
@@ -121,14 +120,26 @@ function ShoppingCart () {
 				<p>Total Items: {getTotalQuantity()}</p>
 				<p>Shipping: Free</p>
 				<p>Total Price: ${getTotalPrice()}</p>
-				<button className='proceedtopayment' onClick={checkoutButton}>
+				{/* <button className='proceedtopayment' onClick={checkoutButton}>
                     {!checkoutLoading ? 'Proceed to payment'
                         : 
                         <div className="spinner-border spinner-border-sm" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
                     }
-                </button>
+                </button> */}
+                    {!checkoutLoading ? 
+				        <button className='proceedtopayment' onClick={checkoutButton}>
+                            Proceed to payment
+                        </button>
+                        : 
+				        <button type='button' className='btn proceedtopayment' onClick={checkoutButton} disabled>
+                            <div className="spinner-border spinner-border-sm" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </button>
+                    }
+
 			</div>
 	   </div>
 	);

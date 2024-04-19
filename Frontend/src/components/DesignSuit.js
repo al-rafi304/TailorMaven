@@ -171,7 +171,7 @@ function Visualize(){
 
                 {/* Add to cart */}
                 <div className="row p-2">
-                    {disableSubmit || !isLoggedIn ? 
+                    {disableSubmit || !isLoggedIn || isLoading ? 
                         <button type="button" onClick={addToCart} className="btn btn-success" disabled>
                             {!isLoading ? 'Add to Cart'
                                 :
