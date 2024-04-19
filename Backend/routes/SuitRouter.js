@@ -18,6 +18,6 @@ router.route('/:id')
     .delete(authMid.isAuthenticated, SuitController.deleteSuit)
 
 router.route('/price/get')
-    .get(SuitController.getPrice)
+    .post(SuitController.getPrice)
 
 module.exports = router

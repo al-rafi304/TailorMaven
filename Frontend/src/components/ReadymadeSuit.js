@@ -1,33 +1,45 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import './ReadymadeSuit.css';
+import SuitAPI from '../services/SuitAPI';
 
 function ReadymadeSuit() {
     const [currentPage, setCurrentPage] = useState(1);
+    const [allSuit, setAllSuit] = useState([]);
     const totalPages = 5; 
 
     const handlePageChange = (page) => setCurrentPage(page);
+
+    useEffect( () => {
+        const getAllSuit = async () => {
+            let data = await SuitAPI.getAllSuit()
+            setAllSuit(data)
+        }
+
+        getAllSuit()
+
+    }, [])
 
     return (
         <div className="suit_container">
             <h2 className="readymade-header">Readymade Suit</h2>
             <div className="card__container">
-            <article className="card__article">
-                    <img src="tuxedo.png" alt="image" className="card__img" />
-
+            {allSuit.suits?.map((suit, index) => (
+                <article className="card__article" key = {index}>
+                    <img src={suit.image} alt="image" className="card__img" />
                     <div className="card__data">
-                    <h2 className="card__title">Doublebreast Suit</h2>
+                    <h2 className="card__title">{suit.type}</h2>
                         <span className="card__description">Suit measurements:</span>
-                        <span className="card__description">Length: 45,Waist: 45,Chest: 45,Arm Length: 45,Button Color: Blue.</span>
-                        <span className="card__description">Fabric: cotton</span>
-                        <span className="card__description">Suit Price: 999$</span>
+                        <span className="card__description">Length: {suit.length},Waist: {suit.waist},Chest: {suit.chest},Arm Length: {suit.arm_length},Button Color: Blue.</span>
+                        <span className="card__description">Fabric: {suit.fabric.name}</span>
+                        <span className="card__description">Suit Price: {suit.price}$</span>
                         <Link to="add-to-cart">
                         <img src="/shopping-cart.svg" alt="cart" className="readysuit-cart" />
                         </Link>
                     </div>
-                </article>
+                </article>))}
 
-                <article className="card__article">
+                {/* <article className="card__article">
                     <img src="/doublebreast.png" alt="image" className="card__img" />
 
                     <div className="card__data">
@@ -96,11 +108,11 @@ function ReadymadeSuit() {
                         <img src="/shopping-cart.svg" alt="cart" className="readysuit-cart" />
                         </Link>
                     </div>
-                </article>
+                </article> */}
             </div>
-            <div className="pagination">
+            {/* <div className="pagination"> */}
                 {/* Pagination buttons */}
-                {[...Array(totalPages).keys()].map(page => (
+                {/* {[...Array(totalPages).keys()].map(page => (
                     <button 
                         key={page+1} 
                         onClick={() => handlePageChange(page+1)} 
@@ -109,7 +121,7 @@ function ReadymadeSuit() {
                         {page+1}
                     </button>
                 ))}
-            </div>
+            </div> */}
         </div>
     );
 }
