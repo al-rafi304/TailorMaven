@@ -40,11 +40,11 @@ const Header = (props) => {
 	 </div>
 
 	<div className='user-actions'>
-			<div className='admin-icon'>
+			{userInfo.isAdmin && <div className='admin-icon'>
                 <Link to='/admin'>
                 <img className="admin-img" src="admin.png" alt="admin-img"/>
                 </Link>
-            </div>
+            </div>}
         {userId ?
             <div className='cart'>
                 <Link to='add-to-cart'>
