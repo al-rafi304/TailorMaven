@@ -28,6 +28,7 @@ import { useEffect, useState } from "react";
 import MenuBar from "./MenuBar";
 import ShoppingCart from "./ShoppingCart";
 import CheckoutSuccess from "./CheckoutSuccess"
+import ReadymadeSuit from "./ReadymadeSuit";
 
 
 const user_id = localStorage.getItem('user_id')
@@ -111,6 +112,7 @@ function Main(){
             <Route path="/support" element={<Support />} />
             <Route path="/test" element={< Test />} />
             <Route path="/fabrics" element={<Fabrics />} />
+            <Route path="/readymade-suit" element={<ReadymadeSuit />} />
             <Route path="/design" element={<DesignSuit />} />
             <Route path="/menu" element={<MenuBar />} />
             <Route path="/add-to-cart" element={< LoginOnly Component={ShoppingCart} />} />

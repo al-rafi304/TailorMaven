@@ -69,8 +69,8 @@ const Header = (props) => {
 		<ul className="dropdown-menu user-dropdownmenu">
 			<li>
 			<div className="user-info">
-				{!userInfo.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
-				{userInfo.image && <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>}
+				{!userInfo.image && <img className="user-profile-pic-large" src="cat.jpg" alt="User Profile"/>}
+				{userInfo.image && <img className="user-profile-pic-large" src={userInfo.image} alt="User Profile"/>}
 				<div className="user-details">
 				<p className="user-name">{userInfo.username}</p>
 				<p className="user-email">{userInfo.email}</p>

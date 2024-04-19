@@ -137,3 +137,10 @@
 .menu-bar main h1 {
   font-size: 42px;
 }
+.menubar-text{
+    text-decoration: none;
+    color: rgb(7, 242, 148);
+}
+.menu-bar .menubar-text:hover{
+  color: rgb(0, 0, 0);
+}
