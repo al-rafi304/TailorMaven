@@ -77,7 +77,7 @@ function Visualize(){
         var cart = await CartAPI.addToCart(ProductTypes.SUIT, suit._id)
         console.log('added to cart', cart)
 
-        navigate('/')
+        navigate('/add-to-cart')
 
     }
 
