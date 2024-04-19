@@ -52,8 +52,8 @@ const MenuBar = () => {
           <div className="menu-item">
             <Link to="/">
               <img src="/home.png" alt="home" />
+              <span className="menubar-text">Home</span>
             </Link>
-            <span>Home</span>
           </div>
         </div>
 
@@ -61,20 +61,21 @@ const MenuBar = () => {
           <div className="menu-item">
             <Link to="design">
               <img src="/suit.png" alt="suit" />
+            <span className="menubar-text">Custom your Suit</span>
             </Link>
-            <span>Custom your Suit</span>
           </div>
         </div>
         <div className="menu-group">
           <div className="menu-item">
             {userId && <Link to="add-to-cart">
               <img src="/bag.png" alt="suit" />
+              <span className="menubar-text">Your shopping Bag</span>
             </Link>}
 
             {!userId && <Link to="login">
               <img src="/bag.png" alt="suit" />
+              <span className="menubar-text">Your shopping Bag</span>
             </Link>}
-            <span>Your shopping Bag</span>
           </div>
         </div>
       </div>

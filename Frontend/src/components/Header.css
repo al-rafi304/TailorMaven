@@ -78,8 +78,8 @@ header {
 
 .dropdown-menu li {
   text-align: center;
-  background-color: #42d8f3;
-  box-shadow: 0px 0px 10px 8px rgb(68, 227, 235);
+  background-color: #cbd2d3;
+  box-shadow: 0px 0px 10px 8px rgb(10, 220, 235);
 }
 
 .dropdown-menu .btn-login:hover {
@@ -99,17 +99,6 @@ header {
 .user-dropdown {
   position: relative;
 }
-
-/* .user-dropdownmenu {
-  position: absolute;
-  top: 100%;
-  right: 0;
-  background-color: white;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  min-width: 200px;
-} */
 
 .user-info {
   display: flex;
@@ -140,6 +129,10 @@ header {
 .addtocart {
   width: 100%;
   height: 100%;
+}
+.admin-img {
+  width: auto;
+  height: 35px;
 }
 
 .user-details {
