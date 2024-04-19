@@ -132,7 +132,7 @@ function Visualize(){
                     <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI * 2}/>
                     
                     {/* Displaying Suit */}
-                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} />
+                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} suitType={suitType} />
                     
                     {/* Camera Controls */}
                     <OrbitControls autoRotate autoRotateSpeed={1} enablePan={false} minPolarAngle={Math.PI / 2.1} maxPolarAngle={Math.PI / 2.1} /> 
