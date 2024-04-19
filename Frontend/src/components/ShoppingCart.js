@@ -12,24 +12,6 @@ function ShoppingCart () {
 	const [items, setItems] = useState([])
     const [checkoutLoading, setCheckoutLoading] = useState(false)
     const [itemsLoading, setItemsLoading] = useState(true)
-	
-	const handleIncreaseQuantity = (id) => {
-		setItems((prevItems) =>
-			prevItems.map((item) =>
-				item.id === id ? { ...item, fabricLength: item.fabricLength + 1 } : item
-			)
-		);
-	};
-
-	const handleDecreaseQuantity = (id) => {
-		setItems((prevItems) =>
-			prevItems.map((item) =>
-				item.id === id && item.fabricLength > 1
-					? { ...item, fabricLength: item.fabricLength - 1 }
-					: item
-			)
-		);
-	};
 
 	const handleDeleteItem = async (id) => {
 		await CartAPI.deleteFromCart(id)
@@ -103,14 +85,7 @@ function ShoppingCart () {
                             <button onClick={() => handleDeleteItem(item._id)} className="cart-delete">
                                 Delete
                             </button>
-                            {/* <button className="cart-edit">Edit</button> */}
                         </div>
-                        {/* Quantity controls */}
-                        {/* {item.productType === ProductTypes.FABRIC && <div className="quantity-controls ">
-                            <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
-                            <span> {item.fabricLength} </span>
-                            <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-                        </div>} */}
                     </div>
 				</div>
 			</div>
@@ -128,25 +103,17 @@ function ShoppingCart () {
 				<p>Total Items: {getTotalQuantity()}</p>
 				<p>Shipping: Free</p>
 				<p>Total Price: ${getTotalPrice()}</p>
-				{/* <button className='proceedtopayment' onClick={checkoutButton}>
-                    {!checkoutLoading ? 'Proceed to payment'
-                        : 
+                {!checkoutLoading ? 
+                    <button className='proceedtopayment' onClick={checkoutButton}>
+                        Proceed to payment
+                    </button>
+                    : 
+                    <button type='button' className='btn proceedtopayment' onClick={checkoutButton} disabled>
                         <div className="spinner-border spinner-border-sm" role="status">
                             <span className="visually-hidden">Loading...</span>
                         </div>
-                    }
-                </button> */}
-                    {!checkoutLoading ? 
-				        <button className='proceedtopayment' onClick={checkoutButton}>
-                            Proceed to payment
-                        </button>
-                        : 
-				        <button type='button' className='btn proceedtopayment' onClick={checkoutButton} disabled>
-                            <div className="spinner-border spinner-border-sm" role="status">
-                                <span className="visually-hidden">Loading...</span>
-                            </div>
-                        </button>
-                    }
+                    </button>
+                }
 
 			</div>
 	   </div>
