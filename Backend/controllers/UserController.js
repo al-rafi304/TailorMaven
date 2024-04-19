@@ -34,6 +34,8 @@ const updateUser = async (req, res) => {
 const updateAdmin = async (req, res) => {
     var user = await User.findById(req.params.id)
 
+    console.log(req.body)
+
     if (!user){
         return res.status(StatusCodes.NOT_FOUND).json( {msg: `No user found with id: ${req.params.id}`} )
     }

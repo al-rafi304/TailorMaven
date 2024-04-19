@@ -5,6 +5,8 @@ function AdminUserList() {
 
     const [allUsers, setAllUsers] = useState([])
 
+    console.log(allUsers)
+
     let getAllUsers = async() => {
         let res = await fetch("/api/v1/user/", {
             headers: {"authorization": "Bearer " + localStorage.getItem("token")}
@@ -48,6 +50,17 @@ function AdminUserList() {
         window.location.reload()
     }
 
+    const handleAddAdmin = async (user) => {
+        const data = {is_admin: !user.isAdmin,}
+        fetch(`api/v1/user/update-admin/${user._id}`, 
+        {
+            method: "PATCH",
+            headers: {"authorization": "Bearer " + localStorage.getItem("token"), "Content-Type" : "application/json"},
+            body : JSON.stringify(data)
+        })
+        window.location.reload()
+    }
+
     return ( 
         <div className="container mt-4">
             <div className="row">
@@ -80,7 +93,7 @@ function AdminUserList() {
                             <button className="delete-btn" onClick = {() => handleDelete(index)}>Delete</button>
                         </td>
                         <td>
-                            <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"}>
+                            <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"} onClick={() => handleAddAdmin(user)}>
                             {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
                             </button>
                         </td>
