@@ -19,9 +19,17 @@ function Visualize(){
     const [waist, setWaist] = useState(null)
     const [chest, setChest] = useState(null)
     const [armLength, setArmLength] = useState(null)
+    const [suitScreenshot, setSuitScreenshot] = useState(null)
 
 	const navigate = useNavigate()
     const [disableSubmit, setDisableSubmit] = useState(true)
+    const [isLoading, setIsLoading] = useState(false)
+
+    const ref = useRef()
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
 
     // Fetching all fabrics
     useEffect(() => {
@@ -46,8 +54,24 @@ function Visualize(){
 
     }, [selectedFabric, suitType, length, waist, chest, armLength])
 
+    // Taking screenshot when fabric/suitType selected
+    useEffect(() => {
+        async function takeScreeenshot(){
+            await sleep(500)        // Needs to wait until the fabric/suitType changes in canvas
+            ref.current.toBlob((blob) => {
+                var file = new File([blob], 'image', {type: "image/jpeg"})
+                setSuitScreenshot(file)
+                console.log(URL.createObjectURL(blob))
+            })
+        }
+
+        takeScreeenshot()
+
+    }, [selectedFabric, suitType])
+
     async function addToCart(){
-        var suit = await SuitAPI.createSuit(selectedFabric, suitType, length, waist, chest, armLength)
+        setIsLoading(true)
+        var suit = await SuitAPI.createSuit(selectedFabric, suitType, length, waist, chest, armLength, suitScreenshot)
         console.log(suit)
 
         var cart = await CartAPI.addToCart(ProductTypes.SUIT, suit._id)
@@ -80,7 +104,7 @@ function Visualize(){
 
             {/* Showing 3D model */}
             <div className="col-4">
-                <Canvas camera={{ position: [5, 5, 5], fov: 35 }} castShadow style={{height: 500}}>
+                <Canvas ref={ref} gl={{ preserveDrawingBuffer: true }} camera={{ position: [5, 5, 5], fov: 35 }} castShadow style={{height: 500}}>
 
                     {/* Lighting */}
                     <ambientLight intensity={Math.PI / 2} />
@@ -139,9 +163,23 @@ function Visualize(){
                 {/* Add to cart */}
                 <div className="row p-2">
                     {disableSubmit ? 
-                        <button type="button" onClick={addToCart} className="btn btn-success" disabled>Add to Cart</button>
+                        <button type="button" onClick={addToCart} className="btn btn-success" disabled>
+                            {!isLoading ? 'Add to Cart'
+                                :
+                                <div className="spinner-border spinner-border-sm" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
+                        </button>
                         :
-                        <button type="button" onClick={addToCart} className="btn btn-success">Add to Cart</button>
+                        <button type="button" onClick={addToCart} className="btn btn-success">
+                            {!isLoading ? 'Add to Cart'
+                                :
+                                <div className="spinner-border spinner-border-sm" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
+                        </button>
                     }
                 </div>
             </div>

@@ -21,6 +21,7 @@ const SuitSchema = new mongoose.Schema({
         ref: 'User',
         require: true
     },
+    image: String,
     price: {
         type: Number,
         default: 999

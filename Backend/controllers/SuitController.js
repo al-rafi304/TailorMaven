@@ -51,7 +51,8 @@ const createSuit = async (req, res) => {
         waist: req.body.waist,
         chest: req.body.chest,
         arm_length: req.body.arm_length,
-        button: req.body.button
+        button: req.body.button,
+        image: req.file?.path
     })
 
     res.status(StatusCodes.OK).json(suit)
