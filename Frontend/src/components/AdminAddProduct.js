@@ -87,7 +87,6 @@ function AdminAddProduct() {
                                 <option value="">Select Product Type</option>
                                 <option value="fabric">Fabric</option>
                                 <option value="suit">Suit</option>
-                                <option value="accessory">Accessory</option>
                             </select>
                             {productType === "fabric" && (
                             <form onSubmit={handleSubmit}>
@@ -145,26 +144,6 @@ function AdminAddProduct() {
                                 <button type="submit">Submit</button>
                             </form>
                         )}
-
-                        {productType === "accessory" && (
-                            <form onSubmit={handleSubmit}>
-                                <h3>Add Accessory</h3>
-                                <select name="accessoryType" value={accessoryFormData.accessoryType} onChange={handleAccessoryInputChange}>
-                                    <option value="">Select Accessory Type</option>
-                                    <option value="button">Button</option>
-                                    <option value="tie">Tie</option>
-                                    <option value="tieClip">Tie Clip</option>
-                                </select>
-                                <br />
-                                <input type="text" name="accessoryQuantity" placeholder="Accessory Quantity" value={accessoryFormData.accessoryQuantity} onChange={handleAccessoryInputChange} />
-                                <br />
-                                <label htmlFor="formFile" className="form-label">Fabric Image</label>
-                                <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
-                                <br />
-                                <button type="submit">Submit</button>
-                            </form>
-                        )}
-
                         </div>
                     </div>
                 </section>
