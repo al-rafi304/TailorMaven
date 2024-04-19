@@ -29,6 +29,8 @@ import MenuBar from "./MenuBar";
 import ShoppingCart from "./ShoppingCart";
 import CheckoutSuccess from "./CheckoutSuccess"
 import ReadymadeSuit from "./ReadymadeSuit";
+import AdminOrderList from "./AdminOrderList";
+import UserOrderList from "./UserOrderList";
 
 
 const user_id = localStorage.getItem('user_id')
@@ -99,6 +101,7 @@ function Main(){
             <Route path="/admin-fabriclist" element={< AdminOnly Component= {AdminFabricList}/>} />
             <Route path="/admin-suitlist" element={< AdminOnly Component= {AdminSuitList}/>} />
             <Route path="/admin-accessorieslist" element={< AdminOnly Component= {AdminAccessoriesList}/>} />
+            <Route path="/admin-orderlist" element={< AdminOnly Component= {AdminOrderList}/>} />
             <Route path="/admin-chat" element={<AdminOnly Component={AdminChat} />} />
             <Route path="/admin-add-product" element={<AdminOnly Component={AdminAddProduct} />} />
 
@@ -116,6 +119,7 @@ function Main(){
             <Route path="/design" element={<DesignSuit />} />
             <Route path="/menu" element={<MenuBar />} />
             <Route path="/add-to-cart" element={< LoginOnly Component={ShoppingCart} />} />
+            <Route path="/user-order-list" element={< LoginOnly Component={UserOrderList} />} />
             <Route path="/checkout-success" element={<LoginOnly Component={CheckoutSuccess} />} />
             </Switch>
             <Footer/>

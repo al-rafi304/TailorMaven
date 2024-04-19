@@ -82,7 +82,6 @@ function ShoppingCart () {
 			<h1>My Shopping Bag</h1>
 			{items?.map((item) => (
 			<div key={item.id} className="item-card">
-				{/* Display item details */}
 				<div className="item-details row">
                     <div className='col' >
                         <img className="cart-item " src={item.product.image} alt="User Profile" />
@@ -94,20 +93,12 @@ function ShoppingCart () {
 						<p>Price: ${item.product.price}</p>
 					</div>
 					
-					{/* Delete and edit buttons */}
                     <div className='col'>
                         <div className="">
                             <button onClick={() => handleDeleteItem(item._id)} className="cart-delete">
                                 Delete
                             </button>
-                            {/* <button className="cart-edit">Edit</button> */}
                         </div>
-                        {/* Quantity controls */}
-                        {/* {item.productType === ProductTypes.FABRIC && <div className="quantity-controls ">
-                            <button onClick={() => handleDecreaseQuantity(item.id)}>-</button>
-                            <span> {item.fabricLength} </span>
-                            <button onClick={() => handleIncreaseQuantity(item.id)}>+</button>
-                        </div>} */}
                     </div>
 				</div>
 			</div>
