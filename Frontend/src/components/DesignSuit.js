@@ -25,6 +25,7 @@ function Visualize(){
 	const navigate = useNavigate()
     const [disableSubmit, setDisableSubmit] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+    const [fabricsLoading, setFabricsLoading] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [price, setPrice] = useState(0)
 
@@ -41,6 +42,7 @@ function Visualize(){
             setAllFabrics(fabricData)
             setSelectedFabric(fabricData[0])
             setFabricImage(fabricData[0].image)
+            setFabricsLoading(false)
         }
 
         async function check(){
@@ -116,17 +118,26 @@ function Visualize(){
             <div className="col-3 overflow-y-auto" style={{height: 680}}>
             <h2>Select materials</h2>
                 <div className="row row-cols-3 align-items-start">
-                    {allFabrics?.map(fab => ( 
-                        <>
-                            <button className="btn col" onClick={() => {
-                                setFabricImage(fab.image)
-                                setSelectedFabric(fab)
-                                }}>
-                                <img src={fab.image} className="" height={100} width={100}/>
-                                <p className="text-body-secondary">{fab.name}</p>
-                            </button>
-                        </>
-                    ))}
+                    {!fabricsLoading 
+                        ?
+                        allFabrics?.map(fab => ( 
+                            <>
+                                <button className="btn col" onClick={() => {
+                                    setFabricImage(fab.image)
+                                    setSelectedFabric(fab)
+                                    }}>
+                                    <img src={fab.image} className="" height={100} width={100}/>
+                                    <p className="text-body-secondary">{fab.name}</p>
+                                </button>
+                            </>
+                        ))
+                        :
+                        <div>
+                            <div className="spinner-border spinner-border-sm" style={{height:100, width:100}} role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -190,7 +201,7 @@ function Visualize(){
 
                 {/* Add to cart */}
                 <div className="row p-2">
-                    {disableSubmit || !isLoggedIn ? 
+                    {disableSubmit || !isLoggedIn || isLoading ? 
                         <button type="button" onClick={addToCart} className="btn btn-success" disabled>
                             {!isLoading ? 'Add to Cart'
                                 :

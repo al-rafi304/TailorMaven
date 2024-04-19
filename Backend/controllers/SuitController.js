@@ -24,14 +24,12 @@ const getSuit = async (req, res) => {
 
 const calculatePrice = (suitType, fabricType) => {
     console.log(suitType, fabricType)
-    var suitPrice = SuitTypePrice[suitType]
-    var fabricPrice = FabricTypePrice[fabricType]
-    console.log(suitPrice, fabricPrice)
-
-    if (!suitPrice) var price = 50 + fabricPrice
-    else if (!fabricPrice) var price = suitPrice + 60
-    else var price = suitPrice + fabricPrice
-    // var price = Number(SuitTypePrice[suitType]) + Number(FabricTypePrice[fabricType])
+    try{
+        var price = Number(SuitTypePrice[suitType]) + Number(FabricTypePrice[fabricType])
+    } catch {
+        console.log('failed to calculate price for:', suitType, fabricType)
+        var price = 150
+    }
     return price
 }
 
