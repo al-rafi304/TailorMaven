@@ -23,8 +23,13 @@ const getSuit = async (req, res) => {
 }
 
 const calculatePrice = (suitType, fabricType) => {
+    console.log(suitType, fabricType)
+    var suitPrice = SuitTypePrice[suitType]
+    var fabricPrice = FabricTypePrice[fabricType]
 
-    var price = Number(SuitTypePrice[suitType]) + Number(FabricTypePrice[fabricType])
+    if (!suitPrice) var price = 50 + fabricPrice
+    else if (!fabricPrice) var price = suitPrice + 60
+    // var price = Number(SuitTypePrice[suitType]) + Number(FabricTypePrice[fabricType])
     return price
 }
 
@@ -51,7 +56,8 @@ const createSuit = async (req, res) => {
         waist: req.body.waist,
         chest: req.body.chest,
         arm_length: req.body.arm_length,
-        button: req.body.button
+        button: req.body.button,
+        image: req.file?.path
     })
 
     res.status(StatusCodes.OK).json(suit)

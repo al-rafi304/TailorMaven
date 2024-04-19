@@ -29,7 +29,6 @@ function Register() {
     credential.append("password", password)
     credential.append("gender", gender)
 
-    console.log(credential.get("image"))
 
     fetch(
       "/auth/register", 
@@ -94,7 +93,7 @@ function Register() {
       <p>- - - - - - - - - -    or    - - - - - - - - - -</p>
       <div className="google-signin-container">
       <Link to="/google-signin" className="no-underline">
-        <button class="google-signin">
+        <button className="google-signin">
           <img src="/google.svg" className="google-icon"/>
           <span className="signin-text">Sign in with Google</span>
         </button>
