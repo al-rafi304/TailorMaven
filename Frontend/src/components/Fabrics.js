@@ -6,6 +6,7 @@ import FabricAPI from "../services/FabricAPI";
 import CartAPI from "../services/CartAPI";
 import ProductTypes from "../constants/ProductTypes";
 import { useNavigate } from "react-router-dom";
+import FabricTypes from "../constants/FabricTypes";
 
 function Fabrics() {
     
@@ -14,6 +15,11 @@ function Fabrics() {
     const [isActive, setIsActive] = useState(false);
     const [fabric, setFabric] = useState("")
     const [quantity, setQuantity] = useState(0);
+    let [fabricType, setfabricType] = useState({
+        "Cotton": false,
+        "Velvet": false,
+        "Linen": false
+    });
     const navigate = useNavigate()
 
     // Function to toggle the isActive state
@@ -57,16 +63,28 @@ function Fabrics() {
                     </h1>
                     <ul className="filter_material_list">
                         <li className="">
-                            <input type="checkbox" className="filter_material" id="cotton" />
-                            <label htmlFor="cotton">Cotton</label>
+                            <input type="checkbox" className="filter_material" id="Cotton" onClick={() => setfabricType({
+                                "Cotton": !fabricType["Cotton"],
+                                "Velvet": fabricType["Velvet"],
+                                "Linen": fabricType["Linen"]
+                            })}/>
+                            <label htmlFor="Cotton">Cotton</label>
                         </li>
                         <li className="">
-                            <input type="checkbox" className="filter_material" id="velvet" />
-                            <label htmlFor="velvet">Velvet</label>
+                            <input type="checkbox" className="filter_material" id="Velvet" onClick={() => setfabricType({
+                                "Cotton": fabricType["Cotton"],
+                                "Velvet": !fabricType["Velvet"],
+                                "Linen": fabricType["Linen"]
+                            })}/>
+                            <label htmlFor="Velvet">Velvet</label>
                         </li>
                         <li className="">
-                            <input type="checkbox" className="filter_material" id="linen" />
-                            <label htmlFor="linen">Linen</label>
+                            <input type="checkbox" className="filter_material" id="Linen" onClick={() => setfabricType({
+                                "Cotton": fabricType["Cotton"],
+                                "Velvet": fabricType["Velvet"],
+                                "Linen": !fabricType["Linen"]
+                            })}/>
+                            <label htmlFor="Linen">Linen</label>
                         </li>
                     </ul>
                 </div>
@@ -76,6 +94,7 @@ function Fabrics() {
 
             <div  className="tileContainer hide">
             {fabrics?.map((fabric, index) => (
+                (!fabricType["Cotton"] && !fabricType["Linen"] && !fabricType["Velvet"]) || (fabricType[fabric.name])?
                     <div key = {index} className="tile">
                         <a onClick={() => toggleInfoActive(index)}>
                             <div className="productImage">
@@ -86,7 +105,10 @@ function Fabrics() {
                                 <p className="productCode">{fabric.id}</p>
                             </div>
                         </a>
-                </div>))}
+                    </div>
+                :
+                <></>
+            ))}
                     </div>
 
             {/* Info Fabrics */}
