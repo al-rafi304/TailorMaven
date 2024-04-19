@@ -85,11 +85,7 @@ function ShoppingCart () {
 				{/* Display item details */}
 				<div className="item-details row">
                     <div className='col' >
-                        {item.productType == ProductTypes.FABRIC ?
                         <img className="cart-item " src={item.product.image} alt="User Profile" />
-                        :
-                        <img className="cart-item " src="/suit.png" alt="suit" />
-                        }
                     </div>
                     <div className='col'>
                         {item.productType == ProductTypes.SUIT ? ProductTypes.SUIT + ' (' + item.product.type +") " : item.product.name + ' (' + item.product.color +") "}
