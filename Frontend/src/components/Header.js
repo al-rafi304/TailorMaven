@@ -40,21 +40,23 @@ const Header = (props) => {
 	 </div>
 
 	<div className='user-actions'>
+        {userId ?
+            <>
 			<div className='admin-icon'>
                 <Link to='/admin'>
                 <img className="admin-img" src="admin.png" alt="admin-img"/>
                 </Link>
             </div>
-        {userId ?
             <div className='cart'>
                 <Link to='add-to-cart'>
                 <img className="addtocart" src="bag.png" alt="Cart"/>
                 </Link>
             </div>
+            </>
             :
             <></>
         }
-	{!userId && (
+	{!userId ? 
 		<div className="dropdown user-dropdown">
 		<button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
 			<i className="fa-regular fa-user"></i>
@@ -64,18 +66,21 @@ const Header = (props) => {
 			<li><Link className='btn btn-reg' to="/register">Register</Link></li>
 		</ul>
 		</div>
-	)}
-	{userId && (
+	:
 		<div className="dropdown user-dropdown">
 		<button className="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-			{!userInfo.image && <img className="user-profile-pic" src="cat.jpg" alt="User Profile"/>}
-			{userInfo.image && <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>}
-		</button>
+			{userInfo.image ?
+                <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>
+                :
+                <i className="fa-regular fa-user"></i>}
+                </button>
 		<ul className="dropdown-menu user-dropdownmenu">
 			<li>
 			<div className="user-info">
-				{!userInfo.image && <img className="user-profile-pic-large" src="cat.jpg" alt="User Profile"/>}
-				{userInfo.image && <img className="user-profile-pic-large" src={userInfo.image} alt="User Profile"/>}
+            {userInfo.image ?
+                <img className="user-profile-pic" src={userInfo.image} alt="User Profile"/>
+                :
+                <i className="fa-regular fa-user"></i>}
 				<div className="user-details">
 				<p className="user-name">{userInfo.username}</p>
 				<p className="user-email">{userInfo.email}</p>
@@ -85,7 +90,7 @@ const Header = (props) => {
 			</li>
 		</ul>
 		</div>
-	)}
+    }
 	</div>
 
 
