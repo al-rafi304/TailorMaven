@@ -11,6 +11,7 @@ function ShoppingCart () {
 
 	const [items, setItems] = useState([])
     const [checkoutLoading, setCheckoutLoading] = useState(false)
+    const [itemsLoading, setItemsLoading] = useState(true)
 	
 	const handleIncreaseQuantity = (id) => {
 		setItems((prevItems) =>
@@ -70,6 +71,7 @@ function ShoppingCart () {
 			let data = await res.json()
 			console.log(data)
 			setItems(data.cartItems)
+            setItemsLoading(false)
 		}
 
 		getItems()
@@ -79,7 +81,9 @@ function ShoppingCart () {
 		<div className="items-page">
 			<div className="items-list">
 			<h1>My Shopping Bag</h1>
-			{items?.map((item) => (
+            { !itemsLoading 
+            ?
+			items?.map((item) => (
 			<div key={item.id} className="item-card">
 				{/* Display item details */}
 				<div className="item-details row">
@@ -110,8 +114,12 @@ function ShoppingCart () {
                     </div>
 				</div>
 			</div>
-		))}
-
+		    ))
+            :
+            <div className="spinner-border spinner-border-sm" style={{height:50, width:50}} role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        }
 
 			</div>
 			{/* Shopping bag summary */}
