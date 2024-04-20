@@ -6,7 +6,7 @@ function AdminDashboard() {
     const [allData, setAllData] = useState("")
 
     let getAllData = async() => {
-        let allData = {totalUser : 0, totalDresses: 0, totalFabrics: 0}
+        let allData = {totalUser : 0, totalSuits: 0, totalFabrics: 0}
 
         let res = await fetch("/api/v1/user/",{
             headers: {"authorization": "Bearer " + localStorage.getItem("token")}
@@ -17,6 +17,10 @@ function AdminDashboard() {
         res = await fetch("/api/v1/fabric/")
         data = await res.json()
         allData.totalFabrics = data.fabrics?.length
+
+        res = await fetch("/api/v1/suit/")
+        data = await res.json()
+        allData.totalSuits = data.suits?.length
 
         setAllData(allData)
     }
@@ -44,9 +48,9 @@ function AdminDashboard() {
                     </div>
                     <div className="col-md-3 ms-2">
                     <div className="card border border-primary">
-                        <center><div className="card-header bg-primary text-white fw-bolder">Total Dresses</div></center>
+                        <center><div className="card-header bg-primary text-white fw-bolder">Total Suits</div></center>
                         <div className="card-body">
-                            {allData.totalDresses}
+                            {allData.totalSuits}
                         </div>
                     </div>
                     </div>
