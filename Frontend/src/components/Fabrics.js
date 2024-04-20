@@ -14,7 +14,7 @@ function Fabrics() {
     // State to manage the activation of the info__fabrics class
     const [isActive, setIsActive] = useState(false);
     const [fabric, setFabric] = useState("")
-    const [quantity, setQuantity] = useState(0);
+    const [quantity, setQuantity] = useState(1);
     let [fabricType, setfabricType] = useState({
         "Cotton": false,
         "Velvet": false,
@@ -35,7 +35,7 @@ function Fabrics() {
 
     // Function to decrement the quantity
     const decrementQuantity = () => {
-        if (quantity > 0) {
+        if (quantity > 1) {
             setQuantity((prevQuantity) => prevQuantity - 1);
         }
     };
@@ -115,6 +115,7 @@ function Fabrics() {
             <div className={`info__fabrics ${isActive ? "active" : ""}`}>
                 <h3>Name: {fabric.name}</h3>
                 <h4>Color : {fabric.color}</h4>
+                <h4>Price: ${fabric.price}</h4>
 
                 <div className="fabrics__infoButton">
                     <div className="fabrics__infoButton__btn" onClick={handleCart}>Add to cart</div>
