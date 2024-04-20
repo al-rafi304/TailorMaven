@@ -4,6 +4,7 @@ import SuitAPI from "../services/SuitAPI";
 import CartAPI from "../services/CartAPI"
 import AuthAPI from '../services/AuthAPI'
 import { Canvas, useFrame } from "@react-three/fiber";
+import { useTexture, useGLTF } from '@react-three/drei';
 import { OrbitControls, AccumulativeShadows, RandomizedLight, castShadow, Environment } from '@react-three/drei'
 import { Suit } from "./Suit";
 import { SINGLE, DOUBLE, TUXEDO } from "../constants/SuitTypes"
@@ -144,7 +145,9 @@ function Visualize(){
             {/* Showing 3D model */}
             <div className="col-4">
                 <Canvas ref={ref} gl={{ preserveDrawingBuffer: true }} camera={{ position: [5, 5, 5], fov: 35 }} castShadow style={{height: 500}}>
-
+                    {/* {useGLTF.preload(`${SINGLE}.glb`)}
+                    {useGLTF.preload(`${DOUBLE}.glb`)}
+                    {useGLTF.preload(`${TUXEDO}.glb`)} */}
                     {/* Lighting */}
                     <ambientLight intensity={Math.PI / 2} />
                     <directionalLight castShadow  position={[0, 15, 40]} intensity={Math.PI * 2}/>

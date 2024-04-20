@@ -33,6 +33,8 @@ const UserSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    address: String,
+    phone: String,
     image: String,
     dob: Date,
     googleId: String,

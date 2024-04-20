@@ -39,13 +39,15 @@ const OrderItemSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     },
-    giftAddress: {
-        type: String
+    address: {
+        type: String,
+        default: ''
     },
-    giftPhone: {
-        type: String
+    phone: {
+        type: String,
+        default: ''
     },
-    giftMessage: {
+    message: {
         type: String
     },
     timestamp: {

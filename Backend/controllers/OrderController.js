@@ -36,7 +36,7 @@ const checkout = async (req, res) => {
         } else if (item.productType == ProductTypes.SUIT){
             var suit = await Suit.findById(item.product)
             product.price_data.product_data.name = suit.type
-            product.price_data.unit_amount = suit.price 
+            product.price_data.unit_amount = suit.price * 100
             product.price_data.product_data.description = ProductTypes.SUIT
             product.price_data.product_data.id = suit._id
         }
@@ -91,6 +91,8 @@ const createOrder = async (req, res) => {
                 fabricLength: item.fabricLength,
                 paymentId: session?.payment_intent,
                 price: fabric.price,
+                address: item.user.address ? item.user.address : '',
+                phone: item.user.phone ? item.user.phone : ''
             })
         } else if (item.productType == ProductTypes.SUIT){
             var suit = await Suit.findById(item.product)
@@ -100,16 +102,18 @@ const createOrder = async (req, res) => {
                 product: item.product,
                 paymentId: session?.payment_intent,
                 price: suit.price,
+                address: item.user.address ? item.user.address : '',
+                phone: item.user.phone ? item.user.phone : ''
             })
         }
-
+        (await order.populate('product')).populate('user')
         orders.push(order)
     }
 
     // Emptying Cart
     await CartItem.deleteMany({user: userID})
 
-    res.send(orders)
+    res.json({orders})
 }
 
 const giftOrder = async (req, res) => {
@@ -126,9 +130,9 @@ const giftOrder = async (req, res) => {
         req.params.order_id,
         {
             isGift: true,
-            giftPhone: req.body.phone,
-            giftAddress: req.body.address,
-            giftMessage: req.body.message
+            phone: req.body.phone,
+            address: req.body.address,
+            message: req.body.message
         },
         {new:true, runValidators:true}
     )
