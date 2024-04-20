@@ -25,7 +25,9 @@ function Visualize(){
 	const navigate = useNavigate()
     const [disableSubmit, setDisableSubmit] = useState(true)
     const [isLoading, setIsLoading] = useState(false)
+    const [fabricsLoading, setFabricsLoading] = useState(true)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
+    const [price, setPrice] = useState(0)
 
     const ref = useRef()
 
@@ -40,6 +42,7 @@ function Visualize(){
             setAllFabrics(fabricData)
             setSelectedFabric(fabricData[0])
             setFabricImage(fabricData[0].image)
+            setFabricsLoading(false)
         }
 
         async function check(){
@@ -62,6 +65,10 @@ function Visualize(){
         }
 
     }, [selectedFabric, suitType, length, waist, chest, armLength])
+
+    useEffect(() => {
+        getPrice()
+    }, [selectedFabric, suitType])
 
     // Taking screenshot when fabric/suitType selected
     useEffect(() => {
@@ -90,6 +97,20 @@ function Visualize(){
 
     }
 
+    const getPrice = async () => { 
+        let suitInfo = {suit_type: suitType, fabric_type: selectedFabric?.name}
+
+        let res = await fetch("api/v1/suit/price/get", {
+            method: 'POST',
+            headers: {"Content-Type" : "application/json"},
+            body: JSON.stringify(suitInfo)
+        })
+        let data = await res.json()
+        console.log(data)
+        setPrice(data.price)
+    }
+
+
     return (
         <div className="mt-3 row justify-content-center align-items-start">
 
@@ -97,17 +118,26 @@ function Visualize(){
             <div className="col-3 overflow-y-auto" style={{height: 680}}>
             <h2>Select materials</h2>
                 <div className="row row-cols-3 align-items-start">
-                    {allFabrics?.map(fab => ( 
-                        <>
-                            <button className="btn col" onClick={() => {
-                                setFabricImage(fab.image)
-                                setSelectedFabric(fab)
-                                }}>
-                                <img src={fab.image} className="" height={100} width={100}/>
-                                <p className="text-body-secondary">{fab.name}</p>
-                            </button>
-                        </>
-                    ))}
+                    {!fabricsLoading 
+                        ?
+                        allFabrics?.map(fab => ( 
+                            <>
+                                <button className="btn col" onClick={() => {
+                                    setFabricImage(fab.image)
+                                    setSelectedFabric(fab)
+                                    }}>
+                                    <img src={fab.image} className="" height={100} width={100}/>
+                                    <p className="text-body-secondary">{fab.name}</p>
+                                </button>
+                            </>
+                        ))
+                        :
+                        <div>
+                            <div className="spinner-border spinner-border-sm" style={{height:100, width:100}} role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
 
@@ -121,7 +151,7 @@ function Visualize(){
                     <directionalLight castShadow  position={[0, 0, -40]} intensity={Math.PI * 2}/>
                     
                     {/* Displaying Suit */}
-                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} />
+                    <Suit colorMap_src={fabricImage ? fabricImage : 'default_fabric.jpg'} suitType={suitType} />
                     
                     {/* Camera Controls */}
                     <OrbitControls autoRotate autoRotateSpeed={1} enablePan={false} minPolarAngle={Math.PI / 2.1} maxPolarAngle={Math.PI / 2.1} /> 
@@ -166,12 +196,12 @@ function Visualize(){
                 
                 {/* Price */}
                 <div className="row mb-5">
-                    <h2>Price: unknown$</h2>
+                    <h2>Price: {price}$</h2>
                 </div>
 
                 {/* Add to cart */}
                 <div className="row p-2">
-                    {disableSubmit || !isLoggedIn ? 
+                    {disableSubmit || !isLoggedIn || isLoading ? 
                         <button type="button" onClick={addToCart} className="btn btn-success" disabled>
                             {!isLoading ? 'Add to Cart'
                                 :

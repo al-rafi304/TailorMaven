@@ -16,8 +16,8 @@ function AdminSuitList() {
         ,[]
     )
 
-    const handleDelete = (index) => {
-        fetch(`api/v1/user/${allSuits.suits[index]._id}`, {
+    const handleDelete = (suit) => {
+        fetch(`api/v1/suit/${suit._id}`, {
             method: "delete",
             headers: {"authorization": "Bearer " + localStorage.getItem("token")}
         })
@@ -49,8 +49,8 @@ function AdminSuitList() {
                             {allSuits.suits?.map((suit, index) => (
                             <tr key={index+1}>
                             <td>{index}</td>
-                            <td>{suit.id}</td>
-                            <td>{suit.name}</td>
+                            <td>{suit._id}</td>
+                            <td>{suit.type}</td>
                             <td className={suit.stock === 0 ? 'stock-out' : ''}>
                                 {suit.stock > 0 ? suit.stock : 'Stock Out'}
                             </td>
@@ -58,7 +58,7 @@ function AdminSuitList() {
                                 <button className="edit-btn">Edit</button>
                             </td>
                             <td>
-                                <button className="delete-btn" onClick = {() => {handleDelete(index)}}>Delete</button>
+                                <button className="delete-btn" onClick = {() => {handleDelete(suit)}}>Delete</button>
                             </td>
                             </tr>
                             ))}
