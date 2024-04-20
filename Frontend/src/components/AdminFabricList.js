@@ -7,11 +7,13 @@ import FabricAPI from "../services/FabricAPI";
 function AdminFabricList() {
 
     const [allFabrics, setAllFabrics] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         async function getAllFabrics(){
             var fabricData = await FabricAPI.getAllFabrics()
             setAllFabrics(fabricData)
+            setIsLoading(false)
         }
         getAllFabrics()
     }, [])
@@ -46,22 +48,28 @@ function AdminFabricList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {allFabrics?.map((fabric, index) => (
-                            <tr key={index}>
-                            <td>{index+1}</td>
-                            <td>{fabric._id}</td>
-                            <td>{fabric.name}</td>
-                            <td className={fabric.stock === 0 ? 'stock-out' : ''}>
-                                {fabric.stock > 0 ? fabric.stock : 'Stock Out'}
-                            </td>
-                            <td>
-                                <button className="edit-btn">Edit</button>
-                            </td>
-                            <td>
-                                <button className="delete-btn" onClick={() => {handleDelete(index)}}>Delete</button>
-                            </td>
-                            </tr>
-                            ))}
+                            {!isLoading ?
+                                allFabrics?.map((fabric, index) => (
+                                <tr key={index}>
+                                <td>{index+1}</td>
+                                <td>{fabric._id}</td>
+                                <td>{fabric.name}</td>
+                                <td className={fabric.stock === 0 ? 'stock-out' : ''}>
+                                    {fabric.stock > 0 ? fabric.stock : 'Stock Out'}
+                                </td>
+                                <td>
+                                    <button className="edit-btn">Edit</button>
+                                </td>
+                                <td>
+                                    <button className="delete-btn" onClick={() => {handleDelete(index)}}>Delete</button>
+                                </td>
+                                </tr>
+                                ))
+                                :
+                                <div className="spinner-border m-3" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
                             </tbody>
                         </table>
                         </div>

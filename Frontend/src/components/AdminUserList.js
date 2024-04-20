@@ -4,6 +4,7 @@ import "./AdminUserList.css"
 function AdminUserList() {
 
     const [allUsers, setAllUsers] = useState([])
+    const [isLoading, setIsLoading] = useState(true)
 
     console.log(allUsers)
 
@@ -13,6 +14,7 @@ function AdminUserList() {
         })
         let data = await res.json()
         setAllUsers(data)
+        setIsLoading(false)
     }
 
     useEffect(
@@ -82,23 +84,29 @@ function AdminUserList() {
                         </tr>
                         </thead>
                         <tbody>
-                        {allUsers.users?.map((user, index) => (
-                        <tr key={index}>
-                        <td>{index+1}</td>
-                        <td>{user.name}</td>
-                        <td>
-                            <button className="edit-btn">Edit</button>
-                        </td>
-                        <td>
-                            <button className="delete-btn" onClick = {() => handleDelete(index)}>Delete</button>
-                        </td>
-                        <td>
-                            <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"} onClick={() => handleAddAdmin(user)}>
-                            {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
-                            </button>
-                        </td>
-                        </tr>
-                        ))}
+                        {!isLoading ?
+                            allUsers.users?.map((user, index) => (
+                            <tr key={index}>
+                            <td>{index+1}</td>
+                            <td>{user.name}</td>
+                            <td>
+                                <button className="edit-btn">Edit</button>
+                            </td>
+                            <td>
+                                <button className="delete-btn" onClick = {() => handleDelete(index)}>Delete</button>
+                            </td>
+                            <td>
+                                <button className={user.isAdmin ? "remove-admin-btn" : "make-admin-btn"} onClick={() => handleAddAdmin(user)}>
+                                {user.isAdmin ? 'Remove Admin' : 'Make Admin'}
+                                </button>
+                            </td>
+                            </tr>
+                            ))
+                            :
+                            <div className="spinner-border m-3" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        }
                         </tbody>
                     </table>
                     </div>
