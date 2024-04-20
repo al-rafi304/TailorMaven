@@ -31,6 +31,7 @@
   .register-container input[type="email"],
   .register-container input[type="password"],
   .register-container input[type="date"],
+  .register-container input[type="tel"],
   .register-container select {
     padding: 10px;
     border: 1px solid #ddd;
