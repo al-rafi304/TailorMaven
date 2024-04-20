@@ -4,11 +4,13 @@ import { useEffect, useState } from "react";
 function AdminSuitList() {
 
     const [allSuits, setAllSuits] = useState("")
+    const [isLoading, setIsLoading] = useState(true)
 
     let getAllSuits = async() => {
         let res = await fetch("/api/v1/suit")
         let data = await res.json()
         setAllSuits(data)
+        setIsLoading(false)
     }
 
     useEffect(
@@ -46,22 +48,28 @@ function AdminSuitList() {
                             </tr>
                             </thead>
                             <tbody>
-                            {allSuits.suits?.map((suit, index) => (
-                            <tr key={index+1}>
-                            <td>{index}</td>
-                            <td>{suit._id}</td>
-                            <td>{suit.type}</td>
-                            <td className={suit.stock === 0 ? 'stock-out' : ''}>
-                                {suit.stock > 0 ? suit.stock : 'Stock Out'}
-                            </td>
-                            <td>
-                                <button className="edit-btn">Edit</button>
-                            </td>
-                            <td>
-                                <button className="delete-btn" onClick = {() => {handleDelete(suit)}}>Delete</button>
-                            </td>
-                            </tr>
-                            ))}
+                            {!isLoading ?
+                                allSuits.suits?.map((suit, index) => (
+                                <tr key={index+1}>
+                                <td>{index}</td>
+                                <td>{suit._id}</td>
+                                <td>{suit.type}</td>
+                                <td className={suit.stock === 0 ? 'stock-out' : ''}>
+                                    {suit.stock > 0 ? suit.stock : 'Stock Out'}
+                                </td>
+                                <td>
+                                    <button className="edit-btn">Edit</button>
+                                </td>
+                                <td>
+                                    <button className="delete-btn" onClick = {() => {handleDelete(suit)}}>Delete</button>
+                                </td>
+                                </tr>
+                                ))
+                                :
+                                <div className="spinner-border m-3" role="status">
+                                    <span className="visually-hidden">Loading...</span>
+                                </div>
+                            }
                             </tbody>
                         </table>
                         </div>

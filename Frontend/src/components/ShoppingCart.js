@@ -10,20 +10,14 @@ const token = localStorage.getItem('token')
 function ShoppingCart () {
 
 	const [items, setItems] = useState([])
+    const [totalPrice, setTotalPrice] = useState(0)
+    const [totalQuantity, setTotalQuantity] = useState(0)
     const [checkoutLoading, setCheckoutLoading] = useState(false)
     const [itemsLoading, setItemsLoading] = useState(true)
 
 	const handleDeleteItem = async (id) => {
 		await CartAPI.deleteFromCart(id)
         window.location.reload()
-	};
-
-	const getTotalPrice = () => {
-		return items.reduce((total, index) => total + (index.productType === ProductTypes.FABRIC && index.fabricLength*index.product.price) + (index.productType !== ProductTypes.FABRIC && index.product.price), 0);
-	};
-
-	const getTotalQuantity = () => {
-		return items.reduce((total, item) => total + 1, 0);
 	};
 
     async function checkoutButton() {
@@ -53,6 +47,16 @@ function ShoppingCart () {
 			let data = await res.json()
 			console.log(data)
 			setItems(data.cartItems)
+
+            var total = 0
+            var count = 0
+            for(var item of data.cartItems){
+                total += item.product.price
+                count += 1
+            }
+            setTotalPrice(total)
+            setTotalQuantity(count)
+
             setItemsLoading(false)
 		}
 
@@ -98,9 +102,9 @@ function ShoppingCart () {
 			{/* Shopping bag summary */}
 			<div className="shopping-bag-summary">
 				<h2>Shopping Bag</h2>
-				<p>Total Items: {getTotalQuantity()}</p>
+				<p>Total Items: {totalQuantity}</p>
 				<p>Shipping: Free</p>
-				<p>Total Price: ${getTotalPrice()}</p>
+				<p>Total Price: {totalPrice}</p>
                 {!checkoutLoading ? 
                     <button className='proceedtopayment' onClick={checkoutButton}>
                         Proceed to payment
