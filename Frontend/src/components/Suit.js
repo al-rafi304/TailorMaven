@@ -5,6 +5,10 @@ import { castShadow } from '@react-three/drei'
 import {SINGLE, DOUBLE, TUXEDO} from "../constants/SuitTypes"
 
 export function Suit({ colorMap_src, suitType }) {
+    useGLTF.preload(`${SINGLE}.glb`)
+    useGLTF.preload(`${DOUBLE}.glb`)
+    useGLTF.preload(`${TUXEDO}.glb`)
+    
     const { nodes, materials } = useGLTF(`${suitType}.glb`);
     const colorMap = useTexture(colorMap_src);
 
