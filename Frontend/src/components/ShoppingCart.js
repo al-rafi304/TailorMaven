@@ -67,7 +67,6 @@ function ShoppingCart () {
             ?
 			items?.map((item) => (
 			<div key={item.id} className="item-card">
-				{/* Display item details */}
 				<div className="item-details row">
                     <div className='col' >
                         <img className="cart-item " src={item.product.image} alt="User Profile" />
@@ -79,7 +78,6 @@ function ShoppingCart () {
 						<p>Price: ${item.product.price}</p>
 					</div>
 					
-					{/* Delete and edit buttons */}
                     <div className='col'>
                         <div className="">
                             <button onClick={() => handleDeleteItem(item._id)} className="cart-delete">
