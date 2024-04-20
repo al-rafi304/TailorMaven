@@ -53,7 +53,7 @@ function Register() {
           <input type="text" value={fullname} onChange={(e) => setFullname(e.target.value)} required />
         </label>
         <label>
-          Email:<span>*</span>:
+          Email<span>*</span>:
           <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required/>
         </label>
         <label>
@@ -84,6 +84,14 @@ function Register() {
         <label>
           Date of Birth:
           <input type="date" value={dob} onChange={(e) => setDob(e.target.value)} />
+        </label>
+        <label>
+          Address<span>*</span>:
+          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+        </label>
+        <label>
+          Phone Number<span>*</span>:
+          <input type="tel" value={email} onChange={(e) => setEmail(e.target.value)} required/>
         </label>
         <label htmlFor="formFile" className="form-label">User Image</label>
         <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
