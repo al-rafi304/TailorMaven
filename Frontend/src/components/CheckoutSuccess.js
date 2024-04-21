@@ -16,7 +16,8 @@ export default function Test() {
     async function createOrder(){
         let data = {
             session_id: searchParams.get("session_id"),
-            user_id: user_id
+            user_id: user_id,
+            isGift: searchParams.get("isGift")
         }
         let res = await fetch(
             `/api/v1/order/checkout-success`,
