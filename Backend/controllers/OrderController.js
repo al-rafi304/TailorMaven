@@ -168,11 +168,24 @@ const getUserOrder = async (req, res) => {
     res.status(StatusCodes.OK).json({ orders })
 }
 
+const upadateStatus = async (req, res) => {
+    const order = await OrderItem.findByIdAndUpdate(req.params.order_id, {
+        status: req.body.order_status
+    })
+
+    if(!order){
+        return res.status((StatusCodes.NOT_FOUND).json({ msg: "No order Found!" }))
+    }
+
+    res.status(StatusCodes.OK).json({ order })
+}
+
 
 module.exports = {
     checkout,
     createOrder,
     getAllOrder,
     getUserOrder,
-    giftOrder
+    giftOrder,
+    upadateStatus
 }
