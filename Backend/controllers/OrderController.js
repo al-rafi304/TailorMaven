@@ -11,6 +11,8 @@ const User = require('../models/User')
 // Sends payment gatway url
 const checkout = async (req, res) => {
 
+    const isGift = req.query.isGift
+    console.log(isGift)
     var products = []
     const cartItems = await CartItem.find({user: req.userID})
 
@@ -48,8 +50,9 @@ const checkout = async (req, res) => {
         mode: 'payment',
         payment_method_types: ["card"],
         line_items: products,
+        shipping_address_collection: {allowed_countries: ['BD']},
         // success_url: `http://localhost:5000/api/v1/order/checkout-success?session_id={CHECKOUT_SESSION_ID}&user_id=${req.userID}`,
-        success_url: `http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: `http://localhost:3000/checkout-success?session_id={CHECKOUT_SESSION_ID}&isGift=${isGift}`,
         cancel_url: 'http://localhost:3000/'
 
     })
@@ -61,10 +64,11 @@ const checkout = async (req, res) => {
 const createOrder = async (req, res) => {
     const session_id = req.body.session_id
     const userID = req.userID
-    
     const session = await Stripe.checkout.sessions.retrieve(session_id)
+    const address = session.shipping_details?.address
     const cartItems = await CartItem.find({user: userID})
-
+    const isGift = req.body.isGift
+    console.log(session)
     // Validating Session
     if (!session_id){
         res.status(StatusCodes.BAD_REQUEST).json({msg: 'No stripe session id provided'})
@@ -91,8 +95,9 @@ const createOrder = async (req, res) => {
                 fabricLength: item.fabricLength,
                 paymentId: session?.payment_intent,
                 price: fabric.price,
-                address: item.user.address ? item.user.address : '',
-                phone: item.user.phone ? item.user.phone : ''
+                address: address ? `${address.line1}, ${address.line2}, ${address.city} - ${address.postal_code}, ${address.country}` : '',
+                phone: item.user.phone ? item.user.phone : '',
+                isGift: isGift
             })
         } else if (item.productType == ProductTypes.SUIT){
             var suit = await Suit.findById(item.product)
@@ -102,8 +107,9 @@ const createOrder = async (req, res) => {
                 product: item.product,
                 paymentId: session?.payment_intent,
                 price: suit.price,
-                address: item.user.address ? item.user.address : '',
-                phone: item.user.phone ? item.user.phone : ''
+                address: address ? `${address.line1}, ${address.line2}, ${address.city} - ${address.postal_code}, ${address.country}` : '',
+                phone: item.user.phone ? item.user.phone : '',
+                isGift: isGift
             })
         }
         (await order.populate('product')).populate('user')

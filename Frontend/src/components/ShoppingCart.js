@@ -11,6 +11,7 @@ function ShoppingCart () {
 	const [items, setItems] = useState([])
     const [totalPrice, setTotalPrice] = useState(0)
     const [totalQuantity, setTotalQuantity] = useState(0)
+    const [isGift, setIsGift] = useState(false)
     const [checkoutLoading, setCheckoutLoading] = useState(false)
     const [itemsLoading, setItemsLoading] = useState(true)
 
@@ -22,7 +23,7 @@ function ShoppingCart () {
     async function checkoutButton() {
         setCheckoutLoading(true)
         let res = await fetch(
-            `/api/v1/order/checkout`,
+            `/api/v1/order/checkout?isGift=${isGift}`,
             {
                     method: 'GET',
                     headers: {'Authorization': `Bearer ${token}`}
@@ -102,8 +103,13 @@ function ShoppingCart () {
 			<div className="shopping-bag-summary">
 				<h2>Shopping Bag</h2>
 				<p>Total Items: {totalQuantity}</p>
-				<p>Shipping: Free</p>
 				<p>Total Price: {totalPrice}</p>
+                <div class="form-check mb-3">
+                    <input class="form-check-input" onClick={() => {setIsGift(!isGift)}} type="checkbox" value="" id="flexCheckDefault"/>
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Send As a Gift
+                    </label>
+                </div>
                 {!checkoutLoading ? 
                     <button className='proceedtopayment' onClick={checkoutButton}>
                         Proceed to payment
