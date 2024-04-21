@@ -19,4 +19,6 @@ router.route('/checkout')
 router.route('/checkout-success')
     .post(authMid.isAuthenticated, OrderController.createOrder)
 
+router.route('/status/:order_id')
+    .patch([authMid.isAuthenticated, authMid.adminOnlyAccess], OrderController.upadateStatus)
 module.exports = router
