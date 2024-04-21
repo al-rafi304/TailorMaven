@@ -127,7 +127,7 @@ function Visualize(){
                                     setFabricImage(fab.image)
                                     setSelectedFabric(fab)
                                     }}>
-                                    <img src={fab.image} className="" height={100} width={100}/>
+                                    <img src={fab.image} className="" height={100} width={100} alt= ""/>
                                     <p className="text-body-secondary">{fab.name}</p>
                                 </button>
                             </>

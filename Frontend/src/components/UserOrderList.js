@@ -1,46 +1,41 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './UserOrderList.css'; 
+import OrderStatus from '../constants/OrderStatus';
+
+const userId = localStorage.getItem('user_id')
+const token = localStorage.getItem('token')
 
 function UserOrderList() {
-  const [orders, setOrders] = useState([
-    {
-      id: 12345,
-      imageUrl: '/doublebreast3.png', 
-      date: '2024-04-19',
-      suitType: 'Tuxedo',
-      totalCost: 250.00,
-      status: 'pending',
-    },
-    {
-      id: 54321,
-      imageUrl: '/doublebreast2.png', 
-      date: '2024-04-18',
-      suitType: 'Three-Piece Suit',
-      totalCost: 300.50,
-      status: 'delivered',
-    },
-    {
-      id: 98765,
-      imageUrl: '/doublebreast.png',
-      date: '2024-04-17',
-      suitType: 'Double-Breasted Suit',
-      totalCost: 189.99,
-      status: 'cancelled',
-    },
-  ]);
+  const [orders, setOrders] = useState([]);
 
   const renderOrderStatusColor = (status) => {
     switch (status) {
-      case 'pending':
+      case OrderStatus.PENDING:
         return 'yellow';
-      case 'cancelled':
-        return 'red';
-      case 'delivered':
+      case OrderStatus.PROCESSING:
+        return 'blue';
+      // case orderStatus.:
+      //   return 'red';
+      case OrderStatus.DELIVERED:
         return 'green';
-      default:
+      case OrderStatus.SHIPPED:
         return 'black';
     }
   };
+
+  useEffect( () => {
+    async function getAllOrders(){
+        let res = await fetch(`/api/v1/order/user/${userId}`, {
+            method : "GET",
+						headers : {'Authorization': `Bearer ${token}`}
+        })
+        let data = await res.json()
+        setOrders(data)
+				console.log(data)
+    }
+
+    getAllOrders()
+  }, [])
 
   return (
     <div className="user-order-list">
@@ -50,22 +45,27 @@ function UserOrderList() {
             <th>Order ID</th>
             <th>Image</th>
             <th>Date</th>
-            <th>Suit Type</th>
+            <th>Product</th>
+            <th>Info</th>
             <th>Total Cost</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={order.id} className={renderOrderStatusColor(order.status)}>
-              <td>{order.id}</td>
+          {orders.orders?.map((order, index) => (
+            <tr key={index} className={renderOrderStatusColor(order.status)}>
+              <td>{order._id}</td>
               <td>
-                <img src={order.imageUrl} className="user-order-img" alt={`Order ${order.id} image`} />
+                <img src={order.product.image} className="user-order-img" alt={`Order ${order.id}`} />
               </td>
-              <td>{order.date}</td>
-              <td>{order.suitType}</td>
-              <td>{order.totalCost}</td>
-              <td>{order.status}</td>
+              <td>{order.timestamp.slice(0,10)}</td>
+              <td>{order.productType}</td>
+              {order.productType === "Suit" ?
+								<td>{order.product.fabric.color} {order.product.fabric.name}</td>
+								:
+								<td>{order.product.name} ({order.product.color})</td>}
+              <td>{order.price}</td>
+              <td>{order.status}{order.isGift?"Gift":""}</td>
             </tr>
           ))}
         </tbody>

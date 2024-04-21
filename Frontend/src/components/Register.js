@@ -11,6 +11,8 @@ function Register() {
   const [showPassword, setShowPassword] = useState(false);
   const [gender, setGender] = useState('male');
   const [dob, setDob] = useState('');
+  const [address, setAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
   const [credential, setCredential] = useState(new FormData());
   const navigate = useNavigate()
 
@@ -28,6 +30,8 @@ function Register() {
     credential.append("email", email)
     credential.append("password", password)
     credential.append("gender", gender)
+    credential.append("phone", phoneNumber)
+    credential.append("adress", address)
 
 
     fetch(
@@ -87,11 +91,11 @@ function Register() {
         </label>
         <label>
           Address<span>*</span>:
-          <input type="text" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+          <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} required/>
         </label>
         <label>
           Phone Number<span>*</span>:
-          <input type="tel" value={email} onChange={(e) => setEmail(e.target.value)} required/>
+          <input type="tel" value={phoneNumber} onChange={(e) => setPhoneNumber(e.target.value)} required/>
         </label>
         <label htmlFor="formFile" className="form-label">User Image</label>
         <input className="form-control" name="image" accept = "image/*" type="file" id="formFile" onChange={handleImageUpload}/>
@@ -102,7 +106,7 @@ function Register() {
       <div className="google-signin-container">
       <Link to="/google-signin" className="no-underline">
         <button className="google-signin">
-          <img src="/google.svg" className="google-icon"/>
+          <img src="/google.svg" className="google-icon" alt="google-signup"/>
           <span className="signin-text">Sign in with Google</span>
         </button>
       </Link>

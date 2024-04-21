@@ -38,7 +38,7 @@ export function Suit({ colorMap_src, suitType }) {
                 geometry={nodes.Collar.geometry}
                 position={[0, 1.1, 0.701]}
                 rotation={[Math.PI / 2, 0, 0]}>
-                {suitType != TUXEDO ?
+                {suitType !== TUXEDO ?
                     <meshPhysicalMaterial
                         map={colorMap}
                         specularIntensity={0.1}
@@ -50,7 +50,7 @@ export function Suit({ colorMap_src, suitType }) {
             </mesh>
 
 
-            {suitType == SINGLE ?
+            {suitType === SINGLE ?
             <>
                 {/* SINGLE Buttons */}
                 <mesh
@@ -76,7 +76,7 @@ export function Suit({ colorMap_src, suitType }) {
                         color={new THREE.Color('black')} /> */}
                 </mesh>
             </>
-            : suitType == DOUBLE ?
+            : suitType === DOUBLE ?
             <>
                 {/* DOUBLE Button */}
                 <mesh

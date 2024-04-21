@@ -1,10 +1,6 @@
 import { Link } from "react-router-dom";
 function AdminSidebar(){
 
-    const handlelogout = async () => {
-        await fetch("/auth/signout");
-      };
-
     return(
         <div className="card">        
             <div className="list-group list-group-flush">

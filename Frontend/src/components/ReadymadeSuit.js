@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import './ReadymadeSuit.css';
 import SuitAPI from '../services/SuitAPI';
 
@@ -26,7 +26,7 @@ function ReadymadeSuit() {
             <div className="card__container">
             {allSuit.suits?.map((suit, index) => (
                 <article className="card__article" key = {index}>
-                    <img src={suit.image} alt="image" className="card__img" />
+                    <img src={suit.image} alt="" className="card_img"/>
                     <div className="card__data">
                     <h2 className="card__title">{suit.type}</h2>
                         <span className="card__description">Suit measurements:</span>

@@ -12,7 +12,6 @@ import Fabrics from "./Fabrics";
 import DesignSuit from "./DesignSuit";
 
 // Adminpannel
-import AdminPage from "./AdminPage";
 import AdminDashboard from "./AdminDashboard";
 import AdminUserList from "./AdminUserList";
 import AdminFabricList from "./AdminFabricList";

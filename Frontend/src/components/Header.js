@@ -10,8 +10,6 @@ const Header = (props) => {
 	
 	const [userId, setUserID] = useState(false)
 	const [userInfo, setUserInfo] = useState("")
-
-    console.log(userInfo)
 	
 	const getUserInfo = async () => {
 		setUserID(await AuthAPI.isLoggedIn())
@@ -27,8 +25,7 @@ const Header = (props) => {
 
 	useEffect( () => {
 		getUserInfo()
-	}, []
-	)
+	}, [])
 
  return (
 	<header>
@@ -40,7 +37,7 @@ const Header = (props) => {
 	 </div>
 
 	<div className='user-actions'>
-        {userInfo.isAdmin &&
+        {userInfo?.isAdmin &&
 			<div className='admin-icon'>
                 <Link to='/admin'>
                 <img className="admin-img" src="admin.png" alt="admin-img"/>

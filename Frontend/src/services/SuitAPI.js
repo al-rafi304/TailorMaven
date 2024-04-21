@@ -1,4 +1,3 @@
-const user_id = localStorage.getItem('user_id')
 const token = localStorage.getItem('token')
 
 async function createSuit( fabric, type, length, waist, chest, arm_length, suit_screenshot){
