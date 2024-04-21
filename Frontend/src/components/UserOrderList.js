@@ -64,9 +64,9 @@ function UserOrderList() {
                     <td>{order.timestamp.slice(0,10)}</td>
                     <td>{order.productType}</td>
                     {order.productType === "Suit" ?
-                                        <td>{order.product.fabric.color} {order.product.fabric.name}</td>
-                                        :
-                                        <td>{order.product.name} ({order.product.color})</td>}
+                        <td>{order.product.fabric.color} {order.product.fabric.name} {order.isGift && '[Gifted]'}</td>
+                        :
+                        <td>{order.product.name} ({order.product.color})</td>}
                     <td>{order.price}</td>
                     <td>{order.status}{order.isGift?"Gift":""}</td>
                     </tr>

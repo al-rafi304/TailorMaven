@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import pic1 from "../assets/photos/fabrics.png"
 import pic2 from "../assets/photos/dresses.png"
 import cus1 from "../assets/photos/custom1.jpg"
@@ -7,6 +7,21 @@ import cus2 from "../assets/photos/custom2.jpg"
 import cus3 from "../assets/photos/custom3.jpg"
 import "./Home.css";
 function Home() {
+    const [searchParams, setSearchParams] = useSearchParams();
+    
+    useEffect(() => {
+        var token = searchParams.get('token')
+        var userID = searchParams.get('userID')
+        if(token && userID){
+            localStorage.setItem('user_id', userID)
+            localStorage.setItem('token', token)
+
+            // Reloads without query params
+            const urlWithoutParams = window.location.origin + window.location.pathname;
+            window.location.href = urlWithoutParams;
+        }
+    })
+
   return ( 
     <div>
       <div id="carouselExampleIndicators" className="carousel slide card" data-bs-ride="carousel">
