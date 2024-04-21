@@ -8,9 +8,10 @@ const token = localStorage.getItem('token')
 
 function AdminOrderList() {
     const [orders, setOrders] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
     console.log(orders)
 
-    const handleUpdateStatus = (orderId, newStatus) => {
+    const handleUpdateStatus = async (orderId, newStatus) => {
         const updatedOrders = orders?.map(order => {
             if (order._id === orderId) {
                 return { ...order, status: newStatus };
@@ -18,6 +19,7 @@ function AdminOrderList() {
             return order;
         });
         setOrders(updatedOrders);
+        console.log(orders)
     };
 
     const handleColorChange = async (orderId, index) => {
@@ -26,7 +28,7 @@ function AdminOrderList() {
         console.log(orderId)
         await fetch(`/api/v1/order/status/${orderId}`, {
             method : "PATCH",
-            headers : {'Authorization': `Bearer ${token}`},
+            headers : {'Authorization': `Bearer ${token}`, "Content-Type" : "application/json"},
             body : JSON.stringify(data)
         })
         getAllOrders()
@@ -43,6 +45,7 @@ function AdminOrderList() {
         })
         let data = await res.json()
         setOrders(data.orders)
+        setIsLoading(false)
     }
 
     useEffect( () => {
@@ -80,28 +83,34 @@ function AdminOrderList() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {orders?.map((order, index) => (
-                                        <tr key={index} id={index} className={`status-${order.status.toLowerCase()}`}>
-                                            <td>{order._id}</td>
-                                            <td>{order.timestamp.slice(0,10)}</td>
-                                            <td>{order.orderFrom}</td>
-                                            <td>{order.productType}</td>
-                                            <td>{order.price}</td>
-                                            <td>
-                                                {order.status === OrderStatus.SHIPPED?
-                                                    <td>{OrderStatus.SHIPPED}</td>
-                                                    :
-                                                    <select value={order.status} onChange={e => handleUpdateStatus(order._id, e.target.value)}>
-                                                        <option value={OrderStatus.DELIVERED}>Delivered</option>
-                                                        <option value={OrderStatus.PENDING}>Pending</option>
-                                                        <option value={OrderStatus.PROCESSING}>Processing</option>
-                                                        <option value={OrderStatus.SHIPPED}>Shipped</option>
-                                                    </select>
-                                                }
-                                            </td>
-                                            <td><button className="update-btn" onClick={() => handleColorChange(order._id, index)}>Update</button></td>
-                                        </tr>
-                                    ))}
+                                    {!isLoading ?
+                                        orders?.map((order, index) => (
+                                            <tr key={index} id={index} className={`status-${order.status.toLowerCase()}`}>
+                                                <td>{order._id}</td>
+                                                <td>{order.timestamp.slice(0,10)}</td>
+                                                <td>{order.user.username}</td>
+                                                <td>{order.productType}</td>
+                                                <td>{order.price}</td>
+                                                <td>
+                                                    {order.status === OrderStatus.SHIPPED?
+                                                        <td>{OrderStatus.SHIPPED}</td>
+                                                        :
+                                                        <select value={order.status} onChange={e => handleUpdateStatus(order._id, e.target.value)}>
+                                                            <option value={OrderStatus.DELIVERED}>Delivered</option>
+                                                            <option value={OrderStatus.PENDING}>Pending</option>
+                                                            <option value={OrderStatus.PROCESSING}>Processing</option>
+                                                            <option value={OrderStatus.SHIPPED}>Shipped</option>
+                                                        </select>
+                                                    }
+                                                </td>
+                                                <td><button className="update-btn" onClick={() => handleColorChange(order._id, index)}>Update</button></td>
+                                            </tr>
+                                        ))
+                                        :
+                                        <div className="spinner-border spinner-border-sm" style={{height:50, width:50}} role="status">
+                                            <span className="visually-hidden">Loading...</span>
+                                        </div>
+                                    }
                                 </tbody>
                             </table>
                         </div>

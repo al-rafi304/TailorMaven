@@ -147,7 +147,7 @@ const giftOrder = async (req, res) => {
 }
 
 const getAllOrder = async (req, res) => {
-    const orders = await OrderItem.find({}).populate('product')
+    const orders = await OrderItem.find({}).populate('product user')
 
     if(!orders){
         return res.status(StatusCodes.NOT_FOUND).json({ msg: "No orders found!" })
