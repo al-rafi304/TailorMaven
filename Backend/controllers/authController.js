@@ -5,7 +5,8 @@ const jwt = require('jsonwebtoken')
 
 const googleCallback = (request, response) => {
     // console.log(request.user.username)
-    response.header('Authorization', `Bearer ${request.authInfo}`).status(StatusCodes.OK).json({ userID: request.user._id})
+    // response.header('Authorization', `Bearer ${request.authInfo}`).status(StatusCodes.OK).json({ userID: request.user._id})
+    response.redirect(`http://localhost:3000/?token=${request.authInfo}&userID=${request.user._id}`)
 }
 
 const register = async (req, res) => {
