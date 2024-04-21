@@ -62,8 +62,13 @@
     background-color: rgba(255, 255, 0, 0.756);
 }
 
-.order-table .status-canceled {
-    background-color: rgba(255, 0, 0, 0.788);
+.order-table .status-processing {
+    background-color: rgba(19, 57, 224, 0.788);
+    color: white;
+}
+
+.order-table .status-shipped {
+    background-color: black;
     color: white;
 }
 

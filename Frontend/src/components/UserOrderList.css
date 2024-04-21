@@ -47,4 +47,8 @@
     background-color: black;
     color: white;
   }
+
+  .user-order-list .blue {
+    background-color: rgb(19, 57, 224);
+  }
   

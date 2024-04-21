@@ -6,7 +6,6 @@ import FabricAPI from "../services/FabricAPI";
 import CartAPI from "../services/CartAPI";
 import ProductTypes from "../constants/ProductTypes";
 import { useNavigate } from "react-router-dom";
-import FabricTypes from "../constants/FabricTypes";
 
 function Fabrics() {
     
@@ -98,7 +97,7 @@ function Fabrics() {
                     <div key = {index} className="tile">
                         <a onClick={() => toggleInfoActive(index)}>
                             <div className="productImage">
-                                <img src={fabric.image} className="lazy-loaded" height={100} width={100}/>
+                                <img src={fabric.image} className="lazy-loaded" height={100} width={100} alt = ""/>
                             </div>
                             <div className="tileDescription">
                                 <p className="productTitle">{fabric.name}</p>

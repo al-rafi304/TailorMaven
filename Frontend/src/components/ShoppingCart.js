@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import "./ShoppingCart.css";
-import { Link, useNavigate } from 'react-router-dom';
 import ProductTypes from '../constants/ProductTypes';
 import CartAPI from '../services/CartAPI';
 
@@ -76,7 +75,7 @@ function ShoppingCart () {
                         <img className="cart-item " src={item.product.image} alt="User Profile" />
                     </div>
                     <div className='col'>
-                        {item.productType == ProductTypes.SUIT ? ProductTypes.SUIT + ' (' + item.product.type +") " : item.product.name + ' (' + item.product.color +") "}
+                        {item.productType === ProductTypes.SUIT ? ProductTypes.SUIT + ' (' + item.product.type +") " : item.product.name + ' (' + item.product.color +") "}
                     </div>
 					<div className='col'>
 						<p>Price: ${item.product.price}</p>
