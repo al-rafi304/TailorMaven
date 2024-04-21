@@ -31,6 +31,7 @@ async function(request, accessToken, refreshToken, params, profile, done) {
     
     const dob = new Date(year ? year : 9999, month ? month-1 : 0, day ? day+1 : 1)        // If birthday object not found then it defaults to 9999-12-31
     const username = profile.email.split('@')[0]
+    console.log(profile)
 
 
     var user = await User.findOne({username: username})
@@ -43,7 +44,8 @@ async function(request, accessToken, refreshToken, params, profile, done) {
             name: profile.displayName,
             email: profile.email,
             gender: gender,
-            dob:dob
+            dob:dob,
+            image: profile.picture
         })
     }
 
