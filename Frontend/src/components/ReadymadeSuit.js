@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './ReadymadeSuit.css';
 import SuitAPI from '../services/SuitAPI';
+import CartAPI from '../services/CartAPI';
+import ProductTypes from '../constants/ProductTypes';
 
 function ReadymadeSuit() {
     const [currentPage, setCurrentPage] = useState(1);
     const [allSuit, setAllSuit] = useState([]);
     const totalPages = 5; 
+    const navigate = useNavigate()
 
     const handlePageChange = (page) => setCurrentPage(page);
 
@@ -19,6 +22,11 @@ function ReadymadeSuit() {
         getAllSuit()
 
     }, [])
+
+    const handleCart = async (id) => {
+        await CartAPI.addToCart(ProductTypes.SUIT, id)
+        navigate("/add-to-cart")
+    }
 
     return (
         <div className="suit_container">
@@ -33,9 +41,9 @@ function ReadymadeSuit() {
                         <span className="card__description">Length: {suit.length},Waist: {suit.waist},Chest: {suit.chest},Arm Length: {suit.arm_length},Button Color: Blue.</span>
                         <span className="card__description">Fabric: {suit.fabric.name}</span>
                         <span className="card__description">Suit Price: {suit.price}$</span>
-                        <Link to="add-to-cart">
+                        <div onClick={() => handleCart(suit._id)}>
                         <img src="/shopping-cart.svg" alt="cart" className="readysuit-cart" />
-                        </Link>
+                        </div>
                     </div>
                 </article>))}
             </div>
