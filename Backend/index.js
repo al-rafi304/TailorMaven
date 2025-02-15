@@ -1,7 +1,5 @@
 require('dotenv').config();
 require('express-async-errors');
-const session = require('express-session');
-const passport = require('passport');
 const cors = require('cors')
 const socketio = require('socket.io')
 
@@ -16,7 +14,6 @@ const chatRoutes = require('./routes/ChatRouter')
 const cartRoutes = require('./routes/CartRoutes')
 const orderRoutes = require('./routes/OrderRoutes')
 
-const authMiddleware = require('./milddleware/authMiddleware');
 const passportMiddleware = require('./configs/passport-config')
 
 const chatController = require('./controllers/ChatController')
@@ -64,3 +61,5 @@ const start = async () => {
 }
 
 start()
+
+module.exports = app
