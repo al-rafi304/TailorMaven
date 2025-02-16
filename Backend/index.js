@@ -1,10 +1,28 @@
 require('dotenv').config();
 require('express-async-errors');
 const cors = require('cors')
+const http = require('http')
 const socketio = require('socket.io')
 
 const express = require('express');
 const app = express();
+
+const allowedOrigins = [
+    "https://tailor-maven-app.vercel.app",
+    "https://tailor-maven-app.vercel.app/",
+    ];
+
+const corsOptions = {
+    origin: (origin, callback) => {
+        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+            callback(null, true);
+        } else {
+            console.log(origin)
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    credentials: true, // Allow cookies if needed
+};
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/UserRouter')
@@ -23,7 +41,7 @@ const connectDB = require('./db/connect')             // Database Connection
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-// app.use(cors)
+app.use(cors(corsOptions));
 
 app.use(passportMiddleware.sessionMiddleware);
 app.use(passportMiddleware.passportInitialize);
@@ -40,15 +58,26 @@ app.use('/auth', authRoutes);
 const start = async () => {
     try {
         await connectDB(process.env.MONGO_URI)
-        const server = app.listen(port, console.log(`Server running on http://localhost:${process.env.PORT}`))
-        
+        var server
+
+        if(process.env.SERVER_ENV === "production"){
+            server = http.createServer(app)
+        } else {
+
+            server = app.listen(port, console.log(`Server running in Development\nhttp://localhost:${process.env.PORT}`))
+        }
+
+
         // Socket.io Server
+        // const io = socketio(server, {
+        //     cors: {
+        //       origin: allowedOrigins
+        //     }
+        // })
         const io = socketio(server, {
-            cors: {
-              origin: "http://localhost:3000"
-            }
-          })
-          
+            cors: corsOptions
+        })
+
         io.on("connection", (socket) => {
             console.log(`New Socket.io Connection: ${socket.id}`)
 
