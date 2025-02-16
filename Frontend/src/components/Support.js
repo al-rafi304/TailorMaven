@@ -6,7 +6,7 @@ import io from 'socket.io-client';
 // const socket = io.connect("http://localhost:3000");
 const socket = io("https://tailor-maven-api.vercel.app", {
     transports: ["polling"],
-    withCredentials: true
+    // withCredentials: true
 })
 
 const user_id = localStorage.getItem('user_id')

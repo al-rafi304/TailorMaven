@@ -1,6 +1,6 @@
 {
   "name": "base",
-  "proxy": "https://tailor-maven-api.vercel.app/",
+  "proxy": "https://tailor-maven-api.vercel.app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

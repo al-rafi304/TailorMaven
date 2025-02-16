@@ -10,6 +10,8 @@ const app = express();
 const allowedOrigins = [
     "https://tailor-maven-app.vercel.app",
     "https://tailor-maven-app.vercel.app/",
+    "http://localhost:5000",
+    "http://localhost:5000/",
     ];
 
 const corsOptions = {
@@ -17,7 +19,7 @@ const corsOptions = {
         if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
             callback(null, true);
         } else {
-            console.log(origin)
+            console.log('origin', origin)
             callback(new Error('Not allowed by CORS'));
         }
     },
@@ -41,7 +43,8 @@ const connectDB = require('./db/connect')             // Database Connection
 const port = process.env.PORT || 3000;
 
 app.use(express.json())
-app.use(cors(corsOptions));
+// app.use(cors(corsOptions));
+app.use(cors({origin: '*'}))
 
 app.use(passportMiddleware.sessionMiddleware);
 app.use(passportMiddleware.passportInitialize);
@@ -69,13 +72,11 @@ const start = async () => {
 
 
         // Socket.io Server
-        // const io = socketio(server, {
-        //     cors: {
-        //       origin: allowedOrigins
-        //     }
-        // })
         const io = socketio(server, {
-            cors: corsOptions
+            cors: {
+            //   origin: allowedOrigins,
+              origin: '*',
+            }
         })
 
         io.on("connection", (socket) => {
